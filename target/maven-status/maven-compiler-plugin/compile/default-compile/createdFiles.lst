@@ -1,0 +1,3 @@
+com\fteam\controllers\MainController.class
+com\fteam\config\DispatcherServletInitializer.class
+com\fteam\config\WebApplicationContextConfig.class
