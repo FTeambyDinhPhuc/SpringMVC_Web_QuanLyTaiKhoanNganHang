@@ -5,15 +5,11 @@
     <artifactId>Web_QLTKNH</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Web_QLTKNH-1.0-SNAPSHOT</name>
+    <name>Web_QLTKNH</name>
     
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
-        <jakartaee>8.0.0</jakartaee>
     </properties>
     
     <dependencies>
