@@ -1,0 +1,346 @@
+.mybuton-primary {
+    background-color: var(--color-primary-container);
+    font-size: 1.6rem;
+    min-width: 9.1rem;
+    min-height: 4rem;
+    border-radius: 0.6rem;
+    padding: 0.8rem, 2rem;
+    font-weight: bold;
+    box-shadow: 0px 6px 10px 4px rgba(0, 0, 0, 0.15),
+        0px 2px 3px rgba(0, 0, 0, 0.3);
+
+}
+
+.mybuton-primary:hover{
+    background-color: var(--color-hover-primary-container);
+}
+.mybuton-primary:active{
+    background-color: var(--color-pressed-primary-container);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3),
+        0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+
+/*Thanh navbar với side*/
+.fixed-top, .nav-fixed #layoutSidenav #layoutSidenav_nav, .nav-fixed .topnav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+#layoutSidenav #layoutSidenav_nav {
+    transition: transform 0.15s ease-in-out;
+
+    z-index: 1038;
+    transform: translateX(-225px);
+}
+
+#layoutSidenav #layoutSidenav_content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100vh - 56px);
+    margin-left: -225px;
+}
+
+.sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+    transform: translateX(0);
+}
+/*
+lớp phủ đen khi nhấn nút sổ thanh dọc*/
+.sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 1037;
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+}
+
+@media (min-width: 992px) {
+    #layoutSidenav #layoutSidenav_nav {
+        transform: translateX(0);
+    }
+
+    #layoutSidenav #layoutSidenav_content {
+        margin-left: 0;
+        transition: margin 0.15s ease-in-out;
+    }
+
+    .sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+        transform: translateX(-225px);
+    }
+
+    .sidenav-toggled #layoutSidenav #layoutSidenav_content {
+        margin-left: -225px;
+    }
+
+    .sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
+        display: none;
+    }
+}
+
+.nav-fixed .topnav {
+    z-index: 1039;
+}
+
+.nav-fixed #layoutSidenav #layoutSidenav_nav {
+    width: 225px;
+    height: 100vh;
+    z-index: 1038;
+}
+
+.nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav {
+    padding-top: 56px;
+}
+
+.nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav .sidenav-menu {
+    overflow-y: auto;
+}
+
+.nav-fixed #layoutSidenav #layoutSidenav_content {
+    padding-left: 225px;
+    top: 56px;
+}
+
+
+.sidenav-menu .nav-link .nav-link-icon {
+    margin-right: .5rem;
+}
+
+.topnav {
+    height: 56px;
+    z-index: 1039;
+}
+
+.topnav .navbar-brand {
+    width: 225px;
+    margin: 0;
+}
+
+.topnav #sidebarToggle {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
+
+.sidenav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-wrap: nowrap;
+    background-color: #212529;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.sidenav .sidenav-menu {
+    flex-grow: 1;
+}
+
+.sidenav .sidenav-menu .nav {
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.sidenav .sidenav-menu .nav .sidenav-menu-heading {
+    padding: 1.75rem 1rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.sidenav .sidenav-menu .nav .nav-link {
+    display: flex;
+    align-items: center;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    position: relative;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.sidenav .sidenav-menu .nav .nav-link:hover {
+    color: #fff;
+}
+.sidenav .sidenav-menu .nav .nav-link.active {
+    color: #fff;
+}
+
+.sidenav .sidenav-menu .nav .nav-link .nav-link-icon {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.25);
+}
+.sidenav .sidenav-menu .nav .nav-link.active .nav-link-icon {
+    color: #fff;
+}
+
+
+.sidenav .sidenav-menu .nav .nav-link .sidenav-collapse-arrow {
+    display: inline-block;
+    margin-left: auto;
+    transition: transform 0.15s ease;
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.sidenav .sidenav-menu .nav .nav-link.collapsed .sidenav-collapse-arrow {
+    transform: rotate(-90deg);
+}
+
+.sidenav .sidenav-menu .nav .sidenav-menu-nested {
+    margin-left: 1.5rem;
+    flex-direction: column;
+
+}
+
+.sidenav .sidenav-footer {
+    padding: 0.75rem;
+    flex-shrink: 0;
+    background-color: #343a40;
+}
+/* hết Thanh navbar với side*/
+
+
+/*Màn hình login*/
+.auth-background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    min-height: 95vh;
+}
+
+
+.auth-container {
+    position: relative;
+    max-width: 85rem;
+    width: 100%;
+    background-color: var(--color-background);
+    padding: 4rem 3.2rem;
+    border-radius: 16px;
+}
+
+.register-auth-container{
+    max-width: 60rem;
+}
+
+.auth-cover {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 100%;
+    width: 50%;
+}
+
+.auth-cover img {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-bottom-right-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.auth-form-content {
+    width: calc(100% / 2 - 24px);
+}
+
+.register-auth-form-content {
+    width: 100%;
+}
+
+.auth-form-content .title {
+    position: relative;
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: var(--color-on-background);
+}
+
+.auth-form-content .input-boxes {
+    margin-top: 3rem;
+}
+
+.auth-form-content .input-box {
+    display: flex;
+    align-items: center;
+    height: 4.8rem;
+    width: 100%;
+    margin: 0.8rem 0;
+    position: relative;
+}
+
+.auth-form-content .input-box input,  .auth-form-content .input-box .input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 0 2.4rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    background-color: var(--color-background);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    max-width: none;
+}
+
+.auth-form-content .input-box input:focus,
+.auth-form-content .input-box input:valid,
+.auth-form-content .input-box .input:focus,
+.auth-form-content .input-box .input:valid{
+    border-color: var(--color-surface-variant);
+}
+
+.auth-form-content .icon {
+    position: absolute;
+    color: var(--color-surface-variant);
+    font-size: 1.6rem;
+}
+
+
+
+.auth-form-conten .warning-text {
+    font-weight: bold;
+    color: red;
+}
+
+.auth-button {
+    margin-top: 3rem;
+}
+
+
+
+@media (max-width: 730px) {
+    .auth-cover {
+        display: none;
+    }
+    .auth-form-content {
+        width: 100%;
+    }
+}
+
+
+/*Hết màn hình login*/
+
+
+
+/*In*/
+@media print{
+    nav, footer, #layoutSidenav_nav, #groupBtnStatus {
+        display: none;
+    }
+}
+/*Hết in*/
+
+/*màn hình quản lý nhân viên*/
+.managent-staff-wrap{
+    background-color: red;
+    width: 100%;
+    height: 30rem;
+}

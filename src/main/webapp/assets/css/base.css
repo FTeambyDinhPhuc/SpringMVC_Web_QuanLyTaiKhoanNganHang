@@ -1,0 +1,48 @@
+@font-face {
+  font-family: GoogleSans;
+  src: url(../fonts/GoogleSans-Regular.ttf);
+}
+:root {
+  --color-primary: #fb9600;
+  --color-primary-container:  #00ADB5;
+  --color-hover-primary-container: #11999E;
+  --color-pressed-primary-container: #0D7377;
+  --color-on-primary-container: #222831;
+  --color-background: #f4f4f4;
+  --color-on-background: #292929;
+  --color-surface-variant: #30E3CA;
+  --color-on-surface-variant: #40514E;
+  --color-surface-variant-outline: #0D7377;
+  --color-tertiary: #5C3D2E;
+  --color-on-tertiary-container: #2D2424;
+
+  --width: 144rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: GoogleSans;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  text-rendering: optimizeSpeed;
+}
+
+button,
+input {
+  outline: none;
+  border: none;
+}
+
+a[href] {
+  color: var(--color-on-background);
+  text-decoration: none;
+}
