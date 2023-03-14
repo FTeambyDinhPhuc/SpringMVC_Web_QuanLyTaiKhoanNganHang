@@ -69,7 +69,7 @@
                         <div class="input-box">
                             <i class="fa-solid fa-envelope icon"></i>
                             <input
-                                type="text"
+                                type="email"
                                 name="email"
                                 placeholder="Nhập email"
                                 required

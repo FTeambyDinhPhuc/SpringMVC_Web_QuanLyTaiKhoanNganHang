@@ -20,6 +20,58 @@
         0px 1px 3px 1px rgba(0, 0, 0, 0.15);
 }
 
+.mybuton-text{
+    font-size: 1.6rem;
+    font-weight: normal;
+}
+
+.mybuton-text:hover{
+    color: var(--color-primary);
+}
+
+.mybuton-text:active{
+    color: var(--color-on-primary-container);
+}
+
+
+.mybuton-outline {
+    background-color: var(--color-background);
+    font-size: 1.6rem;
+    min-width: 9.1rem;
+    min-height: 4rem;
+    border-radius: 0.6rem;
+    padding: 0.8rem, 2rem;
+    font-weight: bold;
+}
+
+.mybuton-outline:hover{
+ 
+}
+.mybuton-outline:active{
+  
+}
+
+.mybuton-icon-edit i:hover{
+    color: orange;
+}
+
+.mybuton-icon-delete i:hover{
+    color: red;
+}
+
+
+.modal-title{
+    font-size: 2.4rem;
+    font-weight: bold;
+}
+
+.form-control{
+    font-size: 1.6rem;
+}
+
+.dropdown-item{
+    font-size: 1.6rem;
+}
 
 /*Thanh navbar với side*/
 .fixed-top, .nav-fixed #layoutSidenav #layoutSidenav_nav, .nav-fixed .topnav {
@@ -113,7 +165,7 @@ lớp phủ đen khi nhấn nút sổ thanh dọc*/
 
 
 .sidenav-menu .nav-link .nav-link-icon {
-    margin-right: .5rem;
+    margin-right: .8rem;
 }
 
 .topnav {
@@ -122,6 +174,7 @@ lớp phủ đen khi nhấn nút sổ thanh dọc*/
 }
 
 .topnav .navbar-brand {
+    font-size: 2rem;
     width: 225px;
     margin: 0;
 }
@@ -151,8 +204,8 @@ lớp phủ đen khi nhấn nút sổ thanh dọc*/
 }
 
 .sidenav .sidenav-menu .nav .sidenav-menu-heading {
-    padding: 1.75rem 1rem 0.75rem;
-    font-size: 0.75rem;
+    padding: 2.8rem 1.6rem 1.2rem;
+    font-size: 1.2rem;
     font-weight: bold;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.25);
@@ -161,8 +214,8 @@ lớp phủ đen khi nhấn nút sổ thanh dọc*/
 .sidenav .sidenav-menu .nav .nav-link {
     display: flex;
     align-items: center;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
     position: relative;
     color: rgba(255, 255, 255, 0.5);
 }
@@ -175,7 +228,7 @@ lớp phủ đen khi nhấn nút sổ thanh dọc*/
 }
 
 .sidenav .sidenav-menu .nav .nav-link .nav-link-icon {
-    font-size: 0.9rem;
+    font-size: 1.44rem;
     color: rgba(255, 255, 255, 0.25);
 }
 .sidenav .sidenav-menu .nav .nav-link.active .nav-link-icon {
@@ -195,13 +248,13 @@ lớp phủ đen khi nhấn nút sổ thanh dọc*/
 }
 
 .sidenav .sidenav-menu .nav .sidenav-menu-nested {
-    margin-left: 1.5rem;
+    margin-left: 2.4rem;
     flex-direction: column;
 
 }
 
 .sidenav .sidenav-footer {
-    padding: 0.75rem;
+    padding: 1.2rem;
     flex-shrink: 0;
     background-color: #343a40;
 }
