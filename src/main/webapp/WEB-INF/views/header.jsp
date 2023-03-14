@@ -8,11 +8,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
+
         <link rel="stylesheet" href="<c:url value="/assets/css/bootstrap.min.css" />"/>
         <link rel="stylesheet" href="<c:url value="/assets/fontawesome-free-6.3.0-web/css/all.min.css" />"/>
         <link rel="stylesheet" href="<c:url value="/assets/css/main.css" />"/>
-    
+
 
         <title>Quản lý tài khoản ngân hàng</title>
     </head>
@@ -46,24 +46,24 @@
                                 Thống kê
                             </a>
                             <div class="sidenav-menu-heading">Quản lý</div>
-<!--                            <a class="nav-link collapsed" data-toggle="collapse" href="#collapseLayouts" role="button" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="nav-link-icon"><i class="fa-solid fa-box"></i></div>
-                                Loại sản phẩm
-                                <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sidenav-menu-nested nav">
-                                    <a class="nav-link" href="@Url.Action("Size","Manage")">Size</a>
-                                    <a class="nav-link" href="@Url.Action("TypesClothes","Manage")">Loại đồ</a>
-                                </nav>
-                            </div>
-                            <a class="nav-link" href="@Url.Action("Product","Manage")">
-                                <div class="nav-link-icon"><i class="fa-solid fa-shirt"></i></div>
-                                Sản phẩm
-                            </a>-->
+                            <!--                            <a class="nav-link collapsed" data-toggle="collapse" href="#collapseLayouts" role="button" aria-expanded="false" aria-controls="collapseLayouts">
+                                                            <div class="nav-link-icon"><i class="fa-solid fa-box"></i></div>
+                                                            Loại sản phẩm
+                                                            <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                                        </a>
+                                                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                                            <nav class="sidenav-menu-nested nav">
+                                                                <a class="nav-link" href="@Url.Action("Size","Manage")">Size</a>
+                                                                <a class="nav-link" href="@Url.Action("TypesClothes","Manage")">Loại đồ</a>
+                                                            </nav>
+                                                        </div>
+                                                        <a class="nav-link" href="@Url.Action("Product","Manage")">
+                                                            <div class="nav-link-icon"><i class="fa-solid fa-shirt"></i></div>
+                                                            Sản phẩm
+                                                        </a>-->
                             <a class="nav-link" href="./staff_management">
                                 <div class="nav-link-icon"><i class="fa-solid fa-clipboard-user"></i></div>
-                               Nhân viên
+                                Nhân viên
                             </a>
                             <a class="nav-link" href="@Url.Action("Customer","Manage")">
                                 <div class="nav-link-icon"><i class="fa-solid fa-users"></i></div>
