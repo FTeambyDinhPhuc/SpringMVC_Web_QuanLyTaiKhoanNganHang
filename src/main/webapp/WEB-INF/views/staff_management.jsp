@@ -11,20 +11,22 @@
     <h1 class="my-4">Quản lý nhân viên</h1>
     <div class="d-flex justify-content-between align-items-center">
         <form class="d-flex align-items-center" style="width: 450px">
-        <input type="text" class="form-control my-4 mr-4" required="required" name="searchstaff"  placeholder="Nhập vào tên nhân viên"></input>
-        <button type="submit" class="mybuton-primary">Tìm kiếm</button>
-    </form>
+            <input type="text" class="form-control my-4 mr-4" required="required" name="searchstaff"  placeholder="Nhập vào tên nhân viên"></input>
+            <button type="submit" class="mybuton-primary">Tìm kiếm</button>
+        </form>
         <a href="./register" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
     </div>
+    <p class="text-danger">Không tìm thấy nhân viên</p>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">ID</th>
                 <th scope="col">Tên nhân viên</th>
                 <th scope="col">Chức vụ</th>
                 <th scope="col">Ngày sinh</th>
                 <th scope="col">Giới tính</th>
+                <th scope="col">Địa chỉ</th>
                 <th scope="col">Email</th>
+                <th scope="col">Căn cước</th>
                 <th scope="col">Số điện thoại</th>
                 <th scope="col">Trạng thái tài khoản</th>
                 <th scope="col">Hành động</th>
@@ -33,48 +35,23 @@
         </thead>
         <tbody>
             <tr>
-                <th scope="row">1</th>
-                <td>Nguyễn Văn Tèo</td>
-                <td>Nhân viên</td>
-                <td>13/02/2000</td>
-                <td>Nam</td>
-                <td>teo@gmail.com</td>
-                <td>012345678</td>
-                <td>Hoạt động</td>
-                <td>
-                    <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square icon-edit" data-toggle="tooltip" title="Edit"></i></a>
-                    <a href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
-                </td>
-            </tr>
-             <tr>
-                <th scope="row">2</th>
-                <td>Nguyễn Văn Tèo</td>
-                <td>Nhân viên</td>
-                <td>13/02/2000</td>
-                <td>Nam</td>
-                <td>teo@gmail.com</td>
-                <td>012345678</td>
-                <td>Hoạt động</td>
-                <td>
-                    <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square icon-edit" data-toggle="tooltip" title="Edit"></i></a>
-                    <a href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
-                </td>
-            </tr>
-             <tr>
-                <th scope="row">3</th>
-                <td>Nguyễn Văn Tèo</td>
-                <td>Nhân viên</td>
-                <td>13/02/2000</td>
-                <td>Nam</td>
-                <td>teo@gmail.com</td>
-                <td>012345678</td>
-                <td>Hoạt động</td>
-                <td>
-                    <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square" data-toggle="tooltip" title="Edit"></i></a>
-                    <a href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
-                </td>
-            </tr>
         
+                <td>Nguyễn Văn Tèo</td>
+                <td>Nhân viên</td>
+                <td>13/02/2000</td>
+                <td>Nam</td>
+                <td>Viet Nam</td>
+                <td>teo@gmail.com</td>
+                 <td>235454667</td>
+                <td>012345678</td>
+                <td>Hoạt động</td>
+                <td>
+                    <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square icon-edit" data-toggle="tooltip" title="Edit"></i></a>
+                    <a href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                </td>
+            </tr>
+            
+
         </tbody>
     </table>
 
@@ -84,7 +61,7 @@
                 <form>
                     <div class="modal-header">
                         <h4 class="modal-title">Sửa nhân viên</h4>
-                      
+
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -112,6 +89,10 @@
                                 <option>Nữ</option>
                             </select>
                         </div>
+                          <div class="form-group">
+                            <label>Địa chỉ</label>
+                            <input type="text" class="form-control" required="required" name="address"></input>
+                        </div>
                         <div class="form-group">
                             <label>Email</label>
                             <input type="email" class="form-control" required="required" name="email"></input>
@@ -138,14 +119,14 @@
             </div>
         </div>
     </div>
-    
-     <div id="deleteStaffModal" class="modal fade">
+
+    <div id="deleteStaffModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form>
                     <div class="modal-header">
                         <h4 class="modal-title">Xóa nhân viên</h4>
-                     
+
                     </div>
                     <div class="modal-body">
                         <p>Bạn có chắc muốn xóa nhân viên này?</p>

@@ -66,9 +66,9 @@
                                 <div class="nav-link-icon"><i class="fa-solid fa-clipboard-user"></i></div>
                                 Nhân viên
                             </a>
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="./customer_management">
                                 <div class="nav-link-icon"><i class="fa-solid fa-users"></i></div>
-                                Tài khoản khách hàng
+                                Khách hàng
                             </a>
                             <a class="nav-link" href="">
                                 <div class="nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
@@ -77,9 +77,9 @@
 
                             <div class="sidenav-menu-heading">Chức năng</div>
 
-                            <a class="nav-link" href="">
-                                <div class="nav-link-icon"><i class="fas fa-table"></i></div>
-                                Feedback
+                            <a class="nav-link" href="./bank_card_management">
+                                <div class="nav-link-icon"><i class="fa-solid fa-money-check"></i></div>
+                                Dịch vụ thẻ
                             </a>
                         </div>
                     </div>

@@ -5,6 +5,7 @@
 package com.fteam.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import javax.servlet.ServletException;
 
 /**
  *
