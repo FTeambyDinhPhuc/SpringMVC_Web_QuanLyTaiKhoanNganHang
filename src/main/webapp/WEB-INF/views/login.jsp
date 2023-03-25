@@ -25,13 +25,13 @@
                 </div>
                 <div class="auth-form-content">
                     <div class="title">Đăng nhập</div>
-                    <form class="input-boxes" action="" method="POST" >
+                    <form class="input-boxes"modelAttribute="NhanVien" action="login.htm" method="POST" >
                         <div class="input-box">
                             <i class="fa-solid fa-envelope icon"></i>
                             <input
                                 type="text"
                                 placeholder="Nhập tên đăng nhập"
-                                name="username"
+                                id="TenDangNhap" name="TenDangNhap"
                                 required
                                 />
                         </div>
@@ -40,7 +40,7 @@
                             <input
                                 type="password"
                                 placeholder="Nhập mật khẩu"
-                                name="password"
+                                id="MatKhau" name="MatKhau"
                                 required
                                 />
                         </div>
@@ -49,7 +49,9 @@
                             Đăng nhập
                         </Button>
                     </form>
-
+                    <div th:if="${message}">
+                        <p th:text="${message}"></p>
+                    </div>
                 </div>
             </div>
         </div>
