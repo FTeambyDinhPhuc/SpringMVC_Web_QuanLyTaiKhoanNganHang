@@ -49,9 +49,9 @@
                             Đăng nhập
                         </Button>
                     </form>
-                    <div th:if="${message}">
-                        <p th:text="${message}"></p>
-                    </div>
+                    <c:if test="${not empty message}">
+                        <div class="alert alert-danger">${message}</div>
+                    </c:if>
                 </div>
             </div>
         </div>
