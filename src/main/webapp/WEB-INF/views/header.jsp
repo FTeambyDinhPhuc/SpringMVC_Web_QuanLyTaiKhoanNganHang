@@ -85,7 +85,8 @@
                     </div>
                     <div class="sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Anh Tèo
+                        <p>${sessionScope.Ten}
+                        </p>
                     </div>
                 </nav>
             </div>

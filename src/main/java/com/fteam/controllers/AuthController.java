@@ -6,6 +6,8 @@ package com.fteam.controllers;
 
 import com.fteam.models.NhanVien;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -37,7 +39,7 @@ public class AuthController {
 
     @Transactional
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(ModelMap model, @ModelAttribute("NhanVien") NhanVien NhanVien) {
+    public String login(HttpServletRequest request,ModelMap model, @ModelAttribute("NhanVien") NhanVien NhanVien) {
         Session session = sessionFactory.openSession();
         String hql = "FROM NhanVien u WHERE u.tenDangNhap = :tenDangNhap AND u.matKhau = :matKhau";
         Query query = session.createQuery(hql);
@@ -48,6 +50,13 @@ public class AuthController {
         List<NhanVien> list = query.list();
         if (!list.isEmpty()) {
             // Login successful
+            NhanVien loggedInNhanVien = list.get(0);
+            model.addAttribute("loggedInNhanVien", loggedInNhanVien);
+//            model.addAttribute("ID_ChucVu", loggedInNhanVien.getChucVu().getId());
+            HttpSession httpSession = request.getSession();
+        httpSession.setAttribute("Ten", loggedInNhanVien.getTenNhanVien());
+
+
             return "index";
         } else {
             // Login failed
