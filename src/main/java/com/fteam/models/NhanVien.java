@@ -4,9 +4,15 @@
  */
 package com.fteam.models;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -17,132 +23,158 @@ import javax.persistence.Table;
 @Table(name = "NhanVien")
 public class NhanVien {
     @Id
-    @Column(name = "TenDangNhap")
-    private String TenDangNhap;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_NhanVien")
+    private Integer id;
 
-    public String getTenDangNhap() {
-        return TenDangNhap;
+    @Column(name = "TenDangNhap", length = 50)
+    private String tenDangNhap;
+
+    @Column(name = "MatKhau", length = 50)
+    private String matKhau;
+
+    @Column(name = "TenNhanVien", length = 100)
+    private String tenNhanVien;
+
+    @Column(name = "NamSinh")
+    private Date namSinh;
+
+    @Column(name = "GioiTinh")
+    private Boolean gioiTinh;
+
+    @Column(name = "DiaChi", length = 100)
+    private String diaChi;
+
+    @Column(name = "CCCD", length = 15)
+    private String cccd;
+
+    @Column(name = "Email", length = 50)
+    private String email;
+
+    @Column(name = "SoDienThoai", length = 11)
+    private String soDienThoai;
+
+    @Column(name = "TrangThaiTaiKhoan")
+    private Integer trangThaiTaiKhoan;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_ChucVu")
+    private ChucVu chucVu;
+
+    // Constructors, getters, and setters
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setTenDangNhap(String TenDangNhap) {
-        this.TenDangNhap = TenDangNhap;
+    public String getTenDangNhap() {
+        return tenDangNhap;
     }
 
     public String getMatKhau() {
-        return MatKhau;
-    }
-
-    public void setMatKhau(String MatKhau) {
-        this.MatKhau = MatKhau;
+        return matKhau;
     }
 
     public String getTenNhanVien() {
-        return TenNhanVien;
+        return tenNhanVien;
     }
 
-    public void setTenNhanVien(String TenNhanVien) {
-        this.TenNhanVien = TenNhanVien;
+    public Date getNamSinh() {
+        return namSinh;
     }
 
-    public String getNamSinh() {
-        return NamSinh;
-    }
-
-    public void setNamSinh(String NamSinh) {
-        this.NamSinh = NamSinh;
-    }
-
-    public String getGioiTinh() {
-        return GioiTinh;
-    }
-
-    public void setGioiTinh(String GioiTinh) {
-        this.GioiTinh = GioiTinh;
+    public Boolean getGioiTinh() {
+        return gioiTinh;
     }
 
     public String getDiaChi() {
-        return DiaChi;
+        return diaChi;
     }
 
-    public void setDiaChi(String DiaChi) {
-        this.DiaChi = DiaChi;
+    public String getCccd() {
+        return cccd;
     }
 
     public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String Email) {
-        this.Email = Email;
+        return email;
     }
 
     public String getSoDienThoai() {
-        return SoDienThoai;
+        return soDienThoai;
     }
 
-    public void setSoDienThoai(String SoDienThoai) {
-        this.SoDienThoai = SoDienThoai;
+    public Integer getTrangThaiTaiKhoan() {
+        return trangThaiTaiKhoan;
     }
 
-    public String getTrangThai() {
-        return TrangThai;
+    public ChucVu getChucVu() {
+        return chucVu;
     }
 
-    public void setTrangThai(String TrangThai) {
-        this.TrangThai = TrangThai;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getID_ChưcVu() {
-        return ID_ChưcVu;
+    public void setTenDangNhap(String tenDangNhap) {
+        this.tenDangNhap = tenDangNhap;
     }
 
-    public void setID_ChưcVu(String ID_ChưcVu) {
-        this.ID_ChưcVu = ID_ChưcVu;
+    public void setMatKhau(String matKhau) {
+        this.matKhau = matKhau;
     }
 
-    public NhanVien(String TenDangNhap, String MatKhau, String TenNhanVien, String NamSinh, String GioiTinh, String DiaChi, String Email, String SoDienThoai, String TrangThai, String ID_ChưcVu) {
-        this.TenDangNhap = TenDangNhap;
-        this.MatKhau = MatKhau;
-        this.TenNhanVien = TenNhanVien;
-        this.NamSinh = NamSinh;
-        this.GioiTinh = GioiTinh;
-        this.DiaChi = DiaChi;
-        this.Email = Email;
-        this.SoDienThoai = SoDienThoai;
-        this.TrangThai = TrangThai;
-        this.ID_ChưcVu = ID_ChưcVu;
+    public void setTenNhanVien(String tenNhanVien) {
+        this.tenNhanVien = tenNhanVien;
     }
 
-    @Column(name = "MatKhau")
-    private String MatKhau;
+    public void setNamSinh(Date namSinh) {
+        this.namSinh = namSinh;
+    }
 
-    @Column(name = "TenNhanVien")
-    private String TenNhanVien;
+    public void setGioiTinh(Boolean gioiTinh) {
+        this.gioiTinh = gioiTinh;
+    }
 
-    @Column(name = "NamSinh")
-    private String NamSinh;
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
+    }
 
-    @Column(name = "GioiTinh")
-    private String GioiTinh;
+    public void setCccd(String cccd) {
+        this.cccd = cccd;
+    }
 
-    @Column(name = "DiaChi")
-    private String DiaChi;
-    
-    @Column(name = "Email")
-    private String Email;
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    @Column(name = "SoDienThoai")
-    private String SoDienThoai;
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
+    }
 
-    @Column(name = "TrangThai")
-    private String TrangThai;
+    public void setTrangThaiTaiKhoan(Integer trangThaiTaiKhoan) {
+        this.trangThaiTaiKhoan = trangThaiTaiKhoan;
+    }
 
-    @Column(name = "ID_ChưcVu")
-    private String ID_ChưcVu;
-    // constructors, getters and setters, and other methods
-
-    
+    public void setChucVu(ChucVu chucVu) {
+        this.chucVu = chucVu;
+    }
 
     public NhanVien() {
     }
+
+    public NhanVien(Integer id, String tenDangNhap, String matKhau, String tenNhanVien, Date namSinh, Boolean gioiTinh, String diaChi, String cccd, String email, String soDienThoai, Integer trangThaiTaiKhoan, ChucVu chucVu) {
+        this.id = id;
+        this.tenDangNhap = tenDangNhap;
+        this.matKhau = matKhau;
+        this.tenNhanVien = tenNhanVien;
+        this.namSinh = namSinh;
+        this.gioiTinh = gioiTinh;
+        this.diaChi = diaChi;
+        this.cccd = cccd;
+        this.email = email;
+        this.soDienThoai = soDienThoai;
+        this.trangThaiTaiKhoan = trangThaiTaiKhoan;
+        this.chucVu = chucVu;
+    }
+    
 }

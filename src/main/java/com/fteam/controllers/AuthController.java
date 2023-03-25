@@ -8,7 +8,6 @@ import com.fteam.models.NhanVien;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +35,18 @@ public class AuthController {
         return "login";
     }
 
+    @Transactional
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(ModelMap model, @ModelAttribute("NhanVien") NhanVien NhanVien) {
-        String hql = "FROM NhanVien u WHERE u.TenDangNhap = :TenDangNhap AND u.MatKhau = :MatKhau";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter("TenDangNhap", NhanVien.getTenDangNhap());
-        query.setParameter("MatKhau", NhanVien.getMatKhau());
+        Session session = sessionFactory.openSession();
+        String hql = "FROM NhanVien u WHERE u.tenDangNhap = :tenDangNhap AND u.matKhau = :matKhau";
+        Query query = session.createQuery(hql);
+
+        query.setParameter("tenDangNhap", NhanVien.getTenDangNhap());
+        query.setParameter("matKhau", NhanVien.getMatKhau());
 
         List<NhanVien> list = query.list();
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             // Login successful
             return "index";
         } else {
