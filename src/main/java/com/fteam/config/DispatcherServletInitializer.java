@@ -4,8 +4,10 @@
  */
 package com.fteam.config;
 
+import javax.servlet.Filter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import javax.servlet.ServletException;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 /**
  *
@@ -29,5 +31,13 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
-    
+
+    @Override
+    protected Filter[] getServletFilters()
+    {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        return new Filter[] {filter};
+    }
 }
