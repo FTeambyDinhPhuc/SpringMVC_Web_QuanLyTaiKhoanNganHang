@@ -31,7 +31,7 @@
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="">Đổi mật khẩu</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="<c:url value="/logout"/>">Đăng xuất</a></li>
                     </ul>
                 </li>
             </ul>
@@ -41,36 +41,24 @@
                 <nav class="sidenav">
                     <div class="sidenav-menu">
                         <div class="nav">
+                            <% if (session.getAttribute("chucvu").equals(1)) { %>
                             <div class="sidenav-menu-heading">Thống kê</div>
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="#">
                                 <div class="nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Thống kê
                             </a>
-                            <div class="sidenav-menu-heading">Quản lý</div>
-                            <!--                            <a class="nav-link collapsed" data-toggle="collapse" href="#collapseLayouts" role="button" aria-expanded="false" aria-controls="collapseLayouts">
-                                                            <div class="nav-link-icon"><i class="fa-solid fa-box"></i></div>
-                                                            Loại sản phẩm
-                                                            <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                                        </a>
-                                                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                                            <nav class="sidenav-menu-nested nav">
-                                                                <a class="nav-link" href="@Url.Action("Size","Manage")">Size</a>
-                                                                <a class="nav-link" href="@Url.Action("TypesClothes","Manage")">Loại đồ</a>
-                                                            </nav>
-                                                        </div>
-                                                        <a class="nav-link" href="@Url.Action("Product","Manage")">
-                                                            <div class="nav-link-icon"><i class="fa-solid fa-shirt"></i></div>
-                                                            Sản phẩm
-                                                        </a>-->
+                            <div class="sidenav-menu-heading">Quản lý</div>                         
                             <a class="nav-link" href="./staff_management">
                                 <div class="nav-link-icon"><i class="fa-solid fa-clipboard-user"></i></div>
                                 Nhân viên
                             </a>
+                            <% }%>
+                            <% if (session.getAttribute("chucvu").equals(2)) { %>
                             <a class="nav-link" href="./customer_management">
                                 <div class="nav-link-icon"><i class="fa-solid fa-users"></i></div>
                                 Khách hàng
                             </a>
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="#">
                                 <div class="nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
                                 Hóa đơn
                             </a>
@@ -81,6 +69,8 @@
                                 <div class="nav-link-icon"><i class="fa-solid fa-money-check"></i></div>
                                 Dịch vụ thẻ
                             </a>
+                            <% }%>
+
                         </div>
                     </div>
                     <div class="sidenav-footer">
@@ -92,3 +82,5 @@
             </div>
             <div id="layoutSidenav_content">
                 <main>
+                    
+                    

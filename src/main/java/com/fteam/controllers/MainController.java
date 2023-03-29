@@ -4,6 +4,7 @@
  */
 package com.fteam.controllers;
 
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
     @RequestMapping(value = "/")
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
+        if (session.getAttribute("Ten") == null) {
+        return "redirect:/login";
+    } else {
         model.addAttribute("message", "Welcome to our Website!!!");
         return "index";
+    }
     }
 }

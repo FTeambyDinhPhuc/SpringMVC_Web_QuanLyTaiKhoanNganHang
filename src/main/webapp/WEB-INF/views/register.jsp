@@ -22,13 +22,13 @@
             <div class="auth-container shadow register-auth-container">
                 <div class="auth-form-content register-auth-form-content">
                     <div class="title">Đăng ký nhân viên</div>
-                    <form class="input-boxes" action="" method="POST">
+                    <form class="input-boxes" modelAttribute="NhanVien" action="register.htm"method="POST">
                         <div class="input-box">
                             <i class="fa-solid fa-user icon"></i>
                             <input
                                 type="text"
                                 placeholder="Nhập tên đăng nhập"
-                                name="username"
+                                path="tenDangNhap" id="tenDangNhap"
                                 required
                                 />
                         </div>
@@ -37,7 +37,7 @@
                             <input
                                 type="text"
                                 placeholder="Nhập tên nhân viên"
-                                name="fullname"
+                                path="tenNhanVien" id="tenNhanVien"
                                 required
                                 />
                         </div>
@@ -45,15 +45,15 @@
                             <i class="fa-solid fa-calendar-days icon"></i>
                             <input
                                 type="date"
-                                name="birthday"
+                                path="namSinh" id="namSinh"
                                 required
                                 />
                         </div>
                         <div class="input-box">
                             <i class="fa-solid fa-person icon"></i>
-                            <select name="sex" class="input" required>
-                                <option>Nam</option>
-                                <option>Nữ</option>
+                            <select path="gioiTinh" id="gioiTinh" class="input" required>
+                                <option value="1" type="input">Nam</option>
+                                <option value="0"  type="input">Nữ</option>
                             </select>
 
                         </div>
@@ -61,7 +61,7 @@
                             <i class="fa-solid fa-location-dot icon"></i>
                             <input
                                 type="text"
-                                name="address"
+                                path="diaChi" id="diaChi"
                                 placeholder="Nhập địa chỉ"
                                 required
                                 />
@@ -70,7 +70,7 @@
                             <i class="fa-solid fa-envelope icon"></i>
                             <input
                                 type="email"
-                                name="email"
+                                path="email" id="email"
                                 placeholder="Nhập email"
                                 required
                                 />
@@ -79,7 +79,7 @@
                             <i class="fa-solid fa-address-card icon"></i>
                             <input
                                 type="text"
-                                name="cccd"
+                                path="cccd" id="cccd"
                                 placeholder="Nhập căn cước công dân"
                                 required
                                 />
@@ -88,7 +88,7 @@
                             <i class="fa-solid fa-phone icon"></i>
                             <input
                                 type="tel"
-                                name="numberphone"
+                                path="soDienThoai" id="soDienThoai"
                                 placeholder="Nhập số điện thoại"
                                 required
                                 />
@@ -98,27 +98,37 @@
                             <input
                                 type="password"
                                 placeholder="Nhập mật khẩu"
-                                name="password"
+                                path="matKhau" id="matKhau"
                                 required
                                 />
                         </div>
-                        <div class="input-box">
+<!--                        <div class="input-box">
+                            <i class="fa-solid fa-lock icon"></i>
+                            <input
+                                type="text"
+                                placeholder="Trạng thái"
+                                path="trangThaiTaiKhoan" id="trangThaiTaiKhoan"
+                                required
+                                />
+                        </div>-->
+<!--                        <div class="input-box">
                             <i class="fa-solid fa-lock icon"></i>
                             <input
                                 type="password"
                                 placeholder="Xác nhận mật khẩu"
-                                name="repassword"
+                                path="tenDangNhap" id="tenDangNhap"
                                 required
                                 />
-                        </div>
+                        </div>-->
                         <div class="input-box">
                             <i class="fa-solid fa-clipboard-user icon"></i>
-                            <select name="position" class="input" required>
+                            <select path="chucVu" id="chucVu" class="input" required>
                                 <!--                                kéo từ database lên -->
-                                <option>Nhân viên</option> 
-                                <option>Quản lý</option>
+                                <option  path="chucVu" id="chucVu" value="2">Nhân viên</option> 
+                                <option  path="chucVu" id="chucVu" value="1">Quản lý</option>
                             </select>
                         </div>
+
 
                         <Button class="mybuton-primary auth-button"  type="submit">
                             Xác nhận

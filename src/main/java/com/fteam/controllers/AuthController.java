@@ -8,8 +8,10 @@ import com.fteam.models.NhanVien;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class AuthController {
 
     @Transactional
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(HttpServletRequest request,ModelMap model, @ModelAttribute("NhanVien") NhanVien NhanVien) {
+    public String login(HttpServletRequest request, ModelMap model, @ModelAttribute("NhanVien") NhanVien NhanVien) {
         Session session = sessionFactory.openSession();
         String hql = "FROM NhanVien u WHERE u.tenDangNhap = :tenDangNhap AND u.matKhau = :matKhau";
         Query query = session.createQuery(hql);
@@ -52,10 +54,9 @@ public class AuthController {
             // Login successful
             NhanVien loggedInNhanVien = list.get(0);
             model.addAttribute("loggedInNhanVien", loggedInNhanVien);
-//            model.addAttribute("ID_ChucVu", loggedInNhanVien.getChucVu().getId());
             HttpSession httpSession = request.getSession();
-        httpSession.setAttribute("Ten", loggedInNhanVien.getTenNhanVien());
-
+            httpSession.setAttribute("Ten", loggedInNhanVien.getTenNhanVien());
+            httpSession.setAttribute("chucvu", loggedInNhanVien.getChucVu().getId());
 
             return "index";
         } else {
@@ -65,8 +66,42 @@ public class AuthController {
         }
     }
 
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "register")
     public String Register(ModelMap model) {
+        model.addAttribute("NhanVien", new NhanVien());
         return "register";
+
+    }
+
+    @Transactional
+    @RequestMapping(value = "register", method = RequestMethod.POST)
+    public String Register(HttpServletRequest request, ModelMap model, @ModelAttribute("NhanVien") NhanVien NhanVien) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            tx = session.beginTransaction();
+            session.save(NhanVien);
+            tx.commit();
+            model.addAttribute("message", "Thêm mới thành công !");
+        } catch (HibernateException e) {           
+            if (tx != null) {
+                tx.rollback();
+            }           
+            e.printStackTrace();
+            model.addAttribute("message", "Thêm mới thất bại !");
+        } finally {
+            session.close();
+        }
+        return "staff_management";
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpServletRequest request) {
+        // code xử lý đăng xuất
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // xóa session
+        }
+        return "redirect:/login"; // chuyển hướng tới trang đăng nhập
     }
 }

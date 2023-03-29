@@ -6,6 +6,9 @@
 
 <jsp:include page="header.jsp" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="container-fluid px-4">
     <h1 class="my-4">Quản lý nhân viên</h1>
@@ -34,28 +37,29 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-        
-                <td>Nguyễn Văn Tèo</td>
-                <td>Nhân viên</td>
-                <td>13/02/2000</td>
-                <td>Nam</td>
-                <td>Viet Nam</td>
-                <td>teo@gmail.com</td>
-                 <td>235454667</td>
-                <td>012345678</td>
-                <td>Hoạt động</td>
+            <c:forEach var="user" items="${nhanviens}">
+            <tr>               
+                <td>${user.getTenNhanVien()}</td>
+                <td>${user.getNamSinh()}</td>
+                <td>${user.getGioiTinh()}</td>
+                <td>${user.getDiaChi()}</td>
+                <td>${user.getEmail()}</td>
+                <td>${user.getCccd()}</td>
+                <td>${user.getSoDienThoai()}</td>
+                <td>${user.getTrangThaiTaiKhoan()}</td>
                 <td>
                     <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square icon-edit" data-toggle="tooltip" title="Edit"></i></a>
                     <a href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                 </td>
             </tr>
+        </c:forEach>
+            
             
 
         </tbody>
     </table>
 
-    <div id="editStaffModal" class="modal fade">
+<!--    <div id="editStaffModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form>
@@ -72,7 +76,7 @@
                             <label>Chức vụ</label>
 
                             <select class="form-control"required="required" name="position" >
-                                <!--Lấy từ db-->
+                                Lấy từ db
                                 <option>Nhân viên</option>
                                 <option>Quản lý</option>
                             </select>
@@ -84,7 +88,7 @@
                         <div class="form-group">
                             <label>Giới tính</label>
                             <select class="form-control"required="required" name="sex" >
-                                <!--Lấy từ db-->
+                                Lấy từ db
                                 <option>Nam</option>
                                 <option>Nữ</option>
                             </select>
@@ -104,7 +108,7 @@
                         <div class="form-group">
                             <label>Trạng thái tài khoản</label>
                             <select class="form-control"required="required" name="status" >
-                                <!--Lấy từ db-->
+                                Lấy từ db
                                 <option>Hoạt động</option>
                                 <option>Tạm dừng</option>
                             </select>
@@ -139,7 +143,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div>-->
 
 </div>
 <jsp:include page="footer.jsp" />
