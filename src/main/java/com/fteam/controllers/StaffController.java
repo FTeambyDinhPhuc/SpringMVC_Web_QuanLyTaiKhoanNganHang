@@ -31,14 +31,19 @@ public class StaffController {
     @Transactional
     @RequestMapping(value = "staff_management")
     public String Staffs(ModelMap model) {
+//        Session session = sessionFactory.openSession();
+//        Transaction tx = session.beginTransaction();
+//        String hql = "FROM NhanVien";
+//        Query query = session.createQuery(hql);
+//        List<NhanVien> list = query.list();
+//        model.addAttribute("nhanviens", list);
+//        tx.commit();
+//        session.close();
         Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
         String hql = "FROM NhanVien";
         Query query = session.createQuery(hql);
         List<NhanVien> list = query.list();
         model.addAttribute("nhanviens", list);
-        tx.commit();
-        session.close();
         return "staff_management";
     }
 

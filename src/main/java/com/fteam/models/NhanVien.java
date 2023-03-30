@@ -30,17 +30,17 @@ public class NhanVien {
     @Column(name = "TenDangNhap", length = 50)
     private String tenDangNhap;
 
-    @Column(name = "MatKhau", length = 50)
+    @Column(name = "MatKhau", length = 100)
     private String matKhau;
 
     @Column(name = "TenNhanVien", length = 100)
     private String tenNhanVien;
 
     @Column(name = "NamSinh")
-    private Date namSinh;
+    private String namSinh;
 
     @Column(name = "GioiTinh")
-    private Boolean gioiTinh;
+    private String gioiTinh;
 
     @Column(name = "DiaChi", length = 100)
     private String diaChi;
@@ -61,6 +61,20 @@ public class NhanVien {
     @JoinColumn(name = "ID_ChucVu")
     private ChucVu chucVu;
 
+    public NhanVien(String tenDangNhap, String tenNhanVien, String namSinh, String gioiTinh, String diaChi, String email, String cccd,String soDienThoai, String matKhau, ChucVu chucVu) {
+        this.tenDangNhap = tenDangNhap;
+        this.matKhau = matKhau;
+        this.tenNhanVien = tenNhanVien;
+        this.namSinh = namSinh;
+        this.gioiTinh = gioiTinh;
+        this.diaChi = diaChi;
+        this.cccd = cccd;
+        this.email = email;
+        this.soDienThoai = soDienThoai;
+        this.chucVu=chucVu;
+    }
+
+
     // Constructors, getters, and setters
 
     public Integer getId() {
@@ -79,11 +93,11 @@ public class NhanVien {
         return tenNhanVien;
     }
 
-    public Date getNamSinh() {
+    public String getNamSinh() {
         return namSinh;
     }
 
-    public Boolean getGioiTinh() {
+    public String getGioiTinh() {
         return gioiTinh;
     }
 
@@ -127,11 +141,11 @@ public class NhanVien {
         this.tenNhanVien = tenNhanVien;
     }
 
-    public void setNamSinh(Date namSinh) {
+    public void setNamSinh(String namSinh) {
         this.namSinh = namSinh;
     }
 
-    public void setGioiTinh(Boolean gioiTinh) {
+    public void setGioiTinh(String gioiTinh) {
         this.gioiTinh = gioiTinh;
     }
 
@@ -162,19 +176,5 @@ public class NhanVien {
     public NhanVien() {
     }
 
-    public NhanVien(Integer id, String tenDangNhap, String matKhau, String tenNhanVien, Date namSinh, Boolean gioiTinh, String diaChi, String cccd, String email, String soDienThoai, Integer trangThaiTaiKhoan, ChucVu chucVu) {
-        this.id = id;
-        this.tenDangNhap = tenDangNhap;
-        this.matKhau = matKhau;
-        this.tenNhanVien = tenNhanVien;
-        this.namSinh = namSinh;
-        this.gioiTinh = gioiTinh;
-        this.diaChi = diaChi;
-        this.cccd = cccd;
-        this.email = email;
-        this.soDienThoai = soDienThoai;
-        this.trangThaiTaiKhoan = trangThaiTaiKhoan;
-        this.chucVu = chucVu;
-    }
     
 }

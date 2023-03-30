@@ -22,7 +22,7 @@ public class ChucVu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_ChucVu")
-    private int id;
+    private Integer id;
     
     @Column(name = "TenChucVu")
     private String tenChucVu;
@@ -34,11 +34,11 @@ public class ChucVu {
         this.tenChucVu = tenChucVu;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -49,6 +49,6 @@ public class ChucVu {
     public void setTenChucVu(String tenChucVu) {
         this.tenChucVu = tenChucVu;
     }
-    
+
 }
 
