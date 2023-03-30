@@ -29,7 +29,7 @@
                             <input
                                 type="text"
                                 placeholder="Nhập tên đăng nhập"
-                                path="TenDangNhap" id="TenDangNhap" name="TenDangNhap"
+                                path="TenDangNhap" id="TenDangNhap"  autocomplete="off" name="TenDangNhap"
                                 required
                                 />
                         </div>
@@ -39,7 +39,7 @@
                             <input
                                 type="text"
                                 placeholder="Nhập tên nhân viên"
-                                path="TenNhanVien" id="TenNhanVien" name="TenNhanVien"
+                                path="TenNhanVien" id="TenNhanVien" autocomplete="off"  name="TenNhanVien"
                                 required
                                 />
                         </div>
@@ -48,14 +48,14 @@
                             <i class="fa-solid fa-calendar-days icon"></i>
                             <input
                                 type="date"
-                                path="NamSinh" id="NamSinh" name="NamSinh"
+                                path="NamSinh" id="NamSinh" autocomplete="off" name="NamSinh"
                                 required
                                 />
                         </div>
                         <h3 style="color: red" id="tb3" >${message} </h3>
                         <div class="input-box">
                             <i class="fa-solid fa-person icon"></i>
-                            <select path="GioiTinh" id="GioiTinh" class="input" name="GioiTinh" required>
+                            <select path="GioiTinh" id="GioiTinh" autocomplete="off" class="input" name="GioiTinh" required>
                                 <option value="1" type="input">Nam</option>
                                 <option value="0"  type="input">Nữ</option>
                             </select>
@@ -64,7 +64,7 @@
                             <i class="fa-solid fa-location-dot icon"></i>
                             <input
                                 type="text"
-                                path="DiaChi" id="DiaChi" name="DiaChi"
+                                path="DiaChi" id="DiaChi" autocomplete="off" name="DiaChi"
                                 placeholder="Nhập địa chỉ"
                                 required
                                 />
@@ -74,7 +74,7 @@
                             <i class="fa-solid fa-envelope icon"></i>
                             <input
                                 type="Email"
-                                path="Email" id="Email" name="Email"
+                                path="Email" id="Email" autocomplete="off" name="Email"
                                 placeholder="Nhập email"
                                 required
                                 />
@@ -84,7 +84,7 @@
                             <i class="fa-solid fa-address-card icon"></i>
                             <input
                                 type="text"
-                                path="CCCD" id="CCCD" name="CCCD"
+                                path="CCCD" autocomplete="off" id="CCCD" name="CCCD"
                                 placeholder="CCCD: 123456789123"
                                 required
                                 />
@@ -94,7 +94,7 @@
                             <i class="fa-solid fa-phone icon"></i>
                             <input
                                 type="tel"
-                                path="SoDienThoai" id="SoDienThoai" name="SoDienThoai"
+                                path="SoDienThoai" autocomplete="off" id="SoDienThoai" name="SoDienThoai"
                                 placeholder="Nhập số điện thoại"
                                 required
                                 />
@@ -104,7 +104,7 @@
                             <i class="fa-solid fa-lock icon"></i>
                             <input
                                 type="password"
-                                placeholder="Nhập mật khẩu" name="MatKhau"
+                                placeholder="Nhập mật khẩu" autocomplete="off" name="MatKhau"
                                 path="MatKhau" id="MatKhau"
                                 required
                                 />
@@ -114,7 +114,7 @@
                             <i class="fa-solid fa-lock icon"></i>
                             <input
                                 type="password"
-                                placeholder="Xác nhận mật khẩu" name="repassword"
+                                placeholder="Xác nhận mật khẩu" autocomplete="off" name="repassword"
                                 path="repassoword" id="repassoword"
                                 required
                                 />

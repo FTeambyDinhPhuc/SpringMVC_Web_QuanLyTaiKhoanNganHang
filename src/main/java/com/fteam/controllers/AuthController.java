@@ -184,15 +184,15 @@ public class AuthController {
             // Create new user
             nhanvien = new NhanVien(TenDangNhap, TenNhanVien, NamSinh, GioiTinh, DiaChi, CCCD, Email, SoDienThoai, hashedPassword, chucvu);
             String insertQuery = "INSERT INTO NhanVien(TenDangNhap, TenNhanVien, NamSinh, GioiTinh, DiaChi, CCCD, Email, SoDienThoai, MatKhau, ID_ChucVu) "
-                    + "VALUES (:TenDangNhap, :TenNhanVien, :NamSinh, :GioiTinh, :DiaChi, :CCCD,:Email,  :SoDienThoai, :hashedPassword, :ID_ChucVu)";
+                    + "VALUES (:TenDangNhap, :TenNhanVien, :NamSinh, :GioiTinh, :DiaChi, :CCCD, :Email, :SoDienThoai, :hashedPassword, :ID_ChucVu)";
             Query insertNhanVienQuery = session.createSQLQuery(insertQuery)
                     .setParameter("TenDangNhap", nhanvien.getTenDangNhap())
                     .setParameter("TenNhanVien", nhanvien.getTenNhanVien())
                     .setParameter("NamSinh", nhanvien.getNamSinh())
                     .setParameter("GioiTinh", nhanvien.getGioiTinh())
-                    .setParameter("Email", nhanvien.getEmail())
                     .setParameter("DiaChi", nhanvien.getDiaChi())
                     .setParameter("CCCD", nhanvien.getCccd())
+                    .setParameter("Email", nhanvien.getEmail())
                     .setParameter("SoDienThoai", nhanvien.getSoDienThoai())
                     .setParameter("hashedPassword", nhanvien.getMatKhau())
                     .setParameter("ID_ChucVu", chucvu.getId());

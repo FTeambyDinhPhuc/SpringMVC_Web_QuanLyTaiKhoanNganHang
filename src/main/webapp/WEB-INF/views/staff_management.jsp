@@ -13,13 +13,14 @@
 <div class="container-fluid px-4">
     <h1 class="my-4">Quản lý nhân viên</h1>
     <div class="d-flex justify-content-between align-items-center">
+
         <form class="d-flex align-items-center" style="width: 450px">
-            <input type="text" class="form-control my-4 mr-4" required="required" name="searchstaff"  placeholder="Nhập vào tên nhân viên"></input>
-            <button type="submit" class="mybuton-primary">Tìm kiếm</button>
+            <input type="text" class="form-control my-4 mr-4" name="searchstaff" autocomplete="off"  placeholder="Nhập vào tên nhân viên"></input>
+            <button type="submit"  class="mybuton-primary">Tìm kiếm</button>
         </form>
         <a href="./register" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
     </div>
-    <p class="text-danger">Không tìm thấy nhân viên</p>
+    <h3 class="text-danger" id="tb">${message}</h3>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -36,18 +37,18 @@
 
             </tr>
         </thead>
-        <tbody>
+        <tbody >
             <c:forEach var="user" items="${nhanviens}">
                 <tr>               
                     <td>${user.getTenNhanVien()}</td>
                     <td>${user.chucVu.getTenChucVu()}</td>
                     <td>${user.getNamSinh()}</td>
-                    <td>${user.getGioiTinh()}</td>
+                    <td>${user.getGioiTinh()==0 ? "Nữ" : "Nam"}</td>
                     <td>${user.getDiaChi()}</td>
                     <td>${user.getCccd()}</td>
                     <td>${user.getEmail()}</td>
                     <td>${user.getSoDienThoai()}</td>
-                    <td>${user.getTrangThaiTaiKhoan()}</td>
+                    <td>${user.getTrangThaiTaiKhoan()==0?"Khóa":"Đang hoạt động"}</td>
                     <td>
                         <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square icon-edit" data-toggle="tooltip" title="Edit"></i></a>
                         <a href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
@@ -145,3 +146,14 @@
 
 </div>
 <jsp:include page="footer.jsp" />
+<script>
+    window.onload = function () {
+        $("tb").innerText = '';
+    };
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            $("#tb").css("display", "none");
+        }, 2000); // 5 seconds
+    });
+</script>
