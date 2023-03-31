@@ -128,8 +128,6 @@
                                 <option  path="chucVu" id="chucVu" value="1">Quản lý</option>
                             </select>
                         </div>
-
-
                         <Button class="mybuton-primary auth-button"  type="submit">
                             Xác nhận
                         </Button>

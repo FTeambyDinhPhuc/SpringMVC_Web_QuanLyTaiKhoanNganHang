@@ -33,7 +33,7 @@ public class StaffController {
     public String Staffs(ModelMap model) {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        String hql = "FROM NhanVien";
+        String hql = "FROM NhanVien Where TrangThaiTaiKhoan=1";
         Query query = session.createQuery(hql);
         List<NhanVien> list = query.list();
         model.addAttribute("nhanviens", list);

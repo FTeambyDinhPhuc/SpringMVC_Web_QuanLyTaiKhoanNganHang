@@ -6,7 +6,9 @@
 
 <jsp:include page="header.jsp" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="container-fluid px-4">
     <h1 class="my-4">Quản lý khách hàng</h1>
     <div class="d-flex justify-content-between align-items-center">
@@ -34,24 +36,32 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Nguyễn Văn Tèo</td>
-                <td>13/02/2000</td>
-                <td>Nam</td>
-                <td>Ho chi Minh</td>
-                <td>teo@gmail.com</td>
-                <td>012345678</td>
-                <td>1234567890</td>
-                <td>Sinh viên</td>
-                <td>
-                    <a href="./customer_detail" class="mybuton-icon-detail px-3"><i class="fa-solid fa-circle-info" title="Detail"></i></a>
-                    <a href="#editCustomerModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square " data-toggle="tooltip" title="Edit"></i></a>
-                    <a href="#deleteCustomerModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
-                </td>
-            </tr>
+            <c:forEach var="custommer" items="${khachhangs}">
+                <tr>
+                    <td>${custommer.getTenKhachHang()}</td>
+                    <td><fmt:formatDate value="${custommer.getNgaySinhKH()}" pattern="dd/MM/yyyy"/></td>
+                    <td>
+                        <c:if test="${custommer.isGioiTinh()}">
+                            Nam
+                        </c:if>
+                        <c:if test="${not custommer.isGioiTinh()}">
+                            Nữ
+                        </c:if>
+                    </td>
+                    <td>${custommer.getDiaChiKH()}</td>
+                    <td>${custommer.getEmailKH()}</td>
+                    <td>${custommer.getSoDienThoai()}</td>
+                    <td>${custommer.getCccd()}</td>
+                    <td>${custommer.getNgheNghiep()}</td>
+                    <td>
+                        <a href="./customer_detail" class="mybuton-icon-detail px-3"><i class="fa-solid fa-circle-info" title="Detail"></i></a>
+                        <a href="#editCustomerModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square " data-toggle="tooltip" title="Edit"></i></a>
+                        <a href="#deleteCustomerModal"data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+<!--                    <a href="/deleteCustomerModal/${customer.getId()}" class="mybutton-icon-delete px-3" data-toggle="modal"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>-->
 
-
-
+                    </td>
+                </tr>
+            </c:forEach>
         </tbody>
     </table>
 
@@ -184,6 +194,6 @@
             </div>
         </div>
     </div>
-
 </div>
 <jsp:include page="footer.jsp" />
+ 

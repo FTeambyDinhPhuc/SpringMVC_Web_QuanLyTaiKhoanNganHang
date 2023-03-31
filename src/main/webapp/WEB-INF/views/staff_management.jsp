@@ -6,8 +6,10 @@
 
 <jsp:include page="header.jsp" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="container-fluid px-4">
@@ -33,33 +35,40 @@
                 <th scope="col">Số điện thoại</th>
                 <th scope="col">Trạng thái tài khoản</th>
                 <th scope="col">Hành động</th>
-
             </tr>
         </thead>
         <tbody>
             <c:forEach var="user" items="${nhanviens}">
-            <tr>               
-                <td>${user.getTenNhanVien()}</td>
-                <td>${user.getNamSinh()}</td>
-                <td>${user.getGioiTinh()}</td>
-                <td>${user.getDiaChi()}</td>
-                <td>${user.getEmail()}</td>
-                <td>${user.getCccd()}</td>
-                <td>${user.getSoDienThoai()}</td>
-                <td>${user.getTrangThaiTaiKhoan()}</td>
-                <td>
-                    <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square icon-edit" data-toggle="tooltip" title="Edit"></i></a>
-                    <a href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
-                </td>
-            </tr>
-        </c:forEach>
-            
-            
-
+                <tr>               
+                    <td>${user.getTenNhanVien()}</td>
+                    <td></td>
+                    <td><fmt:formatDate value="${user.getNamSinh()}" pattern="dd/MM/yyyy"/></td>
+                    <td>
+                        <c:if test="${user.getGioiTinh()=='0' }">
+                            Nữ
+                        </c:if>
+                        <c:if test="${not user.getGioiTinh()=='0'}">
+                            Nam
+                        </c:if>
+                    </td>
+                    <td>${user.getDiaChi()}</td>
+                    <td>${user.getEmail()}</td>
+                    <td>${user.getCccd()}</td>
+                    <td>${user.getSoDienThoai()}</td>
+                    <td><c:if test="${user.getTrangThaiTaiKhoan()=='1' }">
+                            Đang hoạt động
+                        </c:if>
+                    </td>
+                    <td>
+                        <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square icon-edit" data-toggle="tooltip" title="Edit"></i></a>
+                        <a  onclick="deleteStaff(this)" id="btnDeleteStaff" href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                        <input type="hidden" id="idStaff" value="${user.getId()}">
+                    </td>
+                </tr>
+            </c:forEach>
         </tbody>
     </table>
-
-<!--    <div id="editStaffModal" class="modal fade">
+    <div id="editStaffModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form>
@@ -93,7 +102,7 @@
                                 <option>Nữ</option>
                             </select>
                         </div>
-                          <div class="form-group">
+                        <div class="form-group">
                             <label>Địa chỉ</label>
                             <input type="text" class="form-control" required="required" name="address"></input>
                         </div>
@@ -123,14 +132,12 @@
             </div>
         </div>
     </div>
-
     <div id="deleteStaffModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
+                <form id="deleteStaffForm" method="post" action="${pageContext.request.contextPath}/staff_management/delete">
                     <div class="modal-header">
                         <h4 class="modal-title">Xóa nhân viên</h4>
-
                     </div>
                     <div class="modal-body">
                         <p>Bạn có chắc muốn xóa nhân viên này?</p>
@@ -139,11 +146,21 @@
                     <div class="modal-footer">
                         <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
                         <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
+                        <input type="hidden" name="id" id="deleteStaffId">
                     </div>
                 </form>
             </div>
         </div>
-    </div>-->
-
+    </div> 
 </div>
+<script>
+    function deleteStaff(element) {
+  var id = element.parentNode.querySelector('#idStaff').value;
+  document.querySelector('#deleteStaffId').value = id;
+}
+</script>
+
+
+
+
 <jsp:include page="footer.jsp" />

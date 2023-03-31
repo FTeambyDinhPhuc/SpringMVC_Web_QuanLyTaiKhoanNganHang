@@ -16,6 +16,13 @@
 
 
         <title>Quản lý tài khoản ngân hàng</title>
+        <script>
+const getId = ()=>{
+  let id = $('#btnDeleteStaff').parent.find("idStaff").val();
+  console.log("id: "+id);
+  $('#deleteStaffModal # id').val(id);
+};
+</script>
     </head>
     <body class="nav-fixed">
         <nav class="topnav navbar navbar-dark navbar-expand bg-dark">
@@ -82,5 +89,4 @@
             </div>
             <div id="layoutSidenav_content">
                 <main>
-                    
-                    
+
