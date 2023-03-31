@@ -216,7 +216,40 @@ public class CustomerController {
         }
         return "customer_management";
     }
-
+//    @Transactional
+//    @RequestMapping(value = "/customer_management", method = RequestMethod.GET)
+//    public String searchCustommer(HttpSession httpSession, HttpServletRequest request, ModelMap model) {
+//        String keyword = request.getParameter("searchcustomer");
+//        if (keyword == null) {
+//            keyword = "";
+//        }
+//        try ( Session session = sessionFactory.openSession()) {
+//
+//            String hql = "SELECT nv FROM KhachHang nv JOIN FETCH nv.chucVu WHERE lower(nv.tenKhachHang) LIKE :keyword";
+//            Query query = session.createQuery(hql);
+//            query.setParameter("keyword", "%" + keyword.toLowerCase() + "%");
+//            List<KhachHang> khachhangs = query.list();
+//            List<KhachHang> searchResult = new ArrayList<>();
+//            // Search for staff with matching name
+//            for (KhachHang khachhang : khachhangs) {
+//                if (khachhang.getTenKhachHang().toLowerCase().contains(keyword.toLowerCase())) {
+//                    searchResult.add(khachhang);
+//                }
+//            }
+//            if (searchResult.isEmpty()) {
+//                httpSession.setAttribute("message", "Không tìm thấy khách hàng!");
+//                return "staff_management";
+//            } else {
+//                model.addAttribute("khachhangs", searchResult);
+//                return "staff_management";
+//            }
+//        } catch (Exception e) {
+//            // Handle any exceptions that occur
+//            e.printStackTrace();
+//            httpSession.setAttribute("message", "Có lỗi khi tìm kiếm khách hàng!");
+//            return "redirect:/customer_management";
+//        }
+//    }
     @RequestMapping(value = "/customer_detail")
     public String CustomerDetail(Model model) {
         return "customer_detail";

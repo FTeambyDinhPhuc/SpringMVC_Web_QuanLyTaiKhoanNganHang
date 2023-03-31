@@ -6,6 +6,8 @@
 
 <jsp:include page="header.jsp" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -15,7 +17,7 @@
     <div class="d-flex justify-content-between align-items-center">
 
         <form class="d-flex align-items-center" style="width: 450px">
-            <input type="text" class="form-control my-4 mr-4" name="searchstaff" autocomplete="off"  placeholder="Nhập vào tên nhân viên"></input>
+            <input type="text" class="form-control my-4 mr-4" name="searchstaff" c  placeholder="Nhập vào tên nhân viên"></input>
             <button type="submit"  class="mybuton-primary">Tìm kiếm</button>
         </form>
         <a href="./register" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
@@ -34,7 +36,6 @@
                 <th scope="col">Số điện thoại</th>
                 <th scope="col">Trạng thái tài khoản</th>
                 <th scope="col">Hành động</th>
-
             </tr>
         </thead>
         <tbody >
@@ -45,26 +46,31 @@
                     <td>${user.getNamSinh()}</td>
                     <td>${user.getGioiTinh()==0 ? "Nữ" : "Nam"}</td>
                     <td>${user.getDiaChi()}</td>
-                    <td>${user.getCccd()}</td>
                     <td>${user.getEmail()}</td>
+                    <td>${user.getCccd()}</td>
                     <td>${user.getSoDienThoai()}</td>
-                    <td>${user.getTrangThaiTaiKhoan()==0?"Khóa":"Đang hoạt động"}</td>
+                     <td>${user.getTrangThaiTaiKhoan()==0?"Khóa":"Đang hoạt động"}</td>
                     <td>
                         <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square icon-edit" data-toggle="tooltip" title="Edit"></i></a>
-                        <a href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                        <a  onclick="deleteStaff(this)" id="btnDeleteStaff" href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                        <input type="hidden" id="idStaff" value="${user.getId()}">
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
+    <div id="editStaffModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Sửa nhân viên</h4>
 
-    <!--    <div id="editStaffModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">
-                            <h4 class="modal-title">Sửa nhân viên</h4>
-    
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Tên nhân viên</label>
+                            <input type="text" class="form-control" required="required" name="fullname"></input>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
@@ -118,33 +124,75 @@
                             <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
                             <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
                         </div>
-                    </form>
-                </div>
+                        <div class="form-group">
+                            <label>Giới tính</label>
+                            <select class="form-control"required="required" name="sex" >
+                                Lấy từ db
+                                <option>Nam</option>
+                                <option>Nữ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Địa chỉ</label>
+                            <input type="text" class="form-control" required="required" name="address"></input>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" required="required" name="email"></input>
+                        </div>
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input type="tel" class="form-control" required="required" name="numberphone"></input>
+                        </div>
+                        <div class="form-group">
+                            <label>Trạng thái tài khoản</label>
+                            <select class="form-control"required="required" name="status" >
+                                Lấy từ db
+                                <option>Hoạt động</option>
+                                <option>Tạm dừng</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
+                        <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
+                    </div>
+                </form>
             </div>
         </div>
-    
-        <div id="deleteStaffModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form>
-                        <div class="modal-header">
-                            <h4 class="modal-title">Xóa nhân viên</h4>
-    
-                        </div>
-                        <div class="modal-body">
-                            <p>Bạn có chắc muốn xóa nhân viên này?</p>
-                            <p class="text-warning"><small>Không thể khôi phục khi đã xóa</small></p>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
-                            <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
-                        </div>
-                    </form>
-                </div>
+    </div>
+    <div id="deleteStaffModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="deleteStaffForm" method="post" action="${pageContext.request.contextPath}/staff_management/delete">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Xóa nhân viên</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn có chắc muốn xóa nhân viên này?</p>
+                        <p class="text-warning"><small>Không thể khôi phục khi đã xóa</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
+                        <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
+                        <input type="hidden" name="id" id="deleteStaffId">
+                    </div>
+                </form>
             </div>
-        </div>-->
-
+        </div>
+    </div> 
 </div>
+<script>
+    function deleteStaff(element) {
+  var id = element.parentNode.querySelector('#idStaff').value;
+  document.querySelector('#deleteStaffId').value = id;
+}
+</script>
+
+
+
+
 <jsp:include page="footer.jsp" />
 <script>
     window.onload = function () {
