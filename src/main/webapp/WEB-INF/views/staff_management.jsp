@@ -15,13 +15,14 @@
 <div class="container-fluid px-4">
     <h1 class="my-4">Quản lý nhân viên</h1>
     <div class="d-flex justify-content-between align-items-center">
+
         <form class="d-flex align-items-center" style="width: 450px">
-            <input type="text" class="form-control my-4 mr-4" required="required" name="searchstaff"  placeholder="Nhập vào tên nhân viên"></input>
-            <button type="submit" class="mybuton-primary">Tìm kiếm</button>
+            <input type="text" class="form-control my-4 mr-4" name="searchstaff" autocomplete="off"  placeholder="Nhập vào tên nhân viên"></input>
+            <button type="submit"  class="mybuton-primary">Tìm kiếm</button>
         </form>
         <a href="./register" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
     </div>
-    <p class="text-danger">Không tìm thấy nhân viên</p>
+    <h3 class="text-danger" id="tb">${message}</h3>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -30,14 +31,14 @@
                 <th scope="col">Ngày sinh</th>
                 <th scope="col">Giới tính</th>
                 <th scope="col">Địa chỉ</th>
-                <th scope="col">Email</th>
                 <th scope="col">Căn cước</th>
+                <th scope="col">Email</th>
                 <th scope="col">Số điện thoại</th>
                 <th scope="col">Trạng thái tài khoản</th>
                 <th scope="col">Hành động</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody >
             <c:forEach var="user" items="${nhanviens}">
                 <tr>               
                     <td>${user.getTenNhanVien()}</td>
@@ -81,18 +82,57 @@
                             <label>Tên nhân viên</label>
                             <input type="text" class="form-control" required="required" name="fullname"></input>
                         </div>
-                        <div class="form-group">
-                            <label>Chức vụ</label>
-
-                            <select class="form-control"required="required" name="position" >
-                                Lấy từ db
-                                <option>Nhân viên</option>
-                                <option>Quản lý</option>
-                            </select>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Tên nhân viên</label>
+                                <input type="text" class="form-control" required="required" name="fullname"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Chức vụ</label>
+    
+                                <select class="form-control"required="required" name="position" >
+                                    Lấy từ db
+                                    <option>Nhân viên</option>
+                                    <option>Quản lý</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Ngày sinh</label>
+                                <input type="date" class="form-control" required="required" name="birthday"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Giới tính</label>
+                                <select class="form-control"required="required" name="sex" >
+                                    Lấy từ db
+                                    <option>Nam</option>
+                                    <option>Nữ</option>
+                                </select>
+                            </div>
+                              <div class="form-group">
+                                <label>Địa chỉ</label>
+                                <input type="text" class="form-control" required="required" name="address"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" required="required" name="email"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Số điện thoại</label>
+                                <input type="tel" class="form-control" required="required" name="numberphone"></input>
+                            </div>
+                            <div class="form-group">
+                                <label>Trạng thái tài khoản</label>
+                                <select class="form-control"required="required" name="status" >
+                                    Lấy từ db
+                                    <option>Hoạt động</option>
+                                    <option>Tạm dừng</option>
+                                </select>
+                            </div>
+    
                         </div>
-                        <div class="form-group">
-                            <label>Ngày sinh</label>
-                            <input type="date" class="form-control" required="required" name="birthday"></input>
+                        <div class="modal-footer">
+                            <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
+                            <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
                         </div>
                         <div class="form-group">
                             <label>Giới tính</label>
@@ -164,3 +204,14 @@
 
 
 <jsp:include page="footer.jsp" />
+<script>
+    window.onload = function () {
+        $("tb").innerText = '';
+    };
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            $("#tb").css("display", "none");
+        }, 2000); // 5 seconds
+    });
+</script>
