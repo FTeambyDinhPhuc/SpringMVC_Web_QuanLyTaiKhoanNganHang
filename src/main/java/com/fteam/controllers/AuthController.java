@@ -69,22 +69,30 @@ public class AuthController {
 
             List<NhanVien> list = query.list();
             if (!list.isEmpty()) {
-                // User exists, check password
                 NhanVien loggedInNhanVien = list.get(0);
+                // Login successful
                 String hashedPassword = loggedInNhanVien.getMatKhau();
                 if (BCrypt.checkpw(NhanVien.getMatKhau(), hashedPassword)) {
-                    // Login successful
-                    model.addAttribute("loggedInNhanVien", loggedInNhanVien);
-                    HttpSession httpSession = request.getSession();
-                    httpSession.setAttribute("Ten", loggedInNhanVien.getTenNhanVien());
-                    httpSession.setAttribute("chucvu", loggedInNhanVien.getChucVu().getId());
-
-                    return "index";
+                    if (loggedInNhanVien.getTrangThaiTaiKhoan().equals(1)) {
+                        model.addAttribute("loggedInNhanVien", loggedInNhanVien);
+                        HttpSession httpSession = request.getSession();
+                        httpSession.setAttribute("Ten", loggedInNhanVien.getTenNhanVien());
+                        httpSession.setAttribute("chucvu", loggedInNhanVien.getChucVu().getId());
+                        return "index";
+                    } else {
+                        model.addAttribute("message", "Tài khoản không hoạt động !");
+                        return "login";
+                    }
+                } else {
+                    model.addAttribute("message", "Sai mật khẩu !");
+                    return "login";
                 }
+
+            } else {
+                // Login failed
+                model.addAttribute("message", "Tên đăng nhập không tồn tại !");
+                return "login";
             }
-            // Login failed
-            model.addAttribute("message", "Tên đăng nhập hoặc mật khẩu không đúng !");
-            return "login";
         } catch (HibernateException e) {
             if (session != null) {
                 session.getTransaction().rollback();
