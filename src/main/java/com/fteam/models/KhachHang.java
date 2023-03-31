@@ -28,10 +28,10 @@ public class KhachHang {
     private String tenKhachHang;
  
     @Column(name = "NgaySinhKH")
-    private Date ngaySinhKH;
+    private String ngaySinhKH;
  
     @Column(name = "GioiTinh")
-    private boolean gioiTinh;
+    private String gioiTinh;
  
     @Column(name = "DiaChiKH")
     private String diaChiKH;
@@ -56,11 +56,11 @@ public class KhachHang {
         return tenKhachHang;
     }
 
-    public Date getNgaySinhKH() {
+    public String getNgaySinhKH() {
         return ngaySinhKH;
     }
 
-    public boolean isGioiTinh() {
+    public String getGioiTinh() {
         return gioiTinh;
     }
 
@@ -92,11 +92,11 @@ public class KhachHang {
         this.tenKhachHang = tenKhachHang;
     }
 
-    public void setNgaySinhKH(Date ngaySinhKH) {
+    public void setNgaySinhKH(String ngaySinhKH) {
         this.ngaySinhKH = ngaySinhKH;
     }
 
-    public void setGioiTinh(boolean gioiTinh) {
+    public void setGioiTinh(String gioiTinh) {
         this.gioiTinh = gioiTinh;
     }
 
@@ -123,7 +123,7 @@ public class KhachHang {
     public KhachHang() {
     }
 
-    public KhachHang(int idKhachHang, String tenKhachHang, Date ngaySinhKH, boolean gioiTinh, String diaChiKH, String emailKH, String cccd, String ngheNghiep, String soDienThoai) {
+    public KhachHang(int idKhachHang, String tenKhachHang, String ngaySinhKH, String gioiTinh, String diaChiKH, String emailKH, String cccd, String ngheNghiep, String soDienThoai) {
         this.idKhachHang = idKhachHang;
         this.tenKhachHang = tenKhachHang;
         this.ngaySinhKH = ngaySinhKH;
