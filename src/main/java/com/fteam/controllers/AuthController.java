@@ -102,7 +102,7 @@ public class AuthController {
     @RequestMapping(value = "/register")
     public String register(Model model) {
         Session session = sessionFactory.openSession();
-        String hql = "FROMs ChucVu";
+        String hql = "FROM ChucVu";
         Query query = session.createQuery(hql);
         List<ChucVu> chucVuList = query.list();
         model.addAttribute("chucVuList", chucVuList);
@@ -111,7 +111,8 @@ public class AuthController {
 
     @Transactional
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(HttpSession httpSession, HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String register(
+            HttpSession httpSession, HttpServletRequest request, HttpServletResponse response, Model model) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         String TenDangNhap = request.getParameter("TenDangNhap");
