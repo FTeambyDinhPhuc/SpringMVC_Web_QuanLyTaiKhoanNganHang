@@ -41,7 +41,7 @@ public class StaffController {
         }
         try ( Session session = sessionFactory.openSession()) {
 
-            String hql = "SELECT nv FROM NhanVien nv JOIN FETCH nv.chucVu WHERE lower(nv.tenNhanVien) LIKE :keyword AND nv.TrangThaiTaiKhoan = 1";
+            String hql = "SELECT nv FROM NhanVien nv JOIN FETCH nv.chucVu WHERE lower(nv.tenNhanVien) LIKE :keyword";
             Query query = session.createQuery(hql);
             query.setParameter("keyword", "%" + keyword.toLowerCase() + "%");
             List<NhanVien> nhanviens = query.list();

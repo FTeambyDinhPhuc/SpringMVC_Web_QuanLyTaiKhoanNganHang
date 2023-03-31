@@ -15,9 +15,8 @@
 <div class="container-fluid px-4">
     <h1 class="my-4">Quản lý nhân viên</h1>
     <div class="d-flex justify-content-between align-items-center">
-
         <form class="d-flex align-items-center" style="width: 450px">
-            <input type="text" class="form-control my-4 mr-4" name="searchstaff" c  placeholder="Nhập vào tên nhân viên"></input>
+            <input type="text" class="form-control my-4 mr-4" name="searchstaff" autocomplete="off"  placeholder="Nhập vào tên nhân viên"></input>
             <button type="submit"  class="mybuton-primary">Tìm kiếm</button>
         </form>
         <a href="./register" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
@@ -46,10 +45,10 @@
                     <td>${user.getNamSinh()}</td>
                     <td>${user.getGioiTinh()==0 ? "Nữ" : "Nam"}</td>
                     <td>${user.getDiaChi()}</td>
-                    <td>${user.getEmail()}</td>
                     <td>${user.getCccd()}</td>
+                    <td>${user.getEmail()}</td>
                     <td>${user.getSoDienThoai()}</td>
-                     <td>${user.getTrangThaiTaiKhoan()==0?"Khóa":"Đang hoạt động"}</td>
+                    <td>${user.getTrangThaiTaiKhoan()==0?"Khóa":"Đang hoạt động"}</td>
                     <td>
                         <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square icon-edit" data-toggle="tooltip" title="Edit"></i></a>
                         <a  onclick="deleteStaff(this)" id="btnDeleteStaff" href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
@@ -79,9 +78,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Chức vụ</label>
-    
+
                                 <select class="form-control"required="required" name="position" >
-                                    Lấy từ db
                                     <option>Nhân viên</option>
                                     <option>Quản lý</option>
                                 </select>
@@ -98,7 +96,7 @@
                                     <option>Nữ</option>
                                 </select>
                             </div>
-                              <div class="form-group">
+                            <div class="form-group">
                                 <label>Địa chỉ</label>
                                 <input type="text" class="form-control" required="required" name="address"></input>
                             </div>
@@ -118,7 +116,7 @@
                                     <option>Tạm dừng</option>
                                 </select>
                             </div>
-    
+
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
@@ -127,7 +125,6 @@
                         <div class="form-group">
                             <label>Giới tính</label>
                             <select class="form-control"required="required" name="sex" >
-                                Lấy từ db
                                 <option>Nam</option>
                                 <option>Nữ</option>
                             </select>
@@ -147,7 +144,6 @@
                         <div class="form-group">
                             <label>Trạng thái tài khoản</label>
                             <select class="form-control"required="required" name="status" >
-                                Lấy từ db
                                 <option>Hoạt động</option>
                                 <option>Tạm dừng</option>
                             </select>
@@ -185,9 +181,9 @@
 </div>
 <script>
     function deleteStaff(element) {
-  var id = element.parentNode.querySelector('#idStaff').value;
-  document.querySelector('#deleteStaffId').value = id;
-}
+        var id = element.parentNode.querySelector('#idStaff').value;
+        document.querySelector('#deleteStaffId').value = id;
+    }
 </script>
 
 
