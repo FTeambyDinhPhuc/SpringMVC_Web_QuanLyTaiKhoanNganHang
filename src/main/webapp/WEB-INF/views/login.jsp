@@ -44,14 +44,15 @@
                                 required
                                 />
                         </div>
+                        <c:if test="${not empty message}">
+                            <p class="text-danger">${message}</p>
+                        </c:if>
 
                         <Button class="mybuton-primary auth-button"  type="submit">
                             Đăng nhập
                         </Button>
                     </form>
-                    <c:if test="${not empty message}">
-                        <div class="alert alert-danger">${message}</div>
-                    </c:if>
+                  
                 </div>
             </div>
         </div>

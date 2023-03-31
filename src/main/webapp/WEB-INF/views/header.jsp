@@ -16,13 +16,6 @@
 
 
         <title>Quản lý tài khoản ngân hàng</title>
-        <script>
-const getId = ()=>{
-  let id = $('#btnDeleteStaff').parent.find("idStaff").val();
-  console.log("id: "+id);
-  $('#deleteStaffModal # id').val(id);
-};
-</script>
     </head>
     <body class="nav-fixed">
         <nav class="topnav navbar navbar-dark navbar-expand bg-dark">
@@ -48,8 +41,8 @@ const getId = ()=>{
                 <nav class="sidenav">
                     <div class="sidenav-menu">
                         <div class="nav">
+                             <div class="sidenav-menu-heading">Thống kê</div>
                             <% if (session.getAttribute("chucvu").equals(1)) { %>
-                            <div class="sidenav-menu-heading">Thống kê</div>
                             <a class="nav-link" href="#">
                                 <div class="nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Thống kê
