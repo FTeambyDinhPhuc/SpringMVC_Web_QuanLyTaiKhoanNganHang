@@ -33,20 +33,6 @@ public class StaffController {
     private SessionFactory sessionFactory;
 
     @Transactional
-    @RequestMapping(value = "staff_management")
-    public String Staffs(ModelMap model) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        String hql = "FROM NhanVien Where TrangThaiTaiKhoan=1";
-        Query query = session.createQuery(hql);
-        List<NhanVien> list = query.list();
-        model.addAttribute("nhanviens", list);
-        tx.commit();
-        session.close();
-        return "staff_management";
-    }
-
-    @Transactional
     @RequestMapping(value = "staff_management", method = RequestMethod.GET)
     public String searchStaff(HttpSession httpSession, HttpServletRequest request, ModelMap model) {
         String keyword = request.getParameter("searchstaff");
@@ -55,7 +41,7 @@ public class StaffController {
         }
         try ( Session session = sessionFactory.openSession()) {
 
-            String hql = "SELECT nv FROM NhanVien nv JOIN FETCH nv.chucVu WHERE lower(nv.tenNhanVien) LIKE :keyword";
+            String hql = "SELECT nv FROM NhanVien nv JOIN FETCH nv.chucVu WHERE lower(nv.tenNhanVien) LIKE :keyword AND nv.TrangThaiTaiKhoan = 1";
             Query query = session.createQuery(hql);
             query.setParameter("keyword", "%" + keyword.toLowerCase() + "%");
             List<NhanVien> nhanviens = query.list();

@@ -17,7 +17,7 @@
     <div class="d-flex justify-content-between align-items-center">
 
         <form class="d-flex align-items-center" style="width: 450px">
-            <input type="text" class="form-control my-4 mr-4" name="searchstaff" autocomplete="off"  placeholder="Nhập vào tên nhân viên"></input>
+            <input type="text" class="form-control my-4 mr-4" name="searchstaff" c  placeholder="Nhập vào tên nhân viên"></input>
             <button type="submit"  class="mybuton-primary">Tìm kiếm</button>
         </form>
         <a href="./register" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
@@ -42,24 +42,14 @@
             <c:forEach var="user" items="${nhanviens}">
                 <tr>               
                     <td>${user.getTenNhanVien()}</td>
-                    <td></td>
-                    <td><fmt:formatDate value="${user.getNamSinh()}" pattern="dd/MM/yyyy"/></td>
-                    <td>
-                        <c:if test="${user.getGioiTinh()=='0' }">
-                            Nữ
-                        </c:if>
-                        <c:if test="${not user.getGioiTinh()=='0'}">
-                            Nam
-                        </c:if>
-                    </td>
+                    <td>${user.chucVu.getTenChucVu()}</td>
+                    <td>${user.getNamSinh()}</td>
+                    <td>${user.getGioiTinh()==0 ? "Nữ" : "Nam"}</td>
                     <td>${user.getDiaChi()}</td>
                     <td>${user.getEmail()}</td>
                     <td>${user.getCccd()}</td>
                     <td>${user.getSoDienThoai()}</td>
-                    <td><c:if test="${user.getTrangThaiTaiKhoan()=='1' }">
-                            Đang hoạt động
-                        </c:if>
-                    </td>
+                     <td>${user.getTrangThaiTaiKhoan()==0?"Khóa":"Đang hoạt động"}</td>
                     <td>
                         <a href="#editStaffModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square icon-edit" data-toggle="tooltip" title="Edit"></i></a>
                         <a  onclick="deleteStaff(this)" id="btnDeleteStaff" href="#deleteStaffModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
