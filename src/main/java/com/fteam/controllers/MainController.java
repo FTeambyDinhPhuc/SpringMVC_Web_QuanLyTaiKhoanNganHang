@@ -21,7 +21,7 @@ public class MainController {
         if (session.getAttribute("Ten") == null) {
             return "redirect:auth/login";
         } else {
-            model.addAttribute("message", "Welcome to our Website!!!");
+            model.addAttribute("pageTitle", "Trang chủ");
             return "home/index";
         }
     }

@@ -109,29 +109,28 @@ public class AuthController {
     }
 
     @RequestMapping(value = "register")
-    public String register(Model model) {
+    public String register(HttpSession httpSession) {
         Session session = sessionFactory.openSession();
         String hql = "FROM ChucVu";
         Query query = session.createQuery(hql);
         List<ChucVu> chucVuList = query.list();
-        model.addAttribute("chucVuList", chucVuList);
+        httpSession.setAttribute("chucVuList", chucVuList);
         return "auth/register";
     }
 
     @Transactional
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String register(
-            HttpSession httpSession, HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String register(HttpServletRequest request, Model model) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         String TenDangNhap = request.getParameter("TenDangNhap");
         if (TenDangNhap == null || TenDangNhap.isEmpty()) {
-            httpSession.setAttribute("messuser", "Tên đăng nhập không được bỏ trống!");
+            model.addAttribute("message", "Tên đăng nhập không được bỏ trống!");
             return "auth/register";
         }
         String TenNhanVien = request.getParameter("TenNhanVien");
         if (TenNhanVien == null || TenNhanVien.trim().isEmpty()) {
-            httpSession.setAttribute("messpass", "Tên nhân viên không được bỏ trống!");
+            model.addAttribute("message", "Tên nhân viên không được bỏ trống!");
             return "auth/register";
         }
         String NamSinh = request.getParameter("NamSinh");
@@ -147,38 +146,38 @@ public class AuthController {
         // Kiểm tra độ tuổi
         if (age < 15) {
             // Xử lý khi NamSinh không hợp lệ
-            httpSession.setAttribute("message", "Độ tuổi phải lớn hơn hoặc bằng 15!");
+            model.addAttribute("message", "Độ tuổi phải lớn hơn hoặc bằng 15!");
             return "auth/register";
         }
         String GioiTinh = request.getParameter("GioiTinh");
         String DiaChi = request.getParameter("DiaChi");
         if (DiaChi == null || DiaChi.trim().isEmpty()) {
-            httpSession.setAttribute("messdir", "Địa chỉ không được để trống!");
+            model.addAttribute("message", "Địa chỉ không được để trống!");
             return "auth/register";
         }
         String Email = request.getParameter("Email");
         if (Email == null || Email.trim().isEmpty()) {
-            httpSession.setAttribute("messemail", "Email không được để trống!");
+            model.addAttribute("message", "Email không được để trống!");
             return "auth/register";
         }
         String CCCD = request.getParameter("CCCD");
         if (CCCD == null || CCCD.trim().isEmpty()) {
-            httpSession.setAttribute("messcccd", "Căn cước công dân không được để trống!");
+            model.addAttribute("message", "Căn cước công dân không được để trống!");
             return "auth/register";
         }
         String SoDienThoai = request.getParameter("SoDienThoai");
         if (SoDienThoai == null || SoDienThoai.trim().isEmpty()) {
-            httpSession.setAttribute("messphone", "Số điện thoại không được để trống!");
+            model.addAttribute("message", "Số điện thoại không được để trống!");
             return "auth/register";
         }
         String MatKhau = request.getParameter("MatKhau");
         if (MatKhau == null || MatKhau.trim().isEmpty()) {
-            httpSession.setAttribute("messpass", "Mật khẩu không được để trống!");
+            model.addAttribute("message", "Mật khẩu không được để trống!");
             return "auth/register";
         }
         String repassword = request.getParameter("repassword");
         if (!MatKhau.equals(repassword)) {
-            httpSession.setAttribute("messrepass", "Mật khẩu không khớp!");
+            model.addAttribute("message", "Mật khẩu không khớp!");
             return "auth/register";
         }
         try {
@@ -187,7 +186,7 @@ public class AuthController {
             query.setParameter("TenDangNhap", TenDangNhap);
             NhanVien nhanvien = (NhanVien) query.uniqueResult();
             if (nhanvien != null) {
-                httpSession.setAttribute("message", "Tên đăng nhập đã tồn tại");
+                model.addAttribute("message", "Tên đăng nhập đã tồn tại");
                 return "auth/register";
             }
             // Get ID of ChucVu
@@ -216,14 +215,14 @@ public class AuthController {
             transaction = session.beginTransaction();
             insertNhanVienQuery.executeUpdate();
             transaction.commit();
-            httpSession.setAttribute("message", "Đăng ký thành công");
+            model.addAttribute("message", "Đăng ký thành công");
             return "redirect:/home/staff_management";
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
-            httpSession.setAttribute("message", "Đăng ký thất bại");
+            model.addAttribute("message", "Đăng ký thất bại");
             return "auth/register";
         } finally {
             session.close();
@@ -238,6 +237,18 @@ public class AuthController {
             session.invalidate(); // xóa session
         }
         return "redirect:/auth/login"; // chuyển hướng tới trang đăng nhập
+    }
+    
+    @RequestMapping(value = "change_password", method = RequestMethod.GET)
+    public String changePassword(Model model) {
+        model.addAttribute("pageTitle", "Đổi mật khẩu");
+        return "auth/change_password";
+    }
+    
+    @RequestMapping(value = "change_password", method = RequestMethod.POST)
+    public String changePassword(Model model, HttpServletRequest request) {
+        System.out.println("hihihihihi");
+        return "redirect:/auth/change_password";
     }
 
    

@@ -29,7 +29,7 @@
                         <i class="fas fa-user fa-fw"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="">Đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="<c:url value="/auth/change_password"/>">Đổi mật khẩu</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="<c:url value="/auth/logout"/>">Đăng xuất</a></li>
                     </ul>
