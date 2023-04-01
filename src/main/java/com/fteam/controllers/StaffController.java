@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/home/")
 public class StaffController {
+    private int countLoadPage = 0;
 
     @Autowired
 
@@ -37,6 +38,12 @@ public class StaffController {
     @Transactional
     @RequestMapping(value = "staff_management", method = RequestMethod.GET)
     public String searchStaff(HttpSession httpSession, HttpServletRequest request, ModelMap model) {
+        countLoadPage++;
+        if(countLoadPage>2){
+            httpSession.removeAttribute("messageStaff");
+            countLoadPage=0;
+        }
+        
         String keyword = request.getParameter("searchstaff");
         if (keyword == null) {
             keyword = "";
@@ -82,12 +89,12 @@ public class StaffController {
             query.executeUpdate();
             System.out.print(staffId);
             tx.commit();
-            httpSession.setAttribute("message", "Xóa Thành Công!");
+            httpSession.setAttribute("messageStaff", "Xóa Thành Công!");
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
-            httpSession.setAttribute("message", "Không thể xóa tài khoản!");
+            httpSession.setAttribute("messageStaff", "Không thể xóa tài khoản!");
         } finally {
             session.close();
         }

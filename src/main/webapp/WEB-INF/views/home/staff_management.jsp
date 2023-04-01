@@ -17,7 +17,7 @@
         </form>
         <a href="<c:url value="/auth/register"/>" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
     </div>
-    <h3 class="text-danger" id="tb">${message}</h3>
+    <p class="warning-text">${messageStaff}</h3>
     
     
     <table class="table table-striped">
@@ -147,16 +147,4 @@
         var id = element.parentNode.querySelector('#idStaff').value;
         document.querySelector('#deleteStaffId').value = id;
     }
-</script>
-
-<script>
-    window.onload = function () {
-        $("tb").innerText = '';
-    };
-
-    $(document).ready(function () {
-        setTimeout(function () {
-            $("#tb").css("display", "none");
-        }, 2000); // 5 seconds
-    });
 </script>
