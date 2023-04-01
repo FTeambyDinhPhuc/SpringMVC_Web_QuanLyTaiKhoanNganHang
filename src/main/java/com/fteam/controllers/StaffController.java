@@ -71,21 +71,23 @@ public class StaffController {
     
     @Transactional
     @RequestMapping(value = "staff_management/delete", method = RequestMethod.POST)
-    public String deleteStaff(@RequestParam("deleteStaffId") int staffId) {
+    public String deleteStaff(@RequestParam("deleteStaffId") int staffId, HttpSession httpSession) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            String updateQuery = "UPDATE NhanVien SET TrangThaiTaiKhoan = 0 WHERE ID_NhanVien = :id";
+            String updateQuery = "DELETE FROM NhanVien WHERE ID_NhanVien = :id";
             Query query = session.createQuery(updateQuery);
             query.setParameter("id", staffId);
             query.executeUpdate();
             System.out.print(staffId);
             tx.commit();
+            httpSession.setAttribute("message", "Xóa Thành Công!");
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
+            httpSession.setAttribute("message", "Không thể xóa tài khoản!");
         } finally {
             session.close();
         }
