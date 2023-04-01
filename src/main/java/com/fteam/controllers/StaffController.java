@@ -62,7 +62,7 @@ public class StaffController {
                 }
             }
             if (searchResult.isEmpty()) {
-                httpSession.setAttribute("message", "Không tìm thấy nhân viên!");
+                model.addAttribute("messageStaff", "Không tìm thấy nhân viên!");
                 return "home/staff_management";
             } else {
                 model.addAttribute("nhanviens", searchResult);
@@ -71,7 +71,7 @@ public class StaffController {
         } catch (Exception e) {
             // Handle any exceptions that occur
             e.printStackTrace();
-            httpSession.setAttribute("message", "Có lỗi khi tìm kiếm nhân viên!");
+            model.addAttribute("messageStaff", "Có lỗi khi tìm kiếm nhân viên!");
             return "home/staff_management";
         }
     }

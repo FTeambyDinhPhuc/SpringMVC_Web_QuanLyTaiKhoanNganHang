@@ -16,7 +16,7 @@
         </form>
         <a href="#createCustomerModal" data-toggle="modal" class="btn btn-outline-success" style="font-size: 16px">Thêm khách hàng</a>
     </div>
-    <h3 class="text-danger" id="tb">${message}</h3>
+    <p class="warning-text">${message}</h3>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -185,14 +185,3 @@
     </div>
 </div>
 
-<script>
-    window.onload = function () {
-        $("tb").innerText = '';
-    };
-
-    $(document).ready(function () {
-        setTimeout(function () {
-            $("#tb").css("display", "none");
-        }, 2000); // 2 seconds
-    });
-</script>

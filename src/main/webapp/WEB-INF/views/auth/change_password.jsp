@@ -16,32 +16,27 @@
                     <i class="fa-solid fa-lock icon"></i>
                     <input
                         type="password"
-                        placeholder="Nhập mật khẩu" autocomplete="off" name="MatKhau"
-                        path="MatKhau" id="MatKhau"
+                        placeholder="Nhập mật khẩu cũ" name="matKhauCu"
                         required
                         />
-                </div>
-                <p class="warning-text">test thong báo</p>
+                </div>      
                 <div class="input-box">
                     <i class="fa-solid fa-lock icon"></i>
                     <input
                         type="password"
-                        placeholder="Nhập mật khẩu" autocomplete="off" name="MatKhau"
-                        path="MatKhau" id="MatKhau"
+                        placeholder="Nhập mật khẩu mới" name="matKhauMoi"
                         required
                         />
-                </div>
-                <p class="warning-text">test thong báo</p>
+                </div>    
                 <div class="input-box">
                     <i class="fa-solid fa-lock icon"></i>
                     <input
                         type="password"
-                        placeholder="Xác nhận mật khẩu" autocomplete="off" name="repassword"
-                        path="repassoword" id="repassoword"
+                        placeholder="Xác nhận mật khẩu mới" name="nhapLaiMatKhauMoi"
                         required
                         />
                 </div>
-                <p class="warning-text">test thong báo</p>
+                <p class="warning-text">Chả có gì cả</p>
 
                 <Button class="mybuton-primary auth-button"  type="submit"">
                     Xác nhận

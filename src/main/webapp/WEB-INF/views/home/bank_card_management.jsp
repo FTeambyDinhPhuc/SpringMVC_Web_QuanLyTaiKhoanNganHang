@@ -14,7 +14,7 @@
                 <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount"  placeholder="Nhập vào số tài khoản"></input>
                 <input type="submit" class="mybuton-primary" value="Tìm kiếm"></input>
             </form>
-            <p class="text-danger">Không tìm thấy tài khoản</p>
+            <p class="warning-text">Không tìm thấy tài khoản</p>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>213435235236236</p></div></li>
                 <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p>10.000<span> VNĐ</span></p></div></li>

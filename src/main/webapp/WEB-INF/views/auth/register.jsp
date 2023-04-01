@@ -115,7 +115,7 @@
                         </c:forEach>
                     </select>
                 </div>
-                <p class="warning-text">${message}</p>
+                <p class="warning-text">${messageRegister}</p>
                 <Button class="mybuton-primary auth-button" type="submit">
                     Xác nhận
                 </Button>

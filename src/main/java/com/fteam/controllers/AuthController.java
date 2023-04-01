@@ -125,12 +125,12 @@ public class AuthController {
         Transaction transaction = null;
         String TenDangNhap = request.getParameter("TenDangNhap");
         if (TenDangNhap == null || TenDangNhap.isEmpty()) {
-            model.addAttribute("message", "Tên đăng nhập không được bỏ trống!");
+            model.addAttribute("messageRegister", "Tên đăng nhập không được bỏ trống!");
             return "auth/register";
         }
         String TenNhanVien = request.getParameter("TenNhanVien");
         if (TenNhanVien == null || TenNhanVien.trim().isEmpty()) {
-            model.addAttribute("message", "Tên nhân viên không được bỏ trống!");
+            model.addAttribute("messageRegister", "Tên nhân viên không được bỏ trống!");
             return "auth/register";
         }
         String NamSinh = request.getParameter("NamSinh");
@@ -146,38 +146,38 @@ public class AuthController {
         // Kiểm tra độ tuổi
         if (age < 15) {
             // Xử lý khi NamSinh không hợp lệ
-            model.addAttribute("message", "Độ tuổi phải lớn hơn hoặc bằng 15!");
+            model.addAttribute("messageRegister", "Độ tuổi phải lớn hơn hoặc bằng 15!");
             return "auth/register";
         }
         String GioiTinh = request.getParameter("GioiTinh");
         String DiaChi = request.getParameter("DiaChi");
         if (DiaChi == null || DiaChi.trim().isEmpty()) {
-            model.addAttribute("message", "Địa chỉ không được để trống!");
+            model.addAttribute("messageRegister", "Địa chỉ không được để trống!");
             return "auth/register";
         }
         String Email = request.getParameter("Email");
         if (Email == null || Email.trim().isEmpty()) {
-            model.addAttribute("message", "Email không được để trống!");
+            model.addAttribute("messageRegister", "Email không được để trống!");
             return "auth/register";
         }
         String CCCD = request.getParameter("CCCD");
         if (CCCD == null || CCCD.trim().isEmpty()) {
-            model.addAttribute("message", "Căn cước công dân không được để trống!");
+            model.addAttribute("messageRegister", "Căn cước công dân không được để trống!");
             return "auth/register";
         }
         String SoDienThoai = request.getParameter("SoDienThoai");
         if (SoDienThoai == null || SoDienThoai.trim().isEmpty()) {
-            model.addAttribute("message", "Số điện thoại không được để trống!");
+            model.addAttribute("messageRegister", "Số điện thoại không được để trống!");
             return "auth/register";
         }
         String MatKhau = request.getParameter("MatKhau");
         if (MatKhau == null || MatKhau.trim().isEmpty()) {
-            model.addAttribute("message", "Mật khẩu không được để trống!");
+            model.addAttribute("messageRegister", "Mật khẩu không được để trống!");
             return "auth/register";
         }
         String repassword = request.getParameter("repassword");
         if (!MatKhau.equals(repassword)) {
-            model.addAttribute("message", "Mật khẩu không khớp!");
+            model.addAttribute("messageRegister", "Mật khẩu không khớp!");
             return "auth/register";
         }
         try {
@@ -186,7 +186,7 @@ public class AuthController {
             query.setParameter("TenDangNhap", TenDangNhap);
             NhanVien nhanvien = (NhanVien) query.uniqueResult();
             if (nhanvien != null) {
-                model.addAttribute("message", "Tên đăng nhập đã tồn tại");
+                model.addAttribute("messageRegister", "Tên đăng nhập đã tồn tại");
                 return "auth/register";
             }
             // Get ID of ChucVu
@@ -215,14 +215,14 @@ public class AuthController {
             transaction = session.beginTransaction();
             insertNhanVienQuery.executeUpdate();
             transaction.commit();
-            model.addAttribute("message", "Đăng ký thành công");
+            model.addAttribute("messageRegister", "Đăng ký thành công");
             return "redirect:/home/staff_management";
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
-            model.addAttribute("message", "Đăng ký thất bại");
+            model.addAttribute("messageRegister", "Đăng ký thất bại");
             return "auth/register";
         } finally {
             session.close();
