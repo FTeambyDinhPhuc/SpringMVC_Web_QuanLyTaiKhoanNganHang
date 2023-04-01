@@ -43,9 +43,10 @@
                     <td>${user.getCccd()}</td>
                     <td>${user.getNgheNghiep()}</td>
                     <td>
-                        <a href="./customer_detail" class="mybuton-icon-detail px-3"><i class="fa-solid fa-circle-info" title="Detail"></i></a>
-                        <a href="#editCustomerModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square " data-toggle="tooltip" title="Edit"></i></a>
-                        <a href="#deleteCustomerModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                        <a href="./customer_detail/${user.getIdKhachHang()}" class="mybuton-icon-detail px-3"><i class="fa-solid fa-circle-info" title="Detail"></i></a>
+                        <a onclick="editCustomer(this)" id="btnEditCustomer" href="#editCustomerModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square " data-toggle="tooltip" title="Edit"></i></a>
+                        <a onclick="deleteCustomer(this)" id="btnDeleteCustomer" href="#deleteCustomerModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                        <input type="hidden" id="idCustomer" value="${user.getIdKhachHang()}">
                     </td>
                 </tr>
             </c:forEach>
@@ -115,48 +116,48 @@
     <div id="editCustomerModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
+                <form method="post" modelAttribute="customer" action="customer_management/edit">
                     <div class="modal-header">
                         <h4 class="modal-title">Sửa thông tin khách hàng</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Tên khách hàng</label>
-                            <input type="text" class="form-control" required="required" name="fullname"></input>
+                            <input path="tenKhachHang" id="tenKhachHang" type="text" class="form-control" required="required" name="tenKhachHang"></input>
                         </div>
-
                         <div class="form-group">
                             <label>Ngày sinh</label>
-                            <input type="date" class="form-control" required="required" name="birthday"></input>
+                            <input path="ngaySinhKH" id="ngaySinhKH" type="date" class="form-control" required="required" name="ngaySinhKH"></input>
                         </div>
                         <div class="form-group">
                             <label>Giới tính</label>
-                            <select class="form-control"required="required" name="sex" >
+                            <select  path="gioiTinh" class="form-control"required="required" name="gioiTinh" >
                                 <!--Lấy từ db-->
-                                <option>Nam</option>
-                                <option>Nữ</option>
+                                <option value="1" type="input">Nữ</option>
+                                <option value="0" type="input">Nam</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Địa chỉ</label>
-                            <input type="text" class="form-control" required="required" name="address"></input>
+                            <input path="diaChiKH" id="diaChiKH" type="text" class="form-control" required="required" name="diaChiKH"></input>
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" class="form-control" required="required" name="email"></input>
+                            <input path="emailKH" id="emailKH" type="email" class="form-control" required="required" name="emailKH"></input>
                         </div>
                         <div class="form-group">
                             <label>Số điện thoại</label>
-                            <input type="tel" class="form-control" required="required" name="numberphone"></input>
+                            <input path="soDienThoai" id="soDienThoai" type="tel" class="form-control" required="required" name="soDienThoai"></input>
                         </div>
                         <div class="form-group">
                             <label>Nghề nghiệp</label>
-                            <input type="text" class="form-control" required="required" name="job"></input>
+                            <input path="ngheNghiep" id="ngheNghiep" type="text" class="form-control" required="required" name="ngheNghiep"></input>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
                         <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
+                        <input type="hidden" name="editCustomerId" id="editCustomerId">
                     </div>
                 </form>
             </div>
@@ -165,10 +166,9 @@
     <div id="deleteCustomerModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="/customer_management/{customerId}" method="POST">
+                <form action="customer_management/delete" method="post">
                     <div class="modal-header">
                         <h4 class="modal-title">Xóa khách hàng</h4>
-                        <input type="hidden" name="customerId" value="${user.getIdKhachHang()}">
                     </div>
                     <div class="modal-body">
                         <p>Bạn có chắc muốn xóa khách hàng này?</p>
@@ -176,7 +176,8 @@
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
-                        <input type="submit" class="mybuton-primary" value="Xác nhận">                       
+                        <input type="submit" class="mybuton-primary" value="Xác nhận">  
+                        <input type="hidden" name="deletecustomerId" id="deletecustomerId">
                         </input>
                     </div>
                 </form>
@@ -186,6 +187,42 @@
 </div>
 
 <script>
+    function deleteCustomer(element) {
+        var id = element.parentNode.querySelector('#idCustomer').value;
+        document.querySelector('#deletecustomerId').value = id;
+    }
+    function editCustomer(element) {
+        // Lấy các phần tử con bên trong hàng của bảng
+        var row = element.closest("tr");
+        var cells = row.querySelectorAll("td");
+        var name = row.cells[0].textContent;
+        var birthday = row.cells[1].textContent;
+        var gender = row.cells[2].textContent;
+        var address = row.cells[3].textContent;
+        var email = row.cells[4].textContent;
+        var phone = row.cells[5].textContent;
+        var cccd = row.cells[6].textContent;
+        var job = row.cells[7].textContent;
+        var id = element.parentNode.querySelector('#idCustomer').value;
+                console.log(row, name, job, birthday, gender, address, cccd, email, phone, id);
+
+        // Đưa dữ liệu vào các phần tử trong form sửa
+        document.querySelector("#tenKhachHang").value = name;
+        document.querySelector("#ngaySinhKH").value = birthday;
+        document.querySelector("#diaChiKH").value = address;
+        document.querySelector("#emailKH").value = email;
+        document.querySelector("#soDienThoai").value = phone;
+        document.querySelector("#ngheNghiep").value = job;
+        document.querySelector("#editCustomerId").value = id;
+
+        // Chọn giới tính
+        var genderSelect = document.querySelector("select[name='gioiTinh']");
+        if (gender == "0") {
+            genderSelect.selectedIndex = 0;
+        } else {
+            genderSelect.selectedIndex = 1;
+        }
+    }
     window.onload = function () {
         $("tb").innerText = '';
     };

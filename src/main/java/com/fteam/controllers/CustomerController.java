@@ -5,6 +5,7 @@
 package com.fteam.controllers;
 
 import com.fteam.models.KhachHang;
+import com.fteam.models.TaiKhoanNganHang;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class CustomerController {
     @Transactional
     @RequestMapping(value = "customer_management")
     public String Customers(Model model) {
-        try ( Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             String hql = "FROM KhachHang";
             Query query = session.createQuery(hql);
             List<KhachHang> list = query.list();
@@ -57,7 +58,7 @@ public class CustomerController {
         if (keyword == null) {
             keyword = "";
         }
-        try ( Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
 
             String hql = "SELECT kh FROM KhachHang kh WHERE kh.cccd LIKE :keyword";
 
@@ -251,9 +252,64 @@ public class CustomerController {
 //            return "redirect:/customer_management";
 //        }
 //    }
-    @RequestMapping(value = "customer_detail")
-    public String CustomerDetail(Model model) {
-        return "home/customer_detail";
+
+    @Transactional
+    @RequestMapping(value = "customer_management/delete", method = RequestMethod.POST)
+    public String deleteCustomer(@RequestParam("deletecustomerId") int customerId, HttpSession httpSession) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            String updateQuery = "DELETE FROM KhachHang WHERE ID_KhachHang = :id";
+            Query query = session.createQuery(updateQuery);
+            query.setParameter("id", customerId);
+            query.executeUpdate();
+            tx.commit();
+            httpSession.setAttribute("message", "Xóa Thành Công!");
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            httpSession.setAttribute("message", "Không thể xóa khách hàng!");
+        } finally {
+            session.close();
+        }
+        return "redirect:/home/customer_management";
+    }
+
+    @Transactional
+    @RequestMapping(value = "customer_detail/{id}", method = RequestMethod.GET)
+    public String CustomerDetail(Model model, @PathVariable("id") int ID_KhachHang) {
+        try (Session session = sessionFactory.openSession()) {
+            // Truy vấn khách hàng theo id
+            String hql = "FROM KhachHang c WHERE c.ID_KhachHang = :customerId";
+            Query query = session.createQuery(hql);
+            query.setParameter("customerId", ID_KhachHang);
+            KhachHang customer = (KhachHang) query.uniqueResult();
+
+            if (customer == null) {
+                // Khách hàng không tồn tại
+                model.addAttribute("message", "Khách hàng không tồn tại");
+                return "redirect:/customer_management";
+            } else {
+                // Truy vấn tài khoản ngân hàng của khách hàng
+                hql = "FROM TaiKhoanNganHang b WHERE b.ID_KhachHang = :customerId";
+                query = session.createQuery(hql);
+                query.setParameter("customerId", ID_KhachHang);
+                List<TaiKhoanNganHang> bankAccounts = query.list();
+
+                // Thêm thông tin khách hàng và tài khoản ngân hàng vào model
+                model.addAttribute("customer", customer);
+                model.addAttribute("bankAccounts", bankAccounts);
+                System.out.print(customer.getCccd());
+                return "home/customer_detail";
+            }
+        } catch (Exception e) {
+            // Xử lý ngoại lệ
+            e.printStackTrace();
+            model.addAttribute("message", "Có lỗi xảy ra khi truy vấn dữ liệu");
+            return "redirect:/home/customer_management";
+        }
     }
 
 }
