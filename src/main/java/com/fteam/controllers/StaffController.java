@@ -4,6 +4,7 @@
  */
 package com.fteam.controllers;
 
+import com.fteam.models.ChucVu;
 import com.fteam.models.NhanVien;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +31,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/home/")
 public class StaffController {
+
     private int countLoadPage = 0;
 
     @Autowired
-
     private SessionFactory sessionFactory;
 
     @Transactional
@@ -41,16 +42,16 @@ public class StaffController {
     public String searchStaff(HttpSession httpSession, HttpServletRequest request, ModelMap model) {
         model.addAttribute("pageTitle", "Quản lý nhân viên");
         countLoadPage++;
-        if(countLoadPage>2){
+        if (countLoadPage > 2) {
             httpSession.removeAttribute("messageStaff");
-            countLoadPage=0;
+            countLoadPage = 0;
         }
-        
+
         String keyword = request.getParameter("searchstaff");
         if (keyword == null) {
             keyword = "";
         }
-        try (Session session = sessionFactory.openSession()) {
+        try ( Session session = sessionFactory.openSession()) {
 
             String hql = "SELECT nv FROM NhanVien nv JOIN FETCH nv.chucVu WHERE lower(nv.tenNhanVien) LIKE :keyword";
             Query query = session.createQuery(hql);
@@ -102,54 +103,43 @@ public class StaffController {
         }
         return "redirect:/home/staff_management";
     }
-    
+
     @Transactional
     @RequestMapping(value = "staff_management/edit", method = RequestMethod.POST)
-    public String editStaff(@ModelAttribute("staff") NhanVien staff, 
-            HttpServletRequest request, ModelMap model, 
+    public String editStaff(@ModelAttribute("staff") NhanVien staff,
+            HttpServletRequest request, ModelMap model,
             @RequestParam("editStaffId") int staffId,
             HttpSession httpSession) {
-        System.out.println("Full name: " + staff.getTenNhanVien());
-        System.out.println("Birthday: " + staff.getNamSinh());
-        System.out.println("Gender: " + staff.getGioiTinh());
-        System.out.println("Address: " + staff.getDiaChi());
-        System.out.println("Email: " + staff.getEmail());
-        System.out.println("Phone number: " + staff.getSoDienThoai());
-        System.out.println("id: " + staff.getTrangThaiTaiKhoan());
-        System.out.println("Status: " + staff.getId());
-  
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-//            int chucVuId = Integer.parseInt(request.getParameter("position"));
-//            ChucVu chucvu = session.get(ChucVu.class, chucVuId);
-//            String salt = BCrypt.gensalt(10);
-            String editQuery = "UPDATE NhanVien SET NhanVien.tenNhanVien =:tenNhanVien,NhanVien.namSinh=:NhanVien.namSinh,NhanVien.gioiTinh=:gioiTinh,"
-                    + "NhanVien.diaChi=:diaChi,NhanVien.email=:email,NhanVien.soDienThoai=:soDienThoai,NhanVien.trangThaiTaiKhoan=:trangThaiTaiKhoan"
-                    + " WHERE NhanVien.ID_NhanVien = :id";
+            int chucVuId = Integer.parseInt(request.getParameter("chucVu"));
+            String editQuery = "UPDATE NhanVien SET TenNhanVien=:tenNhanVien, NamSinh=:namSinh, GioiTinh=:gioiTinh, ID_ChucVu=:chucVuId,"
+                    + " DiaChi=:diaChi, Email=:email, SoDienThoai=:soDienThoai, TrangThaiTaiKhoan=:trangThaiTaiKhoan WHERE ID_NhanVien = :id";
             Query updateNhanVienQuery = session.createQuery(editQuery)
-                    .setParameter("trangThaiTaiKhoan", staff.getTrangThaiTaiKhoan())
                     .setParameter("tenNhanVien", staff.getTenNhanVien())
+                    .setParameter("chucVuId", chucVuId)
                     .setParameter("namSinh", staff.getNamSinh())
                     .setParameter("gioiTinh", staff.getGioiTinh())
                     .setParameter("diaChi", staff.getDiaChi())
                     .setParameter("email", staff.getEmail())
                     .setParameter("soDienThoai", staff.getSoDienThoai())
-                    .setParameter("id", staff.getId());
-//                    .setParameter("chucVu", chucvu.getId());
+                    .setParameter("trangThaiTaiKhoan", staff.getTrangThaiTaiKhoan())
+                    .setParameter("id", staffId);
             updateNhanVienQuery.executeUpdate();
             tx.commit();
-
+            httpSession.setAttribute("messageStaff", "Cập nhật thông tin nhân viên!");
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
-            httpSession.setAttribute("message", "Không thể cập nhật thông tin nhân viên!");
+            e.printStackTrace();
+            httpSession.setAttribute("messageStaff", "Không thể cập nhật thông tin nhân viên!");
         } finally {
             session.close();
         }
-        return "redirect:/staff_management";
+        return "redirect:/home/staff_management";
     }
 
     @RequestMapping(value = "/deleteStaffModal", method = RequestMethod.POST)
