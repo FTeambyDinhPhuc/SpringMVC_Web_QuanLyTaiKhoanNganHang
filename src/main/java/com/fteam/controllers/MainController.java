@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class MainController {
-    @RequestMapping(value = "/")
+
+    @RequestMapping(value = {"/", "/home"})
     public String index(Model model, HttpSession session) {
         if (session.getAttribute("Ten") == null) {
-        return "redirect:/login";
-    } else {
-        model.addAttribute("message", "Welcome to our Website!!!");
-        return "index";
-    }
+            return "redirect:auth/login";
+        } else {
+            model.addAttribute("message", "Welcome to our Website!!!");
+            return "home/index";
+        }
     }
 }

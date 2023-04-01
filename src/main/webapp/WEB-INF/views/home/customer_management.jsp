@@ -4,17 +4,14 @@
     Author     : dinhp
 --%>
 
-<jsp:include page="header.jsp" />
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="container-fluid px-4">
     <h1 class="my-4">Quản lý khách hàng</h1>
     <div class="d-flex justify-content-between align-items-center">
         <form class="d-flex align-items-center" style="width: 450px">
-            <input type="text" class="form-control my-4 mr-4" name="searchcustomer" autocomplete="off"   placeholder="Nhập vào số căn cước"></input>
+            <input type="text" class="form-control my-4 mr-4" name="searchcustomer" autocomplete="off" placeholder="Nhập vào số căn cước"></input>
             <button type="submit" class="mybuton-primary">Tìm kiếm</button>
         </form>
         <a href="#createCustomerModal" data-toggle="modal" class="btn btn-outline-success" style="font-size: 16px">Thêm khách hàng</a>
@@ -186,10 +183,8 @@
             </div>
         </div>
     </div>
-
-
 </div>
-<jsp:include page="footer.jsp" />
+
 <script>
     window.onload = function () {
         $("tb").innerText = '';

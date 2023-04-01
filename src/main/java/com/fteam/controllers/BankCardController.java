@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author dinhp
  */
 @Controller
+@RequestMapping("/home/")
 public class BankCardController {
 
-    @RequestMapping(value = "/bank_card_management")
+    @RequestMapping(value = "bank_card_management")
     public String BankCards(Model model) {
-        return "bank_card_management";
+        return "home/bank_card_management";
     }
 }

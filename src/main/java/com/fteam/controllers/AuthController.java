@@ -45,19 +45,20 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author dinhp
  */
 @Controller
+@RequestMapping("/auth/")
 public class AuthController {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "login", method = RequestMethod.GET)
     public String Login(ModelMap model) {
         model.addAttribute("NhanVien", new NhanVien());
-        return "login";
+        return "auth/login";
     }
 
     @Transactional
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(HttpServletRequest request, ModelMap model, @ModelAttribute("NhanVien") NhanVien NhanVien) {
         Session session = null;
         try {
@@ -78,20 +79,20 @@ public class AuthController {
                         HttpSession httpSession = request.getSession();
                         httpSession.setAttribute("Ten", loggedInNhanVien.getTenNhanVien());
                         httpSession.setAttribute("chucvu", loggedInNhanVien.getChucVu().getId());
-                        return "index";
+                        return "redirect:/home";
                     } else {
                         model.addAttribute("message", "Tài khoản không hoạt động !");
-                        return "login";
+                        return "auth/login";
                     }
                 } else {
                     model.addAttribute("message", "Sai mật khẩu !");
-                    return "login";
+                    return "auth/login";
                 }
 
             } else {
                 // Login failed
                 model.addAttribute("message", "Tên đăng nhập không tồn tại !");
-                return "login";
+                return "auth/login";
             }
         } catch (HibernateException e) {
             if (session != null) {
@@ -99,7 +100,7 @@ public class AuthController {
             }
             e.printStackTrace();
             model.addAttribute("message", "Có lỗi xảy ra khi đăng nhập!");
-            return "login";
+            return "auth/login";
         } finally {
             if (session != null) {
                 session.close();
@@ -107,18 +108,18 @@ public class AuthController {
         }
     }
 
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "register")
     public String register(Model model) {
         Session session = sessionFactory.openSession();
         String hql = "FROM ChucVu";
         Query query = session.createQuery(hql);
         List<ChucVu> chucVuList = query.list();
         model.addAttribute("chucVuList", chucVuList);
-        return "register";
+        return "auth/register";
     }
 
     @Transactional
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "register", method = RequestMethod.POST)
     public String register(
             HttpSession httpSession, HttpServletRequest request, HttpServletResponse response, Model model) {
         Session session = sessionFactory.openSession();
@@ -126,12 +127,12 @@ public class AuthController {
         String TenDangNhap = request.getParameter("TenDangNhap");
         if (TenDangNhap == null || TenDangNhap.isEmpty()) {
             httpSession.setAttribute("messuser", "Tên đăng nhập không được bỏ trống!");
-            return "redirect:/register";
+            return "auth/register";
         }
         String TenNhanVien = request.getParameter("TenNhanVien");
         if (TenNhanVien == null || TenNhanVien.trim().isEmpty()) {
             httpSession.setAttribute("messpass", "Tên nhân viên không được bỏ trống!");
-            return "redirect:/register";
+            return "auth/register";
         }
         String NamSinh = request.getParameter("NamSinh");
         // Chuyển đổi NamSinh sang LocalDate
@@ -147,38 +148,38 @@ public class AuthController {
         if (age < 15) {
             // Xử lý khi NamSinh không hợp lệ
             httpSession.setAttribute("message", "Độ tuổi phải lớn hơn hoặc bằng 15!");
-            return "redirect:/register";
+            return "auth/register";
         }
         String GioiTinh = request.getParameter("GioiTinh");
         String DiaChi = request.getParameter("DiaChi");
         if (DiaChi == null || DiaChi.trim().isEmpty()) {
             httpSession.setAttribute("messdir", "Địa chỉ không được để trống!");
-            return "redirect:/register";
+            return "auth/register";
         }
         String Email = request.getParameter("Email");
         if (Email == null || Email.trim().isEmpty()) {
             httpSession.setAttribute("messemail", "Email không được để trống!");
-            return "redirect:/register";
+            return "auth/register";
         }
         String CCCD = request.getParameter("CCCD");
         if (CCCD == null || CCCD.trim().isEmpty()) {
             httpSession.setAttribute("messcccd", "Căn cước công dân không được để trống!");
-            return "redirect:/register";
+            return "auth/register";
         }
         String SoDienThoai = request.getParameter("SoDienThoai");
         if (SoDienThoai == null || SoDienThoai.trim().isEmpty()) {
             httpSession.setAttribute("messphone", "Số điện thoại không được để trống!");
-            return "redirect:/register";
+            return "auth/register";
         }
         String MatKhau = request.getParameter("MatKhau");
         if (MatKhau == null || MatKhau.trim().isEmpty()) {
             httpSession.setAttribute("messpass", "Mật khẩu không được để trống!");
-            return "redirect:/register";
+            return "auth/register";
         }
         String repassword = request.getParameter("repassword");
         if (!MatKhau.equals(repassword)) {
             httpSession.setAttribute("messrepass", "Mật khẩu không khớp!");
-            return "redirect:/register";
+            return "auth/register";
         }
         try {
             // Check if username is already existed
@@ -187,7 +188,7 @@ public class AuthController {
             NhanVien nhanvien = (NhanVien) query.uniqueResult();
             if (nhanvien != null) {
                 httpSession.setAttribute("message", "Tên đăng nhập đã tồn tại");
-                return "redirect:/register";
+                return "auth/register";
             }
             // Get ID of ChucVu
             int chucVuId = Integer.parseInt(request.getParameter("chucVu"));
@@ -216,31 +217,31 @@ public class AuthController {
             insertNhanVienQuery.executeUpdate();
             transaction.commit();
             httpSession.setAttribute("message", "Đăng ký thành công");
-            return "redirect:/staff_management";
+            return "redirect:/home/staff_management";
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
             httpSession.setAttribute("message", "Đăng ký thất bại");
-            return "redirect:/register";
+            return "auth/register";
         } finally {
             session.close();
         }
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         // code xử lý đăng xuất++
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate(); // xóa session
         }
-        return "redirect:/login"; // chuyển hướng tới trang đăng nhập
+        return "redirect:/auth/login"; // chuyển hướng tới trang đăng nhập
     }
 
     @Transactional
-    @RequestMapping(value = "/staff_management/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "staff_management/delete", method = RequestMethod.POST)
     public String deleteStaff(@RequestParam("id") int staffId) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
@@ -259,7 +260,7 @@ public class AuthController {
         } finally {
             session.close();
         }
-        return "redirect:/staff_management";
+        return "redirect:/home/staff_management";
     }
 
     @RequestMapping(value = "/deleteStaffModal", method = RequestMethod.POST)

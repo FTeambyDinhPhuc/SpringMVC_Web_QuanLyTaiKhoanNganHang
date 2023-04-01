@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author dinhp
  */
 @Controller
+@RequestMapping("/home/")
 public class StaffController {
 
     @Autowired
@@ -54,16 +55,16 @@ public class StaffController {
             }
             if (searchResult.isEmpty()) {
                 httpSession.setAttribute("message", "Không tìm thấy nhân viên!");
-                return "staff_management";
+                return "home/staff_management";
             } else {
                 model.addAttribute("nhanviens", searchResult);
-                return "staff_management";
+                return "home/staff_management";
             }
         } catch (Exception e) {
             // Handle any exceptions that occur
             e.printStackTrace();
             httpSession.setAttribute("message", "Có lỗi khi tìm kiếm nhân viên!");
-            return "redirect:/staff_management";
+            return "home/staff_management";
         }
     }
 

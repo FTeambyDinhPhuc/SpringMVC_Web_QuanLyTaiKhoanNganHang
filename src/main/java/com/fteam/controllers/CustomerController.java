@@ -30,13 +30,14 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author dinhp
  */
 @Controller
+@RequestMapping("/home/")
 public class CustomerController {
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @Transactional
-    @RequestMapping(value = "/customer_management")
+    @RequestMapping(value = "customer_management")
     public String Customers(Model model) {
         try ( Session session = sessionFactory.openSession()) {
             String hql = "FROM KhachHang";
@@ -46,7 +47,7 @@ public class CustomerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "customer_management";
+        return "home/customer_management";
     }
 
     @Transactional
@@ -72,21 +73,21 @@ public class CustomerController {
             }
             if (searchResult.isEmpty()) {
                 httpSession.setAttribute("message", "Không tìm thấy khách hàng!");
-                return "customer_management";
+                return "home/customer_management";
             } else {
                 model.addAttribute("khachhangs", searchResult);
-                return "customer_management";
+                return "home/customer_management";
             }
         } catch (Exception e) {
             // Handle any exceptions that occur
             e.printStackTrace();
             httpSession.setAttribute("message", "Có lỗi khi tìm kiếm khách hàng!");
-            return "redirect:/customer_management";
+            return "home/customer_management";
         }
     }
 
     @Transactional
-    @RequestMapping(value = "/customer_management", method = RequestMethod.POST)
+    @RequestMapping(value = "customer_management", method = RequestMethod.POST)
     public String Customers(
             HttpSession httpSession, HttpServletRequest request, HttpServletResponse response, Model model) {
         Session session = sessionFactory.openSession();
@@ -95,7 +96,7 @@ public class CustomerController {
             String TenKhachHang = request.getParameter("TenKhachHang");
             if (TenKhachHang == null || TenKhachHang.trim().isEmpty()) {
                 httpSession.setAttribute("messname", "Tên khách hàng không được bỏ trống!");
-                return "customer_management";
+                return "home/customer_management";
             }
             String NamSinh = request.getParameter("NamSinh");
             // Chuyển đổi NamSinh sang LocalDate
@@ -112,20 +113,20 @@ public class CustomerController {
                 // Xử lý khi NamSinh không hợp lệ
                 httpSession.setAttribute("message1", "Độ tuổi phải lớn hơn hoặc bằng 15!");
                 httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
-                return "customer_management";
+                return "home/customer_management";
             }
             String GioiTinh = request.getParameter("GioiTinh");
             String DiaChi = request.getParameter("DiaChi");
             if (DiaChi == null || DiaChi.trim().isEmpty()) {
                 httpSession.setAttribute("messdir", "Địa chỉ không được để trống!");
                 httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
-                return "customer_management";
+                return "home/customer_management";
             }
             String CCCD = request.getParameter("CCCD");
             if (CCCD == null || CCCD.trim().isEmpty()) {
                 httpSession.setAttribute("messcccd", "Căn cước công dân không được để trống!");
                 httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
-                return "customer_management";
+                return "home/customer_management";
             } else {
                 // Kiểm tra CCCD có tồn tại trong cơ sở dữ liệu hay chưa
                 KhachHang existingCustomer = (KhachHang) session.createQuery("FROM KhachHang WHERE CCCD = :CCCD")
@@ -135,26 +136,26 @@ public class CustomerController {
                     // CCCD đã tồn tại trong cơ sở dữ liệu
                     httpSession.setAttribute("messcccd", "Căn cước công dân đã tồn tại!");
                     httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
-                    return "customer_management";
+                    return "home/customer_management";
                 }
             }
             String Email = request.getParameter("Email");
             if (Email == null || Email.trim().isEmpty()) {
                 httpSession.setAttribute("messemail", "Email không được để trống!");
                 httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
-                return "customer_management";
+                return "home/customer_management";
             }
             String SoDienThoai = request.getParameter("SoDienThoai");
             if (SoDienThoai == null || SoDienThoai.trim().isEmpty()) {
                 httpSession.setAttribute("messphone", "Số điện thoại không được để trống!");
                 httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
-                return "customer_management";
+                return "home/customer_management";
             }
             String NgheNghiep = request.getParameter("NgheNghiep");
             if (NgheNghiep == null || NgheNghiep.trim().isEmpty()) {
                 httpSession.setAttribute("messmajor", "Số điện thoại không được để trống!");
                 httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
-                return "customer_management";
+                return "home/customer_management";
             }
             // Tạo đối tượng KhachHang mới
             KhachHang newCustomer = new KhachHang();
@@ -172,21 +173,21 @@ public class CustomerController {
             transaction.commit();
             httpSession.setAttribute("message", "Đăng ký thành công!");
             httpSession.removeAttribute("message1");
-            return "redirect:/customer_management";
+            return "home/customer_management";
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
             httpSession.setAttribute("message", "Đăng ký thất bại!");
-            return "redirect:/customer_management";
+            return "home/customer_management";
         } finally {
             session.close();
         }
     }
 
     @Transactional
-    @RequestMapping(value = "/customer_management/{customerId}", method = RequestMethod.POST)
+    @RequestMapping(value = "customer_management/{customerId}", method = RequestMethod.POST)
     public String deleteCustomer(HttpSession httpSession, @PathVariable int customerId) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
@@ -199,7 +200,7 @@ public class CustomerController {
             if (khachHang == null) {
                 // Không tìm thấy khách hàng, thông báo lỗi
                 httpSession.setAttribute("message", "Không tìm thấy khách hàng cần xóa!");
-                return "redirect:/customer_management";
+                return "home/customer_management";
             } else {
                 // Xóa khách hàng khỏi database
                 session.delete(khachHang);
@@ -208,13 +209,13 @@ public class CustomerController {
             }
 
             // Redirect về trang hiển thị danh sách khách hàng
-            return "redirect:/customer_management";
+            return "home/customer_management";
         } catch (Exception e) {
             // ...
         } finally {
             session.close();
         }
-        return "customer_management";
+        return "home/customer_management";
     }
 //    @Transactional
 //    @RequestMapping(value = "/customer_management", method = RequestMethod.GET)
@@ -250,9 +251,9 @@ public class CustomerController {
 //            return "redirect:/customer_management";
 //        }
 //    }
-    @RequestMapping(value = "/customer_detail")
+    @RequestMapping(value = "customer_detail")
     public String CustomerDetail(Model model) {
-        return "customer_detail";
+        return "home/customer_detail";
     }
 
 }

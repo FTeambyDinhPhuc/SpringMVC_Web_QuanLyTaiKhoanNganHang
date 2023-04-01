@@ -4,13 +4,9 @@
     Author     : dinhp
 --%>
 
-<jsp:include page="header.jsp" />
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <div class="container-fluid px-4">
     <h1 class="my-4">Quản lý nhân viên</h1>
@@ -19,7 +15,7 @@
             <input type="text" class="form-control my-4 mr-4" name="searchstaff" autocomplete="off"  placeholder="Nhập vào tên nhân viên"></input>
             <button type="submit"  class="mybuton-primary">Tìm kiếm</button>
         </form>
-        <a href="./register" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
+        <a href="<c:url value="/auth/register"/>" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
     </div>
     <h3 class="text-danger" id="tb">${message}</h3>
     <table class="table table-striped">
@@ -186,10 +182,6 @@
     }
 </script>
 
-
-
-
-<jsp:include page="footer.jsp" />
 <script>
     window.onload = function () {
         $("tb").innerText = '';
