@@ -204,11 +204,12 @@ public class CustomerController {
     }
 
     @Transactional
-    @RequestMapping(value = "customer_detail/{id}", method = RequestMethod.GET)
-    public String CustomerDetail(Model model, @PathVariable("id") int ID_KhachHang) {
+    @RequestMapping(value = "customer_detail", method = RequestMethod.GET)
+    public String CustomerDetail(Model model,HttpServletRequest request ) {
+        String ID_KhachHang = request.getParameter("id");
         try ( Session session = sessionFactory.openSession()) {
             // Truy vấn khách hàng theo id
-            String hql = "FROM KhachHang c WHERE c.ID_KhachHang = :customerId";
+            String hql = "SELECT * FROM KhachHang WHERE KhachHang.ID_KhachHang = :customerId";
             Query query = session.createQuery(hql);
             query.setParameter("customerId", ID_KhachHang);
             KhachHang customer = (KhachHang) query.uniqueResult();
@@ -219,7 +220,7 @@ public class CustomerController {
                 return "redirect:/customer_management";
             } else {
                 // Truy vấn tài khoản ngân hàng của khách hàng
-                hql = "FROM TaiKhoanNganHang b WHERE b.ID_KhachHang = :customerId";
+                hql = "SELECT * FROM TaiKhoanNganHang WHERE TaiKhoanNganHang.ID_KhachHang = :customerId";
                 query = session.createQuery(hql);
                 query.setParameter("customerId", ID_KhachHang);
                 List<TaiKhoanNganHang> bankAccounts = query.list();

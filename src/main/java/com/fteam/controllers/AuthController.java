@@ -62,6 +62,7 @@ public class AuthController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(HttpServletRequest request, ModelMap model, @ModelAttribute("NhanVien") NhanVien NhanVien) {
         Session session = null;
+        HttpSession httpSession = request.getSession();
         try {
             session = sessionFactory.openSession();
             String hql = "FROM NhanVien u WHERE u.tenDangNhap = :tenDangNhap";
@@ -77,7 +78,7 @@ public class AuthController {
                 if (BCrypt.checkpw(NhanVien.getMatKhau(), hashedPassword)) {
                     if (loggedInNhanVien.getTrangThaiTaiKhoan().equals(1)) {
                         model.addAttribute("loggedInNhanVien", loggedInNhanVien);
-                        HttpSession httpSession = request.getSession();
+                        
                         httpSession.setAttribute("Ten", loggedInNhanVien.getTenNhanVien());
                         httpSession.setAttribute("chucvu", loggedInNhanVien.getChucVu().getId());
                         return "redirect:/home";

@@ -44,7 +44,7 @@
                     <td>${user.getCccd()}</td>
                     <td>${user.getNgheNghiep()}</td>
                     <td>
-                        <a href="./customer_detail/${user.getIdKhachHang()}" class="mybuton-icon-detail px-3"><i class="fa-solid fa-circle-info" title="Detail"></i></a>
+                        <a href="<c:url value="/home/customer_detail/?id=${user.getIdKhachHang()}"/>" class="mybuton-icon-detail px-3"><i class="fa-solid fa-circle-info" title="Detail"></i></a>
                         <a onclick="editCustomer(this)" id="btnEditCustomer" href="#editCustomerModal" data-toggle="modal" class="mybuton-icon-edit px-3"><i class="fa-solid fa-pen-to-square " data-toggle="tooltip" title="Edit"></i></a>
                         <a onclick="deleteCustomer(this)" id="btnDeleteCustomer" href="#deleteCustomerModal" data-toggle="modal" class="mybuton-icon-delete px-3"><i class="fa-sharp fa-solid fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                         <input type="hidden" id="idCustomer" value="${user.getIdKhachHang()}">
