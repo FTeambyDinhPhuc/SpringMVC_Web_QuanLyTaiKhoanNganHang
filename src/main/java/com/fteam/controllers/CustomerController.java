@@ -5,6 +5,7 @@
 package com.fteam.controllers;
 
 import com.fteam.models.KhachHang;
+import com.fteam.models.NhanVien;
 import com.fteam.models.TaiKhoanNganHang;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/home/")
 public class CustomerController {
+
     private int countLoadPage = 0;
 
     @Autowired
@@ -43,16 +46,16 @@ public class CustomerController {
     public String searchCustomers(HttpSession httpSession, HttpServletRequest request, ModelMap model) {
         model.addAttribute("pageTitle", "Quản lý khách hàng");
         countLoadPage++;
-        if(countLoadPage>2){
+        if (countLoadPage > 2) {
             httpSession.removeAttribute("messageCustomer");
             httpSession.removeAttribute("messageSuccessCustomer");
-            countLoadPage=0;
+            countLoadPage = 0;
         }
         String keyword = request.getParameter("searchcustomer");
         if (keyword == null) {
             keyword = "";
         }
-        try (Session session = sessionFactory.openSession()) {
+        try ( Session session = sessionFactory.openSession()) {
 
             String hql = "SELECT kh FROM KhachHang kh WHERE kh.cccd LIKE :keyword";
 
@@ -175,37 +178,6 @@ public class CustomerController {
     }
 
     @Transactional
-    @RequestMapping(value = "customer_management/{customerId}", method = RequestMethod.POST)
-    public String deleteCustomer(HttpSession httpSession, @PathVariable int customerId) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-
-            // Truy vấn khách hàng cần xóa từ database
-            KhachHang khachHang = session.get(KhachHang.class, customerId);
-
-            if (khachHang == null) {
-                // Không tìm thấy khách hàng, thông báo lỗi
-                httpSession.setAttribute("message", "Không tìm thấy khách hàng cần xóa!");
-                return "home/customer_management";
-            } else {
-                // Xóa khách hàng khỏi database
-                session.delete(khachHang);
-                transaction.commit();
-                httpSession.setAttribute("message", "Xóa khách hàng thành công!");
-            }
-
-            // Redirect về trang hiển thị danh sách khách hàng
-            return "home/customer_management";
-        } catch (Exception e) {
-            // ...
-        } finally {
-            session.close();
-        }
-        return "home/customer_management";
-    }
-    @Transactional
     @RequestMapping(value = "customer_management/delete", method = RequestMethod.POST)
     public String deleteCustomer(@RequestParam("deletecustomerId") int customerId, HttpSession httpSession) {
         Session session = sessionFactory.openSession();
@@ -217,12 +189,14 @@ public class CustomerController {
             query.setParameter("id", customerId);
             query.executeUpdate();
             tx.commit();
-            httpSession.setAttribute("message", "Xóa Thành Công!");
+            httpSession.setAttribute("messageSuccessCustomer", "Xóa Thành Công!");
+            httpSession.removeAttribute("messageCustomer");
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
-            httpSession.setAttribute("message", "Không thể xóa khách hàng!");
+            httpSession.setAttribute("messageCustomer", "Không thể xóa khách hàng!");
+            httpSession.removeAttribute("messageSuccessCustomer");
         } finally {
             session.close();
         }
@@ -232,7 +206,7 @@ public class CustomerController {
     @Transactional
     @RequestMapping(value = "customer_detail/{id}", method = RequestMethod.GET)
     public String CustomerDetail(Model model, @PathVariable("id") int ID_KhachHang) {
-        try (Session session = sessionFactory.openSession()) {
+        try ( Session session = sessionFactory.openSession()) {
             // Truy vấn khách hàng theo id
             String hql = "FROM KhachHang c WHERE c.ID_KhachHang = :customerId";
             Query query = session.createQuery(hql);
@@ -264,4 +238,41 @@ public class CustomerController {
         }
     }
 
+    @Transactional
+    @RequestMapping(value = "customer_management/edit", method = RequestMethod.POST)
+    public String editCustomer(@ModelAttribute("customer") KhachHang customer,
+            HttpServletRequest request, ModelMap model,
+            @RequestParam("editCustomerId") int customerId,
+            HttpSession httpSession) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            String editQuery = "UPDATE KhachHang SET TenKhachHang=:tenKhachHang, NgaySinhKH=:namSinh, GioiTinh=:gioiTinh,"
+                    + " DiaChiKH=:diaChi, EmailKH=:email, SoDienThoai=:soDienThoai, NgheNghiep=:ngheNghiep WHERE ID_KhachHang = :id";
+            Query updateNhanVienQuery = session.createQuery(editQuery)
+                    .setParameter("tenKhachHang", customer.getTenKhachHang())
+                    .setParameter("namSinh", customer.getNgaySinhKH())
+                    .setParameter("gioiTinh", customer.getGioiTinh())
+                    .setParameter("diaChi", customer.getDiaChiKH())
+                    .setParameter("email", customer.getEmailKH())
+                    .setParameter("soDienThoai", customer.getSoDienThoai())
+                    .setParameter("ngheNghiep", customer.getNgheNghiep())
+                    .setParameter("id", customerId);
+            updateNhanVienQuery.executeUpdate();
+            tx.commit();
+            httpSession.setAttribute("messageSuccessCustomer", "Cập nhật thông tin khách hàng!");
+            httpSession.removeAttribute("messageCustomer");
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            httpSession.setAttribute("messageCustomer", "Không thể cập nhật thông tin khách hàng!");
+            httpSession.removeAttribute("messageSuccessCustomer");
+        } finally {
+            session.close();
+        }
+        return "redirect:/home/customer_management";
+    }
 }

@@ -141,11 +141,4 @@ public class StaffController {
         }
         return "redirect:/home/staff_management";
     }
-
-    @RequestMapping(value = "/deleteStaffModal", method = RequestMethod.POST)
-    public String deleteStaffModal(@RequestParam("id") int staffId, Model model) {
-        model.addAttribute("staffId", staffId);
-        return "deleteStaffModal";
-    }
-
 }
