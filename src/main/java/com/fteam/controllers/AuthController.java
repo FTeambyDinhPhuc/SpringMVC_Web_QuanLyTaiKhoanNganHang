@@ -53,6 +53,7 @@ public class AuthController {
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String Login(ModelMap model) {
+        model.addAttribute("pageTitle", "Đăng nhập");
         model.addAttribute("NhanVien", new NhanVien());
         return "auth/login";
     }
@@ -109,7 +110,8 @@ public class AuthController {
     }
 
     @RequestMapping(value = "register")
-    public String register(HttpSession httpSession) {
+    public String register(HttpSession httpSession, Model model) {
+        model.addAttribute("pageTitle", "Đăng ký nhân viên");
         Session session = sessionFactory.openSession();
         String hql = "FROM ChucVu";
         Query query = session.createQuery(hql);

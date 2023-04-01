@@ -38,6 +38,7 @@ public class StaffController {
     @Transactional
     @RequestMapping(value = "staff_management", method = RequestMethod.GET)
     public String searchStaff(HttpSession httpSession, HttpServletRequest request, ModelMap model) {
+        model.addAttribute("pageTitle", "Quản lý nhân viên");
         countLoadPage++;
         if(countLoadPage>2){
             httpSession.removeAttribute("messageStaff");

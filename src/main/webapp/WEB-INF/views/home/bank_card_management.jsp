@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="container-fluid px-4">
-    <h1 class="my-4">Dịch vụ thẻ</h1>
+    <h1 class="my-4">${pageTitle}</h1>
     <div class="row">
         <div class="col-lg-6">
             <form class="d-flex align-items-center" style="width: 450px">

@@ -18,6 +18,7 @@ public class BankCardController {
 
     @RequestMapping(value = "bank_card_management")
     public String BankCards(Model model) {
+        model.addAttribute("pageTitle", "Dịch vụ thẻ");
         return "home/bank_card_management";
     }
 }

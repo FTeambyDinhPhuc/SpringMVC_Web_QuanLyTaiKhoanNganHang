@@ -12,7 +12,7 @@
             <img src="<c:url value="/assets/images/img_bg_auth.jpg" />" alt="Image background authentication" />
         </div>
         <div class="auth-form-content">
-            <div class="title">Đăng nhập</div>
+            <div class="title">${pageTitle}</div>
             <form class="input-boxes" modelAttribute="NhanVien" action="login" method="POST" >
                 <div class="input-box">
                     <i class="fa-solid fa-envelope icon"></i>

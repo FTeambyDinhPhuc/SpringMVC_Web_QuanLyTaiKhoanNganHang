@@ -9,7 +9,7 @@
 <div class="auth-background">
     <div class="auth-container shadow register-auth-container">
         <div class="auth-form-content register-auth-form-content">
-            <div class="title">Đăng ký nhân viên</div>
+            <div class="title">${pageTitle}</div>
             <form class="input-boxes" modelAttribute="nhanvien" action="register" method="post">
                 <div class="input-box">
                     <i class="fa-solid fa-user icon"></i>

@@ -9,7 +9,7 @@
 
 
 <div class="container-fluid px-4">
-    <h1 class="my-4">Quản lý nhân viên</h1>
+    <h1 class="my-4">${pageTitle}</h1>
     <div class="d-flex justify-content-between align-items-center">
         <form class="d-flex align-items-center" style="width: 450px">
             <input type="text" class="form-control my-4 mr-4" name="searchstaff" autocomplete="off"  placeholder="Nhập vào tên nhân viên"></input>
