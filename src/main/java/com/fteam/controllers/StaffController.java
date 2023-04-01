@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -66,6 +67,35 @@ public class StaffController {
             httpSession.setAttribute("message", "Có lỗi khi tìm kiếm nhân viên!");
             return "home/staff_management";
         }
+    }
+    
+    @Transactional
+    @RequestMapping(value = "staff_management/delete", method = RequestMethod.POST)
+    public String deleteStaff(@RequestParam("deleteStaffId") int staffId) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            String updateQuery = "UPDATE NhanVien SET TrangThaiTaiKhoan = 0 WHERE ID_NhanVien = :id";
+            Query query = session.createQuery(updateQuery);
+            query.setParameter("id", staffId);
+            query.executeUpdate();
+            System.out.print(staffId);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } finally {
+            session.close();
+        }
+        return "redirect:/home/staff_management";
+    }
+
+    @RequestMapping(value = "/deleteStaffModal", method = RequestMethod.POST)
+    public String deleteStaffModal(@RequestParam("id") int staffId, Model model) {
+        model.addAttribute("staffId", staffId);
+        return "deleteStaffModal";
     }
 
 }

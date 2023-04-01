@@ -240,33 +240,5 @@ public class AuthController {
         return "redirect:/auth/login"; // chuyển hướng tới trang đăng nhập
     }
 
-    @Transactional
-    @RequestMapping(value = "staff_management/delete", method = RequestMethod.POST)
-    public String deleteStaff(@RequestParam("id") int staffId) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            String updateQuery = "UPDATE NhanVien SET TrangThaiTaiKhoan = 0 WHERE ID_NhanVien = :id";
-            Query query = session.createQuery(updateQuery);
-            query.setParameter("id", staffId);
-            query.executeUpdate();
-            System.out.print(staffId);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-        } finally {
-            session.close();
-        }
-        return "redirect:/home/staff_management";
-    }
-
-    @RequestMapping(value = "/deleteStaffModal", method = RequestMethod.POST)
-    public String deleteStaffModal(@RequestParam("id") int staffId, Model model) {
-        model.addAttribute("staffId", staffId);
-        return "deleteStaffModal";
-    }
-
+   
 }

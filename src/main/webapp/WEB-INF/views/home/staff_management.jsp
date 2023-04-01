@@ -18,6 +18,8 @@
         <a href="<c:url value="/auth/register"/>" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
     </div>
     <h3 class="text-danger" id="tb">${message}</h3>
+    
+    
     <table class="table table-striped">
         <thead>
             <tr>
@@ -54,73 +56,36 @@
             </c:forEach>
         </tbody>
     </table>
+    
+    
     <div id="editStaffModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form>
                     <div class="modal-header">
                         <h4 class="modal-title">Sửa nhân viên</h4>
-
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Tên nhân viên</label>
                             <input type="text" class="form-control" required="required" name="fullname"></input>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Tên nhân viên</label>
-                                <input type="text" class="form-control" required="required" name="fullname"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Chức vụ</label>
+                        <div class="form-group">
+                            <label>Chức vụ</label>
 
-                                <select class="form-control"required="required" name="position" >
-                                    <option>Nhân viên</option>
-                                    <option>Quản lý</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Ngày sinh</label>
-                                <input type="date" class="form-control" required="required" name="birthday"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Giới tính</label>
-                                <select class="form-control"required="required" name="sex" >
-                                    Lấy từ db
-                                    <option>Nam</option>
-                                    <option>Nữ</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Địa chỉ</label>
-                                <input type="text" class="form-control" required="required" name="address"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" required="required" name="email"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Số điện thoại</label>
-                                <input type="tel" class="form-control" required="required" name="numberphone"></input>
-                            </div>
-                            <div class="form-group">
-                                <label>Trạng thái tài khoản</label>
-                                <select class="form-control"required="required" name="status" >
-                                    Lấy từ db
-                                    <option>Hoạt động</option>
-                                    <option>Tạm dừng</option>
-                                </select>
-                            </div>
-
+                            <select class="form-control"required="required" name="position" >
+                                <option>Nhân viên</option>
+                                <option>Quản lý</option>
+                            </select>
                         </div>
-                        <div class="modal-footer">
-                            <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
-                            <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
+                        <div class="form-group">
+                            <label>Ngày sinh</label>
+                            <input type="date" class="form-control" required="required" name="birthday"></input>
                         </div>
                         <div class="form-group">
                             <label>Giới tính</label>
                             <select class="form-control"required="required" name="sex" >
+                                Lấy từ db
                                 <option>Nam</option>
                                 <option>Nữ</option>
                             </select>
@@ -140,11 +105,11 @@
                         <div class="form-group">
                             <label>Trạng thái tài khoản</label>
                             <select class="form-control"required="required" name="status" >
+                                Lấy từ db
                                 <option>Hoạt động</option>
                                 <option>Tạm dừng</option>
                             </select>
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
@@ -154,10 +119,12 @@
             </div>
         </div>
     </div>
+    
+    
     <div id="deleteStaffModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="deleteStaffForm" method="post" action="${pageContext.request.contextPath}/staff_management/delete">
+                <form method="post" action="staff_management/delete">
                     <div class="modal-header">
                         <h4 class="modal-title">Xóa nhân viên</h4>
                     </div>
@@ -168,7 +135,7 @@
                     <div class="modal-footer">
                         <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
                         <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
-                        <input type="hidden" name="id" id="deleteStaffId">
+                        <input type="hidden" name="deleteStaffId" id="deleteStaffId">
                     </div>
                 </form>
             </div>
