@@ -7,14 +7,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="container-fluid px-4">
-    <h1 class="my-4">Dịch vụ thẻ</h1>
+    <h1 class="my-4">${pageTitle}</h1>
     <div class="row">
         <div class="col-lg-6">
             <form class="d-flex align-items-center" style="width: 450px">
                 <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount"  placeholder="Nhập vào số tài khoản"></input>
                 <input type="submit" class="mybuton-primary" value="Tìm kiếm"></input>
             </form>
-            <p class="text-danger">Không tìm thấy tài khoản</p>
+            <p class="warning-text">Không tìm thấy tài khoản</p>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>213435235236236</p></div></li>
                 <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p>10.000<span> VNĐ</span></p></div></li>

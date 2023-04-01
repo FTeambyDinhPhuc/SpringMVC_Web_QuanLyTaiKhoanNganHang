@@ -8,7 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="container-fluid px-4">
-    <h1 class="my-4">Quản lý khách hàng</h1>
+    <h1 class="my-4">${pageTitle}</h1>
     <div class="d-flex justify-content-between align-items-center">
         <form class="d-flex align-items-center" style="width: 450px">
             <input type="text" class="form-control my-4 mr-4" name="searchcustomer" autocomplete="off" placeholder="Nhập vào số căn cước"></input>
@@ -16,7 +16,8 @@
         </form>
         <a href="#createCustomerModal" data-toggle="modal" class="btn btn-outline-success" style="font-size: 16px">Thêm khách hàng</a>
     </div>
-    <h3 class="text-danger" id="tb">${message}</h3>
+    <p class="warning-text">${messageCustomer}</p>
+    <p class="success-text">${messageSuccessCustomer}</p>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -55,7 +56,7 @@
     <div id="createCustomerModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form class="input-boxes" modelAttribute="customer" action="customer_management.htm"method="post">
+                <form class="input-boxes" modelAttribute="customer" action="customer_management.htm" method="post">
                     <div class="modal-header">
                         <h4 class="modal-title">Thêm khách hàng</h4>
                     </div>
@@ -64,12 +65,10 @@
                             <label>Tên khách hàng</label>
                             <input type="text" class="form-control" required="required" autocomplete="off"  name="TenKhachHang"></input>
                         </div>
-                        <h3 style="color: red" id="tb1" >${messname} </h3>
                         <div class="form-group">
                             <label>Ngày sinh</label>
                             <input type="date" class="form-control" required="required" autocomplete="off"  name="NamSinh"></input>
                         </div>
-                        <h3 style="color: red" id="tb1" >${message1} </h3>
                         <div class="form-group">
                             <label>Giới tính</label>
                             <select class="form-control"required="required" autocomplete="off"  name="GioiTinh" >
@@ -82,27 +81,22 @@
                             <label>Địa chỉ</label>
                             <input type="text" class="form-control" required="required" autocomplete="off"  name="DiaChi"></input>
                         </div>
-                        <h3 style="color: red" id="tb1" >${messdir} </h3>
                         <div class="form-group">
                             <label>Căn cước công dân</label>
                             <input type="text" class="form-control" required="required" autocomplete="off"  name="CCCD"></input>
                         </div>
-                        <h3 style="color: red" id="tb1" >${messcccd} </h3>
                         <div class="form-group">
                             <label>Email</label>
                             <input type="email" class="form-control" required="required" autocomplete="off"  name="Email"></input>
                         </div>
-                        <h3 style="color: red" id="tb1" >${messemail} </h3>
                         <div class="form-group">
                             <label>Số điện thoại</label>
                             <input type="tel" class="form-control" required="required" autocomplete="off"  name="SoDienThoai"></input>
                         </div>
-                        <h3 style="color: red" id="tb1" >${messphone} </h3>
                         <div class="form-group">
                             <label>Nghề nghiệp</label>
                             <input type="text" class="form-control" required="required" autocomplete="off"  name="NgheNghiep"></input>
                         </div>
-                        <h3 style="color: red" id="tb1" >${messmajor} </h3>
 
                     </div>
                     <div class="modal-footer">

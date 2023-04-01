@@ -33,27 +33,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/home/")
 public class CustomerController {
+    private int countLoadPage = 0;
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @Transactional
-    @RequestMapping(value = "customer_management")
-    public String Customers(Model model) {
-        try (Session session = sessionFactory.openSession()) {
-            String hql = "FROM KhachHang";
-            Query query = session.createQuery(hql);
-            List<KhachHang> list = query.list();
-            model.addAttribute("khachhangs", list);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "home/customer_management";
-    }
-
-    @Transactional
     @RequestMapping(value = "customer_management", method = RequestMethod.GET)
-    public String searchStaff(HttpSession httpSession, HttpServletRequest request, ModelMap model) {
+    public String searchCustomers(HttpSession httpSession, HttpServletRequest request, ModelMap model) {
+        model.addAttribute("pageTitle", "Quản lý khách hàng");
+        countLoadPage++;
+        if(countLoadPage>2){
+            httpSession.removeAttribute("messageCustomer");
+            httpSession.removeAttribute("messageSuccessCustomer");
+            countLoadPage=0;
+        }
         String keyword = request.getParameter("searchcustomer");
         if (keyword == null) {
             keyword = "";
@@ -73,7 +67,7 @@ public class CustomerController {
                 }
             }
             if (searchResult.isEmpty()) {
-                httpSession.setAttribute("message", "Không tìm thấy khách hàng!");
+                model.addAttribute("messageCustomer", "Không tìm thấy khách hàng!");
                 return "home/customer_management";
             } else {
                 model.addAttribute("khachhangs", searchResult);
@@ -82,7 +76,7 @@ public class CustomerController {
         } catch (Exception e) {
             // Handle any exceptions that occur
             e.printStackTrace();
-            httpSession.setAttribute("message", "Có lỗi khi tìm kiếm khách hàng!");
+            model.addAttribute("messageCustomer", "Có lỗi khi tìm kiếm khách hàng!");
             return "home/customer_management";
         }
     }
@@ -96,7 +90,7 @@ public class CustomerController {
         try {
             String TenKhachHang = request.getParameter("TenKhachHang");
             if (TenKhachHang == null || TenKhachHang.trim().isEmpty()) {
-                httpSession.setAttribute("messname", "Tên khách hàng không được bỏ trống!");
+                httpSession.setAttribute("messageCustomer", "Tên khách hàng không được bỏ trống!");
                 return "home/customer_management";
             }
             String NamSinh = request.getParameter("NamSinh");
@@ -112,21 +106,18 @@ public class CustomerController {
             // Kiểm tra độ tuổi
             if (age < 15) {
                 // Xử lý khi NamSinh không hợp lệ
-                httpSession.setAttribute("message1", "Độ tuổi phải lớn hơn hoặc bằng 15!");
-                httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
+                httpSession.setAttribute("messageCustomer", "Độ tuổi phải lớn hơn hoặc bằng 15!");
                 return "home/customer_management";
             }
             String GioiTinh = request.getParameter("GioiTinh");
             String DiaChi = request.getParameter("DiaChi");
             if (DiaChi == null || DiaChi.trim().isEmpty()) {
-                httpSession.setAttribute("messdir", "Địa chỉ không được để trống!");
-                httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
+                httpSession.setAttribute("messageCustomer", "Địa chỉ không được để trống!");
                 return "home/customer_management";
             }
             String CCCD = request.getParameter("CCCD");
             if (CCCD == null || CCCD.trim().isEmpty()) {
-                httpSession.setAttribute("messcccd", "Căn cước công dân không được để trống!");
-                httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
+                httpSession.setAttribute("messageCustomer", "Căn cước công dân không được để trống!");
                 return "home/customer_management";
             } else {
                 // Kiểm tra CCCD có tồn tại trong cơ sở dữ liệu hay chưa
@@ -135,27 +126,23 @@ public class CustomerController {
                         .uniqueResult();
                 if (existingCustomer != null) {
                     // CCCD đã tồn tại trong cơ sở dữ liệu
-                    httpSession.setAttribute("messcccd", "Căn cước công dân đã tồn tại!");
-                    httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
+                    httpSession.setAttribute("messageCustomer", "Căn cước công dân đã tồn tại!");
                     return "home/customer_management";
                 }
             }
             String Email = request.getParameter("Email");
             if (Email == null || Email.trim().isEmpty()) {
-                httpSession.setAttribute("messemail", "Email không được để trống!");
-                httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
+                httpSession.setAttribute("messageCustomer", "Email không được để trống!");
                 return "home/customer_management";
             }
             String SoDienThoai = request.getParameter("SoDienThoai");
             if (SoDienThoai == null || SoDienThoai.trim().isEmpty()) {
-                httpSession.setAttribute("messphone", "Số điện thoại không được để trống!");
-                httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
+                httpSession.setAttribute("messageCustomer", "Số điện thoại không được để trống!");
                 return "home/customer_management";
             }
             String NgheNghiep = request.getParameter("NgheNghiep");
             if (NgheNghiep == null || NgheNghiep.trim().isEmpty()) {
-                httpSession.setAttribute("messmajor", "Số điện thoại không được để trống!");
-                httpSession.setAttribute("message", "Thêm khách hàng thất bại!");
+                httpSession.setAttribute("messageCustomer", "Số điện thoại không được để trống!");
                 return "home/customer_management";
             }
             // Tạo đối tượng KhachHang mới
@@ -172,15 +159,15 @@ public class CustomerController {
             transaction = session.beginTransaction();
             session.save(newCustomer);
             transaction.commit();
-            httpSession.setAttribute("message", "Đăng ký thành công!");
-            httpSession.removeAttribute("message1");
+            httpSession.setAttribute("messageSuccessCustomer", "Đăng ký thành công!");
+            httpSession.removeAttribute("messageCustomer");
             return "home/customer_management";
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
-            httpSession.setAttribute("message", "Đăng ký thất bại!");
+            httpSession.setAttribute("messageCustomer", "Đăng ký thất bại!");
             return "home/customer_management";
         } finally {
             session.close();

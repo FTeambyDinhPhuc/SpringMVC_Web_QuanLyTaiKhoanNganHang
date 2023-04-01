@@ -9,7 +9,7 @@
 
 
 <div class="container-fluid px-4">
-    <h1 class="my-4">Quản lý nhân viên</h1>
+    <h1 class="my-4">${pageTitle}</h1>
     <div class="d-flex justify-content-between align-items-center">
         <form class="d-flex align-items-center" style="width: 450px">
             <input type="text" class="form-control my-4 mr-4" name="searchstaff" autocomplete="off"  placeholder="Nhập vào tên nhân viên"></input>
@@ -17,9 +17,9 @@
         </form>
         <a href="<c:url value="/auth/register"/>" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
     </div>
-    <h3 class="text-danger" id="tb">${message}</h3>
-
-
+    <p class="warning-text">${messageStaff}</h3>
+    
+    
     <table class="table table-striped">
         <thead>
             <tr>
@@ -192,16 +192,4 @@
             statusSelect.selectedIndex = 1;
         }
     }
-</script>
-
-<script>
-    window.onload = function () {
-        $("tb").innerText = '';
-    };
-
-    $(document).ready(function () {
-        setTimeout(function () {
-            $("#tb").css("display", "none");
-        }, 2000); // 5 seconds
-    });
 </script>

@@ -4,7 +4,11 @@
     Author     : dinhp
 --%>
 
-<div class="container-fluid px-4">
-    <h1 class="my-4">Thống kê</h1>
+<div class="container-fluid px-4 background-home">
+    <div class="wrap-logo-home">
+      
+        <i class="logo-home fa-solid fa-building-columns"></i>
+    </div>
+      <p class="title-home">FTEAM BANK</p>
 </div>
 
