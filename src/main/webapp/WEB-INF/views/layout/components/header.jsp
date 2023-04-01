@@ -20,7 +20,7 @@
     <body class="nav-fixed">
         <nav class="topnav navbar navbar-dark navbar-expand bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand" href="@Url.Action("Statistical","Statistical")">FTeam Bank</a>
+            <a class="navbar-brand" href="<c:url value="/home"/>">FTeam Bank</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-lg order-1 order-lg-0 mr-xl-auto" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <ul class="navbar-nav ml-auto mr-3 mr-lg-4">
@@ -41,13 +41,15 @@
                 <nav class="sidenav">
                     <div class="sidenav-menu">
                         <div class="nav">
-                             <div class="sidenav-menu-heading">Thống kê</div>
                             <% if (session.getAttribute("chucvu").equals(1)) { %>
+                            <div class="sidenav-menu-heading">Thống kê</div>
                             <a class="nav-link" href="#">
                                 <div class="nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Thống kê
                             </a>
-                            <div class="sidenav-menu-heading">Quản lý</div>                         
+                            <% }%>
+                            <div class="sidenav-menu-heading">Quản lý</div>    
+                            <% if (session.getAttribute("chucvu").equals(1)) { %>
                             <a class="nav-link" href="<c:url value="/home/staff_management"/>">
                                 <div class="nav-link-icon"><i class="fa-solid fa-clipboard-user"></i></div>
                                 Nhân viên

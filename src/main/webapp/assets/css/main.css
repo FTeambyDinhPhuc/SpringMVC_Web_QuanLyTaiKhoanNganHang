@@ -77,12 +77,12 @@
 }
 
 .table-outline {
-  border-radius: 1.6rem;
-  border-style: solid;
-  border-width: 2px;
-  border-color: var(--color-surface-variant-outline);
-  width: 100%;
-  padding: 1.6rem;
+    border-radius: 1.6rem;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--color-surface-variant-outline);
+    width: 100%;
+    padding: 1.6rem;
 }
 /*hết nút custom*/
 
@@ -112,6 +112,43 @@
 .dropdown-item{
     font-size: 1.6rem;
 }
+
+
+/*màn hình home*/
+
+.background-home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10vh;
+}
+
+.wrap-logo-home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60vh;
+    height: 60vh;
+    background-color: var(--color-primary-container);
+    border-radius: 50%;
+    opacity: 0.3;
+}
+
+.logo-home{
+    font-size: 40vh;
+    font-weight: bold;
+    color: white;
+}
+
+.title-home{
+    font-size: 8vh;
+    font-weight: bold;
+    color: var(--color-primary);
+    letter-spacing:1.5vh;
+}
+
+/*hết màn hình home*/
 
 /*Thanh navbar với side*/
 .fixed-top, .nav-fixed #layoutSidenav #layoutSidenav_nav, .nav-fixed .topnav {
