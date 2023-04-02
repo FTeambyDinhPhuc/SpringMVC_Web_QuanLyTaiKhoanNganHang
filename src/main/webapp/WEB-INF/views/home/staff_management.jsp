@@ -18,6 +18,7 @@
         <a href="<c:url value="/auth/register"/>" class="btn btn-outline-success" style="font-size: 16px">Thêm nhân viên</a>
     </div>
     <p class="warning-text">${messageStaff}</h3>
+    <p class="success-text">${messageSuccessStaff}</p>
     
     
     <table class="table table-striped">
