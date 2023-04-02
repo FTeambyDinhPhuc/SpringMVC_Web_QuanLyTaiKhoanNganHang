@@ -51,7 +51,7 @@
         <div id="createBankAccount" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form>
+                    <form method="post" action="customer_management/addBankAccount">
                         <div class="modal-header">
                             <h4 class="modal-title">Mở tài khoản ngân hàng</h4>
 
@@ -62,6 +62,7 @@
                         <div class="modal-footer">
                             <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
                             <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
+                            <input type="hidden" value="${customer.getIdKhachHang()}" name="customerId" id="customerId">
                         </div>
                     </form>
                 </div>

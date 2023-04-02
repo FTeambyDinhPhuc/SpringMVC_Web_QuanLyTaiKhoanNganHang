@@ -11,11 +11,12 @@
     <div class="auth-container shadow register-auth-container">
         <div class="auth-form-content register-auth-form-content">
             <div class="title">${pageTitle}</div>
-            <form class="input-boxes" action="change_password" method="post">
+            <form class="input-boxes" modelAttribute="changepass" action="change_password" method="post">
                 <div class="input-box">
                     <i class="fa-solid fa-lock icon"></i>
                     <input
                         type="password"
+                        path="matKhauCu" id="matKhauCu"
                         placeholder="Nhập mật khẩu cũ" name="matKhauCu"
                         required
                         />
@@ -24,7 +25,8 @@
                     <i class="fa-solid fa-lock icon"></i>
                     <input
                         type="password"
-                        placeholder="Nhập mật khẩu mới" name="matKhauMoi"
+                        path="matKhau" id="matKhau"
+                        placeholder="Nhập mật khẩu mới" name="matKhau"
                         required
                         />
                 </div>    
@@ -32,11 +34,12 @@
                     <i class="fa-solid fa-lock icon"></i>
                     <input
                         type="password"
-                        placeholder="Xác nhận mật khẩu mới" name="nhapLaiMatKhauMoi"
+                        path="matKhauXN" id="matKhauXN"
+                        placeholder="Xác nhận mật khẩu mới" name="matKhauXN"
                         required
                         />
                 </div>
-                <p class="warning-text">Chả có gì cả</p>
+                <p class="warning-text">${messageErrorChangePass}</p>
 
                 <Button class="mybuton-primary auth-button"  type="submit"">
                     Xác nhận

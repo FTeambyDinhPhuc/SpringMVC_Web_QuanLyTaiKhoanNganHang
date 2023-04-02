@@ -78,9 +78,11 @@ public class AuthController {
                 if (BCrypt.checkpw(NhanVien.getMatKhau(), hashedPassword)) {
                     if (loggedInNhanVien.getTrangThaiTaiKhoan().equals(1)) {
                         model.addAttribute("loggedInNhanVien", loggedInNhanVien);
-                        
+                        httpSession.setAttribute("idNhanVien", loggedInNhanVien.getId());
                         httpSession.setAttribute("Ten", loggedInNhanVien.getTenNhanVien());
                         httpSession.setAttribute("chucvu", loggedInNhanVien.getChucVu().getId());
+                        httpSession.setAttribute("pass", loggedInNhanVien.getMatKhau());
+
                         return "redirect:/home";
                     } else {
                         model.addAttribute("message", "Tài khoản không hoạt động !");
@@ -241,18 +243,62 @@ public class AuthController {
         }
         return "redirect:/auth/login"; // chuyển hướng tới trang đăng nhập
     }
-    
+
     @RequestMapping(value = "change_password", method = RequestMethod.GET)
     public String changePassword(Model model) {
         model.addAttribute("pageTitle", "Đổi mật khẩu");
         return "auth/change_password";
     }
-    
+
+    @Transactional
     @RequestMapping(value = "change_password", method = RequestMethod.POST)
-    public String changePassword(Model model, HttpServletRequest request) {
-        System.out.println("hihihihihi");
+    public String changePassword(Model model,
+            HttpServletRequest request,
+            @RequestParam("matKhauCu") String matKhauCu,
+            @RequestParam("matKhau") String MatKhau,
+            @RequestParam("matKhauXN") String repassword,
+            HttpSession httpSession) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        try {
+            Integer idNhanVien = (Integer) request.getSession().getAttribute("idNhanVien");
+
+            String salt = BCrypt.gensalt(10);
+            String checkPassword = BCrypt.hashpw(matKhauCu, salt);
+            String hashedPassword = BCrypt.hashpw(MatKhau, salt);
+
+            String checkpass = "FROM NhanVien u WHERE u.ID_NhanVien = :idd";
+            Query checkp = session.createQuery(checkpass)
+                    .setParameter("idd", idNhanVien);
+            List<NhanVien> nhanviens = checkp.list();
+            NhanVien loggedInNhanVien = nhanviens.get(0);
+            String cPass = loggedInNhanVien.getMatKhau();
+//            String password = (String) httpSession.getAttribute("pass");
+
+            tx = session.beginTransaction();
+            if (BCrypt.checkpw(checkPassword, cPass)) {
+                if (!MatKhau.equals(repassword)) {
+                    model.addAttribute("messageErrorChangePass", "Mật khẩu xác nhận không khớp!");
+                    return "auth/change_password";
+                }
+                String editQuery = "UPDATE NhanVien SET MatKhau = :MatKhau WHERE ID_NhanVien =:id";
+                Query updateNhanVienQuery = session.createQuery(editQuery)
+                        .setParameter("MatKhau", hashedPassword)
+                        .setParameter("id", idNhanVien);
+                updateNhanVienQuery.executeUpdate();
+                tx.commit();
+                return "redirect:/home";
+            } else {
+                model.addAttribute("messageErrorChangePass", "Sai mật khẩu!");
+                return "auth/change_password";
+            }
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } finally {
+            session.close();
+        }
         return "redirect:/auth/change_password";
     }
-
-   
 }
