@@ -127,8 +127,8 @@
                             <label>Giới tính</label>
                             <select  path="gioiTinh" class="form-control"required="required" name="gioiTinh" >
                                 <!--Lấy từ db-->
-                                <option value="1" type="input">Nữ</option>
-                                <option value="0" type="input">Nam</option>
+                                <option value="Nữ" type="input">Nữ</option>
+                                <option value="Nam" type="input">Nam</option>
                             </select>
                         </div>
                         <div class="form-group">

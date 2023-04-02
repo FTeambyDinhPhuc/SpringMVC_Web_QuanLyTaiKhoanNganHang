@@ -55,7 +55,7 @@ public class CustomerController {
         if (keyword == null) {
             keyword = "";
         }
-        try ( Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
 
             String hql = "SELECT kh FROM KhachHang kh WHERE kh.cccd LIKE :keyword";
 
@@ -169,7 +169,6 @@ public class CustomerController {
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
             httpSession.setAttribute("messageCustomer", "Đăng ký thất bại!");
             return "home/customer_management";
         } finally {
@@ -205,35 +204,34 @@ public class CustomerController {
 
     @Transactional
     @RequestMapping(value = "customer_detail", method = RequestMethod.GET)
-    public String CustomerDetail(Model model,HttpServletRequest request ) {
+    public String CustomerDetail(Model model, HttpServletRequest request) {
+        Session session = sessionFactory.openSession();
         String ID_KhachHang = request.getParameter("id");
-        try ( Session session = sessionFactory.openSession()) {
+        session.beginTransaction();
+        try {
             // Truy vấn khách hàng theo id
-            String hql = "SELECT * FROM KhachHang WHERE KhachHang.ID_KhachHang = :customerId";
-            Query query = session.createQuery(hql);
+            String selectCustomer = "FROM KhachHang WHERE ID_KhachHang = :customerId";
+            Query query = session.createQuery(selectCustomer);
             query.setParameter("customerId", ID_KhachHang);
             KhachHang customer = (KhachHang) query.uniqueResult();
-
+            model.addAttribute("customer", customer);
             if (customer == null) {
                 // Khách hàng không tồn tại
                 model.addAttribute("message", "Khách hàng không tồn tại");
                 return "redirect:/customer_management";
             } else {
                 // Truy vấn tài khoản ngân hàng của khách hàng
-                hql = "SELECT * FROM TaiKhoanNganHang WHERE TaiKhoanNganHang.ID_KhachHang = :customerId";
-                query = session.createQuery(hql);
-                query.setParameter("customerId", ID_KhachHang);
-                List<TaiKhoanNganHang> bankAccounts = query.list();
+                String selectTK = "FROM TaiKhoanNganHang WHERE ID_KhachHang = :idCustomer";
+                Query queryy = session.createQuery(selectTK)
+                .setParameter("idCustomer", ID_KhachHang);
+                List<TaiKhoanNganHang> bankAccounts = queryy.list();
 
                 // Thêm thông tin khách hàng và tài khoản ngân hàng vào model
-                model.addAttribute("customer", customer);
                 model.addAttribute("bankAccounts", bankAccounts);
                 System.out.print(customer.getCccd());
                 return "home/customer_detail";
             }
         } catch (Exception e) {
-            // Xử lý ngoại lệ
-            e.printStackTrace();
             model.addAttribute("message", "Có lỗi xảy ra khi truy vấn dữ liệu");
             return "redirect:/home/customer_management";
         }
@@ -268,7 +266,6 @@ public class CustomerController {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
             httpSession.setAttribute("messageCustomer", "Không thể cập nhật thông tin khách hàng!");
             httpSession.removeAttribute("messageSuccessCustomer");
         } finally {
