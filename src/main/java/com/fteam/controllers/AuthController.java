@@ -266,7 +266,7 @@ public class AuthController {
             String salt = BCrypt.gensalt(10);
             String checkPassword = BCrypt.hashpw(matKhauCu, salt);
             String hashedPassword = BCrypt.hashpw(MatKhau, salt);
-
+            
             String checkpass = "FROM NhanVien u WHERE u.ID_NhanVien = :idd";
             Query checkp = session.createQuery(checkpass)
                     .setParameter("idd", idNhanVien);
