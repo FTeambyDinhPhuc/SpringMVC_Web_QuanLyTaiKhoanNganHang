@@ -43,7 +43,7 @@
                         <div class="nav">
                             <% if (session.getAttribute("chucvu").equals(1)) { %>
                             <div class="sidenav-menu-heading">Thống kê</div>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="<c:url value="/home/statistical"/>">
                                 <div class="nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Thống kê
                             </a>
@@ -60,10 +60,7 @@
                                 <div class="nav-link-icon"><i class="fa-solid fa-users"></i></div>
                                 Khách hàng
                             </a>
-                            <a class="nav-link" href="#">
-                                <div class="nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
-                                Hóa đơn
-                            </a>
+
 
                             <div class="sidenav-menu-heading">Chức năng</div>
 
@@ -78,6 +75,10 @@
                             <a class="nav-link" href="<c:url value="/home/transfer_money"/>">
                                 <div class="nav-link-icon"><i class="fa-solid fa-money-bill-transfer"></i></div>
                                 Chuyển khoản
+                            </a>
+                            <a class="nav-link" href="<c:url value="/home/transaction_history"/>">
+                                <div class="nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                                Sao kê
                             </a>
 
                             <% }%>
