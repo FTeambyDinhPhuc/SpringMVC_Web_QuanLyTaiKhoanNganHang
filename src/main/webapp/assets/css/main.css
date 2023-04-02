@@ -21,6 +21,10 @@
         0px 1px 3px 1px rgba(0, 0, 0, 0.15);
 }
 
+.mybuton-primary + .mybuton-primary{
+    margin-left: 16px;
+}
+
 .mybuton-text{
     font-size: 1.6rem;
     font-weight: normal;

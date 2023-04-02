@@ -71,6 +71,15 @@
                                 <div class="nav-link-icon"><i class="fa-solid fa-money-check"></i></div>
                                 Dịch vụ thẻ
                             </a>
+                            <a class="nav-link" href="<c:url value="/home/transaction_money"/>">
+                                <div class="nav-link-icon"><i class="fa-solid fa-coins"></i></div>
+                                Nạp tiền/ Rút tiền
+                            </a>
+                            <a class="nav-link" href="<c:url value="/home/transfer_money"/>">
+                                <div class="nav-link-icon"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                                Chuyển khoản
+                            </a>
+
                             <% }%>
 
                         </div>

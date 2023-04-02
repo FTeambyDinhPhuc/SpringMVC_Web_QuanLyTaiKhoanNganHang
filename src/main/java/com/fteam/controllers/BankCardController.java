@@ -16,9 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/home/")
 public class BankCardController {
 
+    private String messageBankCard = null;
+    private String messageSuccessBankCard = null;
+
     @RequestMapping(value = "bank_card_management")
     public String BankCards(Model model) {
         model.addAttribute("pageTitle", "Dịch vụ thẻ");
+        if (messageBankCard != null || messageSuccessBankCard != null) {
+            model.addAttribute("messageBankCard", messageBankCard);
+            model.addAttribute("messageSuccessBankCard", messageSuccessBankCard);
+            messageBankCard = null;
+            messageSuccessBankCard = null;
+        }
         return "home/bank_card_management";
     }
 }

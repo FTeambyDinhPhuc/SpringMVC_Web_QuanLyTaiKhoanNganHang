@@ -18,7 +18,6 @@
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày sinh: </p><p>${customer.getNgaySinhKH()}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Giới tính: </p><p>${customer.getGioiTinh()}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Địa chỉ: </p><p>${customer.getDiaChiKH()}</p></div></li>
-                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Căn cước công dân: </p><p>${customer.getCccd()}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Email: </p><p>${customer.getEmailKH()}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số điện thoại: </p><p>${customer.getSoDienThoai()}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Nghề nghiệp: </p><p>${customer.getNgheNghiep()}</p></div></li>

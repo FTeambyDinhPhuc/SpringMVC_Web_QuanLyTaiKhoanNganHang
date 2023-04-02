@@ -27,7 +27,6 @@
                 <th scope="col">Địa chỉ</th>
                 <th scope="col">Email</th>
                 <th scope="col">Số điện thoại</th>
-                <th scope="col">Căn cước</th>
                 <th scope="col">Nghề nghiệp</th>
                 <th scope="col">Hành động</th>
             </tr>
@@ -41,7 +40,6 @@
                     <td>${user.getDiaChiKH()}</td>
                     <td>${user.getEmailKH()}</td>
                     <td>${user.getSoDienThoai()}</td>
-                    <td>${user.getCccd()}</td>
                     <td>${user.getNgheNghiep()}</td>
                     <td>
                         <a href="<c:url value="/home/customer_detail/?id=${user.getIdKhachHang()}"/>" class="mybuton-icon-detail px-3"><i class="fa-solid fa-circle-info" title="Detail"></i></a>
