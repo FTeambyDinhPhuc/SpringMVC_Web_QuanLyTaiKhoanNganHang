@@ -193,11 +193,8 @@
         var address = row.cells[3].textContent;
         var email = row.cells[4].textContent;
         var phone = row.cells[5].textContent;
-        var cccd = row.cells[6].textContent;
-        var job = row.cells[7].textContent;
+        var job = row.cells[6].textContent;
         var id = element.parentNode.querySelector('#idCustomer').value;
-                console.log(row, name, job, birthday, gender, address, cccd, email, phone, id);
-
         // Đưa dữ liệu vào các phần tử trong form sửa
         document.querySelector("#tenKhachHang").value = name;
         document.querySelector("#ngaySinhKH").value = birthday;
