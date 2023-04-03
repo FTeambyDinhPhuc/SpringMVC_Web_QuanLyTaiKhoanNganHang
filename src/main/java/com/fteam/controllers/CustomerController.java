@@ -217,7 +217,7 @@ public class CustomerController {
             if (customer == null) {
                 // Khách hàng không tồn tại
                 model.addAttribute("message", "Khách hàng không tồn tại");
-                return "redirect:/customer_management";
+                return "redirect:/home/customer_management";
             } else {
                 // Truy vấn tài khoản ngân hàng của khách hàng
                 String selectTK = "FROM TaiKhoanNganHang WHERE ID_KhachHang = :idCustomer";
@@ -271,7 +271,7 @@ public class CustomerController {
         return "redirect:/home/customer_management";
     }
     @Transactional
-    @RequestMapping(value = "customer_management/addBankAccount", method = RequestMethod.POST)
+    @RequestMapping(value = "customer_detail/addBankAccount", method = RequestMethod.POST)
     public String addBankAccount(
             HttpServletRequest request, ModelMap model,
             @RequestParam("customerId") int customerId,
@@ -301,7 +301,7 @@ public class CustomerController {
                     .setParameter("ID_KhachHang", customerId);
             updateNhanVienQuery.executeUpdate();
             tx.commit();
-            return "redirect:/home/customer_detail";
+            return "redirect:/home/customer_detail/?id="+customerId;
 //            httpSession.setAttribute("messageSuccessCustomer", "Cập nhật thông tin khách hàng!");
 //            httpSession.removeAttribute("messageCustomer");
         } catch (Exception e) {
@@ -313,6 +313,6 @@ public class CustomerController {
         } finally {
             session.close();
         }
-        return "redirect:/home/customer_detail";
+        return "redirect:/home/customer_detail/?id="+customerId;
     }
 }
