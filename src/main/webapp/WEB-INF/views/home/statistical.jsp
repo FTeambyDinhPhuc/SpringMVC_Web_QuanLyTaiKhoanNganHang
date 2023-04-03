@@ -4,13 +4,14 @@
     Author     : dinhp
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <div class="container-fluid px-4">
     <h1 class="my-4">${pageTitle}</h1>
     <div class="row">
         <div class="col-xl-4 col-md-6">
             <div class="card bg-primary text-white mb-4">
-                <div class="card-body">Tổng nhân viên: <span>10000</span></div>
+                <div class="card-body">Tổng nhân viên: <span>${sessionScope.tongnhanvien}</span></div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="#">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -19,7 +20,7 @@
         </div>
         <div class="col-xl-4 col-md-6">
             <div class="card bg-warning text-white mb-4">
-                <div class="card-body">Tổng khách hàng: <span>10000</span></div>
+                <div class="card-body">Tổng khách hàng: <span>${sessionScope.tongkhachhang}</span></div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="#">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -28,7 +29,7 @@
         </div>
         <div class="col-xl-4 col-md-6">
             <div class="card bg-success text-white mb-4">
-                <div class="card-body">Tổng số thẻ đã phát hành: <span>2000</span></div>
+                <div class="card-body">Tổng số thẻ đã phát hành: <span>${sessionScope.tongthe}</span></div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="#">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -37,7 +38,7 @@
         </div>
         <div class="col-xl-4 col-md-6">
             <div class="card bg-info text-white mb-4">
-                <div class="card-body">Tổng tiền trong ngân hàng: <span>2000</span></div>
+                <div class="card-body">Tổng tiền trong ngân hàng: <span><fmt:formatNumber value="${sessionScope.tongtien}" pattern="###,### VNĐ" /></span></div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="#">View Details</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
