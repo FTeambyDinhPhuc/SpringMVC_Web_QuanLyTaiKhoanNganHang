@@ -5,21 +5,25 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <div class="container-fluid px-4">
     <h1 class="my-4">${pageTitle}</h1>
     <div class="row">
         <div class="col-lg-6">
             <div class="table-outline">
                 <form class="d-flex align-items-center" style="width: 450px">
-                    <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount"  placeholder="Nhập vào số tài khoản chuyển"></input>
+                    <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount" value="${param.searchBankAccount}" placeholder="Nhập vào số tài khoản chuyển"></input>
                     <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
                 </form>
+                <p class="warning-text">${messageTransferMoney}</p>
+                <p class="success-text">${messageSuccessTransferMoney}</p>
+
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>213435235236236</p></div></li>
-                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Tên chủ tài khoản: </p><p>Tèo</p></div></li>
-                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>Hoạt động cực mạnh</p></div></li>
-                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p>Hôm qua</p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>${sessionScope.soTaiKhoan}</p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p><fmt:formatNumber value="${sessionScope.soDuTaiKhoan}" pattern="###,### VNĐ"/></p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>${sessionScope.trangThaiTaiKhoan==0 ? "Khóa" : "Đang hoạt động"}</p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p><fmt:formatDate value="${sessionScope.ngayMoTaiKhoan}" pattern="dd/MM/yyyy"/></p></div></li>
+                    <input type="hidden" id="idacbank" value="${acbank.getSoTaiKhoanNganHang()}">
                 </ul>
 
 
@@ -28,15 +32,16 @@
         <div class="col-lg-6">
             <div class="table-outline">
                 <form class="d-flex align-items-center" style="width: 450px">
-                    <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount"  placeholder="Nhập vào số tài khoản nhận"></input>
+                    <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount1"  value="${param.searchBankAccount1}" placeholder="Nhập vào số tài khoản nhận"></input>
                     <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
                 </form>
 
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>213435235236236</p></div></li>
-                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Tên chủ tài khoản: </p><p>Tèo</p></div></li>
-                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>Hoạt động cực mạnh</p></div></li>
-                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p>Hôm qua</p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>${acbank1.getSoTaiKhoanNganHang()}</p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p><fmt:formatNumber value="${acbank1.getSoDuTaiKhoan()}" pattern="###,### VNĐ"/></p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>${acbank1.getTrangThaiTaiKhoan()==0 ? "Khóa" : "Đang hoạt động"}</p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p><fmt:formatDate value="${acbank1.getNgayMoTaiKhoan()}" pattern="dd/MM/yyyy"/></p></div></li>
+                    <input type="hidden" id="idacbank1" value="${acbank1.getSoTaiKhoanNganHang()}">
                 </ul>
 
 
