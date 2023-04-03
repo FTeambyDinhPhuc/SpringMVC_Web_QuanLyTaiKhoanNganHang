@@ -76,7 +76,7 @@ public class BankCardController {
                 model.addAttribute("accountBank", accountBank);
                 return "home/bank_card_management";
             } else {
-//                model.addAttribute("messageBankCard", "Không tìm thấy tài khoản!");              
+                messageBankCard="Không tìm thấy tài khoản!";              
                 return "home/bank_card_management";
             }
         } catch (Exception e) {
