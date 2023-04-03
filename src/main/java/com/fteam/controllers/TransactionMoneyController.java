@@ -113,9 +113,10 @@ public class TransactionMoneyController {
                 messageTransactionMoney = "Căn cước công dân không trùng khớp!";
                 return "home/transaction_money";
             }
-            String editQuery = "UPDATE TaiKhoanNganHang t SET t.soDuTaiKhoan = :sodu WHERE t.khachHang.id = :id";
+            String editQuery = "UPDATE TaiKhoanNganHang t SET t.soDuTaiKhoan = :sodu WHERE t.khachHang.id = :id and t.soTaiKhoanNganHang=:stk";
             Query updateNhanVienQuery = session.createQuery(editQuery)
                     .setParameter("sodu", tong)
+                    .setParameter("stk", sotaikhoanLong)
                     .setParameter("id", khachHang.getIdKhachHang());
             updateNhanVienQuery.executeUpdate();
 
