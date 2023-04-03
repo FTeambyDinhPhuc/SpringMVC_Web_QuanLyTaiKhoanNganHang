@@ -50,10 +50,9 @@
         <div id="createBankAccount" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form method="post" action="addBankAccount">
+                    <form method="POST" action="addBankAccount">
                         <div class="modal-header">
                             <h4 class="modal-title">Mở tài khoản ngân hàng</h4>
-
                         </div>
                         <div class="modal-body">
                             <p>Xác nhận mở tài khoản ngân hàng?</p>

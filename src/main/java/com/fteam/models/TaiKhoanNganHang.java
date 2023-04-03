@@ -92,7 +92,7 @@ public class TaiKhoanNganHang {
     public TaiKhoanNganHang() {
     }
 
-    public TaiKhoanNganHang(Long soTaiKhoanNganHang, Long soDuTaiKhoan, Integer trangThaiTaiKhoan, Date ngayMoTaiKhoan, Date ngayDongTaiKhoan, KhachHang khachHang) {
+    public TaiKhoanNganHang(Long soTaiKhoanNganHang, Long soDuTaiKhoan, int trangThaiTaiKhoan, Date ngayMoTaiKhoan, Date ngayDongTaiKhoan, KhachHang khachHang) {
         this.soTaiKhoanNganHang = soTaiKhoanNganHang;
         this.soDuTaiKhoan = soDuTaiKhoan;
         this.trangThaiTaiKhoan = trangThaiTaiKhoan;
