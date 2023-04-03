@@ -5,10 +5,12 @@
 package com.fteam.controllers;
 
 import com.fteam.models.KhachHang;
-import com.fteam.models.NhanVien;
 import com.fteam.models.TaiKhoanNganHang;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
@@ -57,7 +59,7 @@ public class CustomerController {
         if (keyword == null) {
             keyword = "";
         }
-        try (Session session = sessionFactory.openSession()) {
+        try ( Session session = sessionFactory.openSession()) {
 
             String hql = "SELECT kh FROM KhachHang kh WHERE kh.cccd LIKE :keyword";
 
@@ -270,6 +272,7 @@ public class CustomerController {
         }
         return "redirect:/home/customer_management";
     }
+
     @Transactional
     @RequestMapping(value = "customer_detail/addBankAccount", method = RequestMethod.POST)
     public String addBankAccount(
@@ -279,29 +282,31 @@ public class CustomerController {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
-            tx = session.beginTransaction();
             //laasy nagfy hienej taij
-            LocalDate now = LocalDate.now();
-            //layas ngayf sau 5 nawm
-            LocalDate fiveyear = now.plusYears(5);
+            Calendar calendar = Calendar.getInstance();
+            Date now = calendar.getTime();
+            calendar.add(Calendar.YEAR, 5);
+            Date fiveYearLater = calendar.getTime();
+
             //laasy soos taif khoanr random
             Random rand = new Random();
             int num = rand.nextInt(1000);
             String str = String.format("9701234%03d", num);
-            String insertQuery = "INSERT INTO TaiKhoanNganHang(SoTaiKhoanNganHang, SoDuTaiKhoan,"
-                    + " TrangThaiTaiKhoan, NgayMoTaiKhoan, NgayDongTaiKhoan, ID_KhachHang) "
-                    + "VALUES (:SoTaiKhoanNganHang, :SoDuTaiKhoan, :TrangThaiTaiKhoan, :NgayMoTaiKhoan,"
-                    + " :NgayDongTaiKhoan, :ID_KhachHang)";
-            Query updateNhanVienQuery = session.createQuery(insertQuery)
-                    .setParameter("SoTaiKhoanNganHang", str)
-                    .setParameter("SoDuTaiKhoan", 0)
-                    .setParameter("TrangThaiTaiKhoan", 1)
+            long stk = Long.parseLong(str);
+            long sdtk = 50000;
+            String insertQuery = "INSERT INTO TaiKhoanNganHang(SoTaiKhoanNganHang, SoDuTaiKhoan,TrangThaiTaiKhoan, NgayMoTaiKhoan, NgayDongTaiKhoan, ID_KhachHang) VALUES( :SoTaiKhoanNganHang, :SoDuTaiKhoan,:TrangThaiTaiKhoan ,:NgayMoTaiKhoan, :NgayDongTaiKhoan, :ID_KhachHang)";
+            Query updateNhanVienQuery = session.createSQLQuery(insertQuery)
+                    .setParameter("SoTaiKhoanNganHang",stk )
+                    .setParameter("SoDuTaiKhoan", sdtk)
+                    .setParameter("TrangThaiTaiKhoan", 0)
                     .setParameter("NgayMoTaiKhoan", now)
-                    .setParameter("NgayDongTaiKhoan", fiveyear)
+                    .setParameter("NgayDongTaiKhoan", fiveYearLater)
                     .setParameter("ID_KhachHang", customerId);
+            tx = session.beginTransaction();
             updateNhanVienQuery.executeUpdate();
             tx.commit();
-            return "redirect:/home/customer_detail/?id="+customerId;
+
+            return "redirect:/home/customer_detail/?id=" + customerId;
 //            httpSession.setAttribute("messageSuccessCustomer", "Cập nhật thông tin khách hàng!");
 //            httpSession.removeAttribute("messageCustomer");
         } catch (Exception e) {
@@ -313,6 +318,6 @@ public class CustomerController {
         } finally {
             session.close();
         }
-        return "redirect:/home/customer_detail/?id="+customerId;
+        return "redirect:/home/customer_detail/?id=" + customerId;
     }
 }
