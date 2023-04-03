@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-lg-6">
             <form class="d-flex align-items-center" style="width: 450px">
-                <input type="text" class="form-control my-4 mr-4" name="searchSTK" required="required" name="searchBankAccount"  placeholder="Nhập vào số tài khoản"></input>
+                <input type="text" class="form-control my-4 mr-4" name="searchSTK" required="required"  placeholder="Nhập vào số tài khoản"></input>
                 <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
             </form>
             <p class="warning-text">${messageTransactionMoney}</p>
@@ -29,7 +29,7 @@
             <div class="table-outline">
                 <div class="mb-3">
                     <label for="cccd" class="form-label">Nhập số căn cước công dân</label>
-                    <input type="number" class="form-control" id="cccd">
+                    <input type="text" class="form-control" id="cccd">
                 </div>
                 <div class="mb-3">
                     <label for="tienGiaoDich" class="form-label">Nhập số tiền muốn giao dịch</label>
@@ -59,23 +59,24 @@
                             </div>
                             <div class="mb-3">
                                 <label for="soCanCuoc" class="form-label">Số căn cước công dân</label>
-                                <input name="canCuoc"  id="canCuoc" type="tel" class="form-control" id="canCuoc"  readonly="true">
+                                <input name="canCuoc"  id="canCuoc" type="text" class="form-control" id="canCuoc"  readonly="true">
                             </div>
                             <div class="mb-3">
                                 <label for="soTienMuonNap" class="form-label">Số tiền muốn nạp</label>
-                                <input name="soTienMuonNap" value="12000" id="soTienMuonNap" type="number" class="form-control" id="soTienMuonNap"   readonly="true">
+                                <input name="soTienMuonNap" id="soTienMuonNap" type="number" class="form-control" id="soTienMuonNap"   readonly="true">
                             </div>
                             <div class="mb-3">
                                 <label for="phiGiaoDich" class="form-label">Phí giao dịch</label>
                                 <input name="phiGiaoDich" id="phiGiaoDich" type="number" class="form-control" id="phiGiaoDich" value="2000" readonly="true">
                             </div>
-
                         </div>
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
                         <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
                         <input type="hidden" id="idnhanvien" name="idnhanvien" value="${sessionScope.idNhanVien}" id="idnhanvien">
+                        <input type="hidden" id="sotienhientai" name="sotienhientai" value="${acbank.getSoDuTaiKhoan()}" id="sotienhientai">
+                        <input type="hidden" id="cancuockiemtra" name="cancuockiemtra" value="${acbank.getSoDuTaiKhoan()}" id="cancuockiemtra">
                     </div>
                 </form>
             </div>
@@ -122,16 +123,11 @@
 </div>
 <script>
     function naptien(element) {
-        var id = element.parentNode.querySelector('#cccd').value;
-        document.querySelector('#canCuoc').value = id;
+        var cccd = document.getElementById('cccd').value;
+        var tienGiaoDich = document.getElementById('tienGiaoDich').value;
+        document.getElementById('canCuoc').value = cccd;
+        document.getElementById('soTienMuonNap').value = tienGiaoDich;
+        console.log(cccd);
     }
-//    function naptien(element) {
-//        var cccd = document.getElementById("cccd").value;
-//        var tienGiaoDich = document.getElementById("tienGiaoDich").value;
-//        var id = element.parentNode.querySelector('#cccd').value;
-//        document.getElementById("canCuoc").value = cccd;
-//        var sotien = document.getElementById('tienGiaoDich').value;
-//        document.querySelector('soTienMuonNap').value = tienGiaoDich;
-//    }
 </script>
 

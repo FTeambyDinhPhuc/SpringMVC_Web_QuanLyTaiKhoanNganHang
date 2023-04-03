@@ -60,8 +60,6 @@
                                 <div class="nav-link-icon"><i class="fa-solid fa-users"></i></div>
                                 Khách hàng
                             </a>
-
-
                             <div class="sidenav-menu-heading">Chức năng</div>
 
                             <a class="nav-link" href="<c:url value="/home/bank_card_management"/>">

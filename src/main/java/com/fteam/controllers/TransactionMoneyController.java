@@ -4,8 +4,10 @@
  */
 package com.fteam.controllers;
 
+import com.fteam.models.KhachHang;
 import com.fteam.models.PhieuGiaoDich;
 import com.fteam.models.TaiKhoanNganHang;
+import static java.lang.Integer.parseInt;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -61,7 +63,7 @@ public class TransactionMoneyController {
                 model.addAttribute("acbank", accountBank);
                 return "home/transaction_money";
             } else {
-//                messageTransactionMoney = "Không tìm thấy tài khoản!";
+//              messageTransactionMoney = "Không tìm thấy tài khoản!";
                 return "home/transaction_money";
             }
         } catch (Exception e) {
@@ -74,32 +76,44 @@ public class TransactionMoneyController {
 
     @Transactional
     @RequestMapping(value = "depositModal/add", method = RequestMethod.POST)
-    public String naptien(HttpSession httpSession,
-            @ModelAttribute("naptien") PhieuGiaoDich customer,
-            @RequestParam("soTaiKhoanNganHang") int sotaikhoan,
-            @RequestParam("canCuoc") int cancuoc,
-            @RequestParam("soTienMuonNap") int tiennap,
-            @RequestParam("phiGiaoDich") int phi,
-            @RequestParam("idnhanvien") int idnhanvien) {
+    public String naptien(ModelMap model,HttpSession httpSession, HttpServletRequest request) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
+        String sotaikhoan = request.getParameter("soTaiKhoanNganHang");
+        String cancuoc = request.getParameter("canCuoc");
+        int tiennap = parseInt(request.getParameter("soTienMuonNap"));
+        int phi = parseInt(request.getParameter("phiGiaoDich"));
+        int sdtk = parseInt(request.getParameter("sotienhientai"));
+        String idnhanvien = request.getParameter("idnhanvien");
         try {
             tx = session.beginTransaction();
-            
+
             LocalDate currentDate = LocalDate.now();
-            int day  = currentDate.getDayOfMonth();
+            int day = currentDate.getDayOfMonth();
             int month = currentDate.getMonthValue();
             int year = LocalDate.now().getYear();
             Date now = new Date();
             long timestamp = now.getTime();
+            int tong = tiennap + sdtk;
+
+            String checkpass = "FROM KhachHang INNER JOIN TaiKhoanNganHang ON KhachHang.idKhachHang = TaiKhoanNganHang.khachHang WHERE TaiKhoanNganHang.soTaiKhoanNganHang =:stk";
+            Query checkp = session.createQuery(checkpass);
+            checkp.setParameter("stk", sotaikhoan);
+            List<KhachHang> khachhangs = checkp.list();
+            KhachHang khachHang = khachhangs.get(0);
+            String cCccd = khachHang.getCccd();
+            if (cCccd != cancuoc) {
+                messageTransactionMoney = "Căn cước công dân không trùng khớp!";
+                return "home/transaction_money";
+            }
             String editQuery = "UPDATE TaiKhoanNganHang SET SoDuTaiKhoan=:sodu,"
                     + "  WHERE ID_KhachHang = :id";
             Query updateNhanVienQuery = session.createQuery(editQuery)
-                    .setParameter("sodu", tiennap)
+                    .setParameter("sodu", tong)
                     .setParameter("id", sotaikhoan);
             updateNhanVienQuery.executeUpdate();
-            
-            String a ="Nạp tiền vào tài khoản";
+
+            String a = "Nạp tiền vào tài khoản";
             String insertQuery = "INSERT INTO PhieuGiaoDich(ID_GiaoDich, SoTaiKhoanNganHang, "
                     + "ID_NhanVien, SoTienGiaoDich, "
                     + "NgayGiaoDich, ThangGiaoDich, NamGiaoDich, ThoiGianGiaoDich, "
@@ -122,14 +136,14 @@ public class TransactionMoneyController {
                     .setParameter("PhiGiaoDich", phi);
             query.executeUpdate();
             tx.commit();
-            messageSuccessTransactionMoney="Nạp tiền thành công!";
-            return "home/transaction_money";
+            messageSuccessTransactionMoney = "Nạp tiền thành công!";
+            return "redirect:/home/transaction_money";
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
-            messageTransactionMoney="Nạp tiền không thành công!";
-            return "home/transaction_money";
+            messageTransactionMoney = "Nạp tiền không thành công!";
+            return "redirect:/home/transaction_money";
         } finally {
             session.close();
         }
