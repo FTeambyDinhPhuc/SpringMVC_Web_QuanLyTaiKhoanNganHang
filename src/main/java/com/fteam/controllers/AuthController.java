@@ -261,27 +261,25 @@ public class AuthController {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
-            Integer idNhanVien = (Integer) request.getSession().getAttribute("idNhanVien");
-
+            int idNhanVien = (Integer) request.getSession().getAttribute("idNhanVien");
             String salt = BCrypt.gensalt(10);
-            String checkPassword = BCrypt.hashpw(matKhauCu, salt);
+            //String checkPassword = BCrypt.hashpw(matKhauCu, salt);
             String hashedPassword = BCrypt.hashpw(MatKhau, salt);
-            
-            String checkpass = "FROM NhanVien u WHERE u.ID_NhanVien = :idd";
+            String checkpass = "FROM NhanVien u WHERE u.id = :idd";
             Query checkp = session.createQuery(checkpass)
                     .setParameter("idd", idNhanVien);
-            List<NhanVien> nhanviens = checkp.list();
-            NhanVien loggedInNhanVien = nhanviens.get(0);
+            List<NhanVien> list = checkp.list();
+            NhanVien loggedInNhanVien = list.get(0);
             String cPass = loggedInNhanVien.getMatKhau();
 //            String password = (String) httpSession.getAttribute("pass");
-
+      
             tx = session.beginTransaction();
-            if (BCrypt.checkpw(checkPassword, cPass)) {
+            if (BCrypt.checkpw(matKhauCu, cPass)) {
                 if (!MatKhau.equals(repassword)) {
                     model.addAttribute("messageErrorChangePass", "Mật khẩu xác nhận không khớp!");
                     return "auth/change_password";
                 }
-                String editQuery = "UPDATE NhanVien SET MatKhau = :MatKhau WHERE ID_NhanVien =:id";
+                String editQuery = "UPDATE NhanVien SET matKhau = :MatKhau WHERE id =:id";
                 Query updateNhanVienQuery = session.createQuery(editQuery)
                         .setParameter("MatKhau", hashedPassword)
                         .setParameter("id", idNhanVien);
