@@ -9,7 +9,10 @@ import com.fteam.models.PhieuGiaoDich;
 import com.fteam.models.TaiKhoanNganHang;
 import static java.lang.Integer.parseInt;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +54,7 @@ public class TransactionMoneyController {
             messageTransactionMoney = null;
             messageSuccessTransactionMoney = null;
         }
-        try (Session session = sessionFactory.openSession()) {
+        try ( Session session = sessionFactory.openSession()) {
 
             String hql = "FROM TaiKhoanNganHang WHERE SoTaiKhoanNganHang=:keyword";
             Query query = session.createQuery(hql);
@@ -76,7 +79,7 @@ public class TransactionMoneyController {
 
     @Transactional
     @RequestMapping(value = "depositModal/add", method = RequestMethod.POST)
-    public String naptien(ModelMap model,HttpSession httpSession, HttpServletRequest request) {
+    public String naptien(ModelMap model, HttpSession httpSession, HttpServletRequest request) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         String sotaikhoan = request.getParameter("soTaiKhoanNganHang");
@@ -94,23 +97,27 @@ public class TransactionMoneyController {
             int year = LocalDate.now().getYear();
             Date now = new Date();
             long timestamp = now.getTime();
-            int tong = tiennap + sdtk;
+            Instant instant = Instant.ofEpochMilli(timestamp);
+            LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-            String checkpass = "FROM KhachHang INNER JOIN TaiKhoanNganHang ON KhachHang.idKhachHang = TaiKhoanNganHang.khachHang WHERE TaiKhoanNganHang.soTaiKhoanNganHang =:stk";
+            long tong = tiennap + sdtk;
+            long sotaikhoanLong = Long.parseLong(sotaikhoan);
+            String checkpass = "SELECT kh FROM KhachHang kh JOIN TaiKhoanNganHang tknh ON kh.idKhachHang=tknh.khachHang WHERE tknh.soTaiKhoanNganHang = :stk";
+
             Query checkp = session.createQuery(checkpass);
-            checkp.setParameter("stk", sotaikhoan);
+            checkp.setParameter("stk", sotaikhoanLong);
             List<KhachHang> khachhangs = checkp.list();
             KhachHang khachHang = khachhangs.get(0);
             String cCccd = khachHang.getCccd();
-            if (cCccd != cancuoc) {
+            if (cCccd == null ? cancuoc != null : !cCccd.equals(cancuoc)) {
                 messageTransactionMoney = "Căn cước công dân không trùng khớp!";
                 return "home/transaction_money";
             }
-            String editQuery = "UPDATE TaiKhoanNganHang SET SoDuTaiKhoan=:sodu,"
-                    + "  WHERE ID_KhachHang = :id";
+            String editQuery = "UPDATE TaiKhoanNganHang t SET t.soDuTaiKhoan = :sodu WHERE t.khachHang.id = :id and t.soTaiKhoanNganHang=:stk";
             Query updateNhanVienQuery = session.createQuery(editQuery)
                     .setParameter("sodu", tong)
-                    .setParameter("id", sotaikhoan);
+                    .setParameter("stk", sotaikhoanLong)
+                    .setParameter("id", khachHang.getIdKhachHang());
             updateNhanVienQuery.executeUpdate();
 
             String a = "Nạp tiền vào tài khoản";
@@ -121,7 +128,7 @@ public class TransactionMoneyController {
                     + "VALUES (:ID_GiaoDich, :SoTaiKhoanNganHang, :ID_NhanVien, :SoTienGiaoDich, :NgayGiaoDich, "
                     + ":ThangGiaoDich, :NamGiaoDich, :ThoiGianGiaoDich, :NoiDungGiaoDich,"
                     + " :TrangThaiGiaoDich, :TaiKhoanNguoiNhan_Gui, :PhiGiaoDich)";
-            Query query = session.createQuery(insertQuery)
+            Query query = session.createSQLQuery(insertQuery)
                     .setParameter("ID_GiaoDich", 2)
                     .setParameter("SoTaiKhoanNganHang", sotaikhoan)
                     .setParameter("ID_NhanVien", idnhanvien)
@@ -129,7 +136,7 @@ public class TransactionMoneyController {
                     .setParameter("NgayGiaoDich", day)
                     .setParameter("ThangGiaoDich", month)
                     .setParameter("NamGiaoDich", year)
-                    .setParameter("ThoiGianGiaoDich", timestamp)
+                    .setParameter("ThoiGianGiaoDich", localDateTime)
                     .setParameter("NoiDungGiaoDich", a)
                     .setParameter("TrangThaiGiaoDich", 1)
                     .setParameter("TaiKhoanNguoiNhan_Gui", sotaikhoan)
@@ -142,8 +149,9 @@ public class TransactionMoneyController {
             if (tx != null) {
                 tx.rollback();
             }
+            e.printStackTrace();
             messageTransactionMoney = "Nạp tiền không thành công!";
-            return "redirect:/home/transaction_money";
+            return "home/transaction_money";
         } finally {
             session.close();
         }
