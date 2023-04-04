@@ -6,11 +6,13 @@ package com.fteam.controllers;
 
 import com.fteam.models.KhachHang;
 import com.fteam.models.NhanVien;
+import com.fteam.models.PhieuGiaoDich;
 import com.fteam.models.TaiKhoanNganHang;
 import com.fteam.models.The;
 import static java.lang.Integer.parseInt;
 import java.math.BigInteger;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -36,7 +38,7 @@ public class StatisticalController {
     private SessionFactory sessionFactory;
 
     @RequestMapping(value = "statistical", method = RequestMethod.GET)
-    public String statistical(Model model, HttpSession httpSession) {
+    public String statistical(Model model, HttpSession httpSession, HttpServletRequest request) {
         model.addAttribute("pageTitle", "Thống kê");
         if (messageStatistical != null || messageSuccessStatistical != null) {
             model.addAttribute("messageStatistical", messageStatistical);
@@ -44,6 +46,7 @@ public class StatisticalController {
             messageStatistical = null;
             messageSuccessStatistical = null;
         }
+
         Session session = sessionFactory.openSession();
         Transaction tx = null;
 
@@ -77,8 +80,61 @@ public class StatisticalController {
         httpSession.setAttribute("tongthe", countThe);
         httpSession.setAttribute("tongtien", tongTien);
 
+        String keyword = request.getParameter("loc");
+        
+        if(keyword==null){
+            return "home/statistical";
+        }
+        String[] parts = keyword.split("-");
+        String a = parts[0];
+        String b = parts[1];
+        String c = parts[2];
         tx.commit();
+        try {
 
-        return "home/statistical";
+            String naptien = "FROM PhieuGiaoDich WHERE ID_GiaoDich=2 AND NgayGiaoDich=:ngay AND ThangGiaoDich=:thang AND NamGiaoDich=:nam";
+            Query query = session.createQuery(naptien);
+            query.setParameter("nam", a);
+            query.setParameter("thang", b);
+            query.setParameter("ngay", c);
+            List<PhieuGiaoDich> nap = query.list();
+            int sizenap = nap.size();
+
+            String ruttien = "FROM PhieuGiaoDich WHERE ID_GiaoDich=1 AND NgayGiaoDich=:ngay AND ThangGiaoDich=:thang AND NamGiaoDich=:nam";
+            Query queryy = session.createQuery(ruttien);
+            queryy.setParameter("nam", a);
+            queryy.setParameter("thang", b);
+            queryy.setParameter("ngay", c);
+            List<PhieuGiaoDich> rut = queryy.list();
+            int sizerut = rut.size();            
+
+            if (!nap.isEmpty() || !rut.isEmpty()) {
+
+                BigInteger napt = BigInteger.ZERO; // khởi tạo tổng số dư = 0
+                for (PhieuGiaoDich gd : nap) {
+                    BigInteger nt = BigInteger.valueOf(gd.getSoTienGiaoDich()); // chuyển đổi kiểu dữ liệu Long sang BigInteger
+                    napt = napt.add(nt);
+                }
+                BigInteger rutt = BigInteger.ZERO; // khởi tạo tổng số dư = 0
+                for (PhieuGiaoDich ruttie : rut) {
+                    BigInteger rt = BigInteger.valueOf(ruttie.getSoTienGiaoDich()); // chuyển đổi kiểu dữ liệu Long sang BigInteger
+                    rutt = rutt.add(rt);
+                }
+                model.addAttribute("ngay", keyword);
+                model.addAttribute("naptien", napt);
+                model.addAttribute("ruttien", rutt);
+                model.addAttribute("soluonggiaodich", sizenap+sizerut);
+                return "home/statistical";
+            } else {
+                messageStatistical = "Không tìm thấy giao dịch trong thời gian này!";
+                return "home/statistical";
+            }
+        } catch (Exception e) {
+            // Handle any exceptions that occur
+            e.printStackTrace();
+//            model.addAttribute("messageBankCard", "Có lỗi khi tìm kiếm khách hàng!");
+            return "home/bank_card_management";
+        }
+
     }
 }

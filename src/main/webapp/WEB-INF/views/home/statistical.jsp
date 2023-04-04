@@ -53,7 +53,7 @@
                 <label for="ngayHienThi" class="form-label">Chọn ngày hiển thị;</label>
 
                 <div class="d-flex align-items-center">
-                    <input type="date" class="form-control" id="ngayHienThi">
+                    <input type="date" class="form-control" id="ngayHienThi" name="loc">
                     <input type="submit" class="mybuton-primary ml-4" value="Lọc"></input>
                 </div>
             </div>
@@ -73,21 +73,12 @@
         </thead>
         <tbody >
             <tr>               
-                <td>10-10-2022</td>
-                <td>7.000.000.000đ</td>
-                <td>1.000.000.000đ</td>
-                <td>100.000.000đ</td>
-                <td>1000</td>
-
+                <td>${sessionScope.ngay}</td>
+                <td><fmt:formatNumber value="${sessionScope.naptien}" pattern="###,### VNĐ" /></td>
+                <td><fmt:formatNumber value="${sessionScope.ruttien}" pattern="###,### VNĐ" /></td>
+                <td></td>
+                <td>${sessionScope.soluonggiaodich}</td>
             </tr>
-            <tr>               
-                <td>11-10-2022</td>
-                <td>7.000.000.000đ</td>
-                <td>1.000.000.000đ</td>
-                <td>100.000.000đ</td>
-                <td>1000</td>
-            </tr>
-
         </tbody>
     </table>
 </div>
