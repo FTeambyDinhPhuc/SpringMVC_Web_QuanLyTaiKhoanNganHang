@@ -21,50 +21,54 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PhieuGiaoDich")
 public class PhieuGiaoDich {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_PhieuGiaoDich")
     private int id;
-    
+
     @ManyToOne
     @JoinColumn(name = "ID_GiaoDich")
     private GiaoDich giaoDich;
-    
+
     @ManyToOne
     @JoinColumn(name = "SoTaiKhoanNganHang")
     private TaiKhoanNganHang taiKhoanNganHang;
-    
+
     @ManyToOne
     @JoinColumn(name = "ID_NhanVien")
     private NhanVien nhanVien;
-    
+
     @Column(name = "SoTienGiaoDich")
     private long soTienGiaoDich;
-    
+
     @Column(name = "NgayGiaoDich")
     private int ngayGiaoDich;
-    
+
     @Column(name = "ThangGiaoDich")
     private int thangGiaoDich;
-    
+
     @Column(name = "NamGiaoDich")
     private int namGiaoDich;
-    
+
     @Column(name = "ThoiGianGiaoDich")
     private LocalDateTime thoiGianGiaoDich;
-    
+
     @Column(name = "NoiDungGiaoDich", length = 100)
     private String noiDungGiaoDich;
-    
+
     @Column(name = "TrangThaiGiaoDich")
     private int trangThaiGiaoDich;
-    
+
+    @Column(name = "PhiGiaoDich")
+    private long phiGiaoDich;
+
     @ManyToOne
     @JoinColumn(name = "TaiKhoanNguoiNhan_Gui")
     private TaiKhoanNganHang taiKhoanNguoiNhan_Gui;
 
-    public PhieuGiaoDich(int id, GiaoDich giaoDich, TaiKhoanNganHang taiKhoanNganHang, NhanVien nhanVien, long soTienGiaoDich, int ngayGiaoDich, int thangGiaoDich, int namGiaoDich, LocalDateTime thoiGianGiaoDich, String noiDungGiaoDich, int trangThaiGiaoDich, TaiKhoanNganHang taiKhoanNguoiNhan_Gui) {
+    public PhieuGiaoDich(int id, GiaoDich giaoDich, TaiKhoanNganHang taiKhoanNganHang, NhanVien nhanVien, long soTienGiaoDich, int ngayGiaoDich, int thangGiaoDich, int namGiaoDich, LocalDateTime thoiGianGiaoDich,
+            String noiDungGiaoDich, int trangThaiGiaoDich, TaiKhoanNganHang taiKhoanNguoiNhan_Gui, long phiGiaoDich) {
         this.id = id;
         this.giaoDich = giaoDich;
         this.taiKhoanNganHang = taiKhoanNganHang;
@@ -77,13 +81,13 @@ public class PhieuGiaoDich {
         this.noiDungGiaoDich = noiDungGiaoDich;
         this.trangThaiGiaoDich = trangThaiGiaoDich;
         this.taiKhoanNguoiNhan_Gui = taiKhoanNguoiNhan_Gui;
+        this.phiGiaoDich = phiGiaoDich;
     }
 
     public PhieuGiaoDich() {
     }
 
     // constructors, getters, and setters
-
     public int getId() {
         return id;
     }
@@ -102,6 +106,10 @@ public class PhieuGiaoDich {
 
     public long getSoTienGiaoDich() {
         return soTienGiaoDich;
+    }
+
+    public long getPhiGiaoDich() {
+        return phiGiaoDich;
     }
 
     public int getNgayGiaoDich() {
@@ -151,6 +159,9 @@ public class PhieuGiaoDich {
     public void setSoTienGiaoDich(long soTienGiaoDich) {
         this.soTienGiaoDich = soTienGiaoDich;
     }
+    public void setPhiGiaoDich(long phiGiaoDich) {
+        this.phiGiaoDich = phiGiaoDich;
+    }
 
     public void setNgayGiaoDich(int ngayGiaoDich) {
         this.ngayGiaoDich = ngayGiaoDich;
@@ -179,5 +190,5 @@ public class PhieuGiaoDich {
     public void setTaiKhoanNguoiNhan_Gui(TaiKhoanNganHang taiKhoanNguoiNhan_Gui) {
         this.taiKhoanNguoiNhan_Gui = taiKhoanNguoiNhan_Gui;
     }
-    
+
 }

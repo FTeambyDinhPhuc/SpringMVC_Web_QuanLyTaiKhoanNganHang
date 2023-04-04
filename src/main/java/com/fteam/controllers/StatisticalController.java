@@ -79,17 +79,15 @@ public class StatisticalController {
         httpSession.setAttribute("tongkhachhang", countKH);
         httpSession.setAttribute("tongthe", countThe);
         httpSession.setAttribute("tongtien", tongTien);
-
+        tx.commit();
         String keyword = request.getParameter("loc");
-        
-        if(keyword==null){
+        if (keyword == null) {
             return "home/statistical";
         }
         String[] parts = keyword.split("-");
         String a = parts[0];
-        String b = parts[1];
-        String c = parts[2];
-        tx.commit();
+        String b = parts[1].startsWith("0") ? parts[1].substring(1) : parts[1];
+        String c = parts[2].startsWith("0") ? parts[2].substring(1) : parts[2];
         try {
 
             String naptien = "FROM PhieuGiaoDich WHERE ID_GiaoDich=2 AND NgayGiaoDich=:ngay AND ThangGiaoDich=:thang AND NamGiaoDich=:nam";
@@ -106,34 +104,43 @@ public class StatisticalController {
             queryy.setParameter("thang", b);
             queryy.setParameter("ngay", c);
             List<PhieuGiaoDich> rut = queryy.list();
-            int sizerut = rut.size();            
+            int sizerut = rut.size();
 
             if (!nap.isEmpty() || !rut.isEmpty()) {
-
+                BigInteger phigd = BigInteger.ZERO;
                 BigInteger napt = BigInteger.ZERO; // khởi tạo tổng số dư = 0
                 for (PhieuGiaoDich gd : nap) {
                     BigInteger nt = BigInteger.valueOf(gd.getSoTienGiaoDich()); // chuyển đổi kiểu dữ liệu Long sang BigInteger
                     napt = napt.add(nt);
+
+                    BigInteger phinap = BigInteger.valueOf(gd.getPhiGiaoDich()); // chuyển đổi kiểu dữ liệu Long sang BigInteger
+                    phigd = phigd.add(phinap);
                 }
                 BigInteger rutt = BigInteger.ZERO; // khởi tạo tổng số dư = 0
                 for (PhieuGiaoDich ruttie : rut) {
                     BigInteger rt = BigInteger.valueOf(ruttie.getSoTienGiaoDich()); // chuyển đổi kiểu dữ liệu Long sang BigInteger
                     rutt = rutt.add(rt);
+
+                    BigInteger phirut = BigInteger.valueOf(ruttie.getPhiGiaoDich()); // chuyển đổi kiểu dữ liệu Long sang BigInteger
+                    phigd = phigd.add(phirut);
                 }
-                model.addAttribute("ngay", keyword);
-                model.addAttribute("naptien", napt);
-                model.addAttribute("ruttien", rutt);
-                model.addAttribute("soluonggiaodich", sizenap+sizerut);
-                return "home/statistical";
+
+                httpSession.setAttribute("ngay", keyword);
+                httpSession.setAttribute("naptien", napt);
+                httpSession.setAttribute("ruttien", rutt);
+                httpSession.setAttribute("phigiaodich", phigd);
+                httpSession.setAttribute("soluonggiaodich", sizenap + sizerut);
+                messageSuccessStatistical = "Tìm thấy giao dịch!";
+                return "redirect:/home/statistical";
             } else {
                 messageStatistical = "Không tìm thấy giao dịch trong thời gian này!";
-                return "home/statistical";
+                return "redirect:/home/statistical";
             }
         } catch (Exception e) {
             // Handle any exceptions that occur
             e.printStackTrace();
 //            model.addAttribute("messageBankCard", "Có lỗi khi tìm kiếm khách hàng!");
-            return "home/bank_card_management";
+            return "redirect:/home/bank_card_management";
         }
 
     }
