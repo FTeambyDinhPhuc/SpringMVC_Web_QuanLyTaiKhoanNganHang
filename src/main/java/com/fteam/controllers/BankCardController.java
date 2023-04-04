@@ -58,7 +58,6 @@ public class BankCardController {
             messageSuccessBankCard = null;
         }
         try (Session session = sessionFactory.openSession()) {
-
             String hql = "FROM TaiKhoanNganHang WHERE SoTaiKhoanNganHang=:keyword";
             Query query = session.createQuery(hql);
             query.setParameter("keyword", keyword);

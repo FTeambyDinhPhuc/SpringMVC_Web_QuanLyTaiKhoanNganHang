@@ -74,7 +74,7 @@
     <div id="transferMoneyModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="transferMoneyModal/add" modelAttribute="chuyenkhoan" method="post">
+                <form action="transferMoneyModal" modelAttribute="chuyenkhoan" method="post">
                     <div class="modal-header">
                         <h4 class="modal-title">Chuyển tiền</h4>
                     </div>

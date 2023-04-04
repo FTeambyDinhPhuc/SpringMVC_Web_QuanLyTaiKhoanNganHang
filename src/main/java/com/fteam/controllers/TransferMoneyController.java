@@ -88,7 +88,8 @@ public class TransferMoneyController {
     
     @Transactional
     @RequestMapping(value = "transferMoneyModal", method = RequestMethod.POST)
-    public String chuyenkhoan(@RequestParam("searchBankAccount") String senderAccountNumber,
+    public String chuyenkhoan(
+            @RequestParam("searchBankAccount") String senderAccountNumber,
             @RequestParam("searchBankAccount1") String receiverAccountNumber,
             @RequestParam("cccd") String cccdNumber,
             @RequestParam("tienGiaoDich") String amount,
@@ -105,7 +106,7 @@ public class TransferMoneyController {
         // Set success message
         model.addAttribute("messageSuccessTransferMoney", "Chuyển tiền thành công!");
 
-        return "home/transfer_money";
+        return "redirect:/home/transfer_money";
     }
 
 }
