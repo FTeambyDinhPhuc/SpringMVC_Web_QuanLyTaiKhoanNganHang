@@ -54,7 +54,7 @@
 
                 <div class="d-flex align-items-center">
                     <input type="date" class="form-control" id="ngayHienThi" name="loc">
-                    <input type="submit" class="mybuton-primary ml-4" value="Lọc"></input>
+                    <input type="submit" class="mybuton-primary ml-4" value="Lọc" onclick="validateDate()"></input>
                 </div>
             </div>
         </form>
@@ -76,9 +76,19 @@
                 <td>${sessionScope.ngay}</td>
                 <td><fmt:formatNumber value="${sessionScope.naptien}" pattern="###,### VNĐ" /></td>
                 <td><fmt:formatNumber value="${sessionScope.ruttien}" pattern="###,### VNĐ" /></td>
-                <td></td>
+                <td>${sessionScope.phigiaodich}</td>
                 <td>${sessionScope.soluonggiaodich}</td>
             </tr>
         </tbody>
     </table>
 </div>
+<script>
+  function validateDate() {
+    const inputDate = document.getElementById('ngayHienThi').value;
+    if (!inputDate) {
+      event.preventDefault();
+      alert("Vui lòng điền đầy đủ ngày, tháng, năm để lọc!");
+            return false;
+    }
+  }
+</script>
