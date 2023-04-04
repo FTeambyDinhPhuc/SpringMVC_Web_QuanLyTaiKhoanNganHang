@@ -12,7 +12,7 @@
         <div class="col-lg-6">
             <div class="table-outline">
                 <form class="d-flex align-items-center" style="width: 450px">
-                    <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount" value="${param.searchBankAccount}" placeholder="Nhập vào số tài khoản chuyển"></input>
+                    <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount"  placeholder="Nhập vào số tài khoản chuyển"></input>
                     <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
                 </form>
                 <p class="warning-text">${messageTransferMoney}</p>
@@ -32,7 +32,7 @@
         <div class="col-lg-6">
             <div class="table-outline">
                 <form class="d-flex align-items-center" style="width: 450px">
-                    <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount1"  value="${param.searchBankAccount1}" placeholder="Nhập vào số tài khoản nhận"></input>
+                    <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount1"  placeholder="Nhập vào số tài khoản nhận"></input>
                     <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
                 </form>
 
@@ -66,7 +66,7 @@
             </div>
             <div class="d-flex justify-content-end">
                 <input type="submit" class="mybuton-outline mr-4" data-dismiss="modal" value="Hủy"></input>
-                <a href="#transferMoneyModal" data-toggle="modal" class="mybuton-primary py-3 px-4">Chuyển tiền</a>
+                <a onclick="chuyenkhoan(this)"  href="#transferMoneyModal" data-toggle="modal" class="mybuton-primary py-3 px-4">Chuyển tiền</a>
             </div>
         </form>
     </div>
@@ -74,7 +74,7 @@
     <div id="transferMoneyModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
+                <form action="transferMoneyModal/add" modelAttribute="chuyenkhoan" method="post">
                     <div class="modal-header">
                         <h4 class="modal-title">Chuyển tiền</h4>
                     </div>
