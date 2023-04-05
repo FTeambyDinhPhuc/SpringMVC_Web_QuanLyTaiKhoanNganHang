@@ -4,12 +4,20 @@
  */
 package com.fteam.controllers;
 
+import com.fteam.models.KhachHang;
 import com.fteam.models.TaiKhoanNganHang;
+import static java.lang.Integer.parseInt;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,6 +67,12 @@ public class TransferMoneyController {
                     httpSession.setAttribute("soDuTaiKhoan", accountBank.getSoDuTaiKhoan());
                     httpSession.setAttribute("trangThaiTaiKhoan", accountBank.getTrangThaiTaiKhoan());
                     httpSession.setAttribute("ngayMoTaiKhoan", accountBank.getNgayMoTaiKhoan());
+                    String checkpass = "SELECT kh FROM KhachHang kh JOIN TaiKhoanNganHang tknh ON kh.idKhachHang=tknh.khachHang WHERE tknh.soTaiKhoanNganHang = :stk";
+                    Query checkp = session.createQuery(checkpass);
+                    checkp.setParameter("stk", httpSession.getAttribute("soTaiKhoan"));
+                    List<KhachHang> khachhangs = checkp.list();
+                    KhachHang khachHang = khachhangs.get(0);
+                    httpSession.setAttribute("tenKhachHang1", khachHang.getTenKhachHang());
                     return "home/transfer_money";
                 }
             } catch (Exception e) {
@@ -77,6 +91,17 @@ public class TransferMoneyController {
                 if (!isAccount1Empty) {
                     TaiKhoanNganHang accountBank1 = account1.get(0);
                     model.addAttribute("acbank1", accountBank1);
+                    httpSession.setAttribute("soTaiKhoan1", accountBank1.getSoTaiKhoanNganHang());
+                    httpSession.setAttribute("soDuTaiKhoan1", accountBank1.getSoDuTaiKhoan());
+                    httpSession.setAttribute("trangThaiTaiKhoan1", accountBank1.getTrangThaiTaiKhoan());
+                    httpSession.setAttribute("ngayMoTaiKhoan1", accountBank1.getNgayMoTaiKhoan());
+
+                    String checkpass = "SELECT kh FROM KhachHang kh JOIN TaiKhoanNganHang tknh ON kh.idKhachHang=tknh.khachHang WHERE tknh.soTaiKhoanNganHang = :stk1";
+                    Query checkp = session.createQuery(checkpass);
+                    checkp.setParameter("stk1", httpSession.getAttribute("soTaiKhoan1"));
+                    List<KhachHang> khachhangs = checkp.list();
+                    KhachHang khachHang = khachhangs.get(0);
+                    httpSession.setAttribute("tenKhachHang2", khachHang.getTenKhachHang());
                     return "home/transfer_money";
                 }
             } catch (Exception e) {
@@ -85,24 +110,46 @@ public class TransferMoneyController {
         }
         return "home/transfer_money";
     }
-    
+
     @Transactional
     @RequestMapping(value = "transferMoneyModal", method = RequestMethod.POST)
-    public String chuyenkhoan(
-            @RequestParam("searchBankAccount") String senderAccountNumber,
-            @RequestParam("searchBankAccount1") String receiverAccountNumber,
-            @RequestParam("cccd") String cccdNumber,
-            @RequestParam("tienGiaoDich") String amount,
-            ModelMap model, HttpSession httpSession, HttpServletRequest request) {
-        // Transfer money logic here
-        // ...
+    public String chuyenkhoan(ModelMap model, HttpSession httpSession, HttpServletRequest request) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        
+        httpSession.getAttribute("tenKhachHang2");
+        String idnhanvien = request.getParameter("idnhanvien");
+        try {
+            tx = session.beginTransaction();
+            if (httpSession.getAttribute("soTaiKhoan")==null || httpSession.getAttribute("soTaiKhoan1")==null) {
+                messageTransferMoney = "Thông tin chuyển khoản trống";
+                return "redirect:/home/transfer_money";
+            }
 
+            LocalDate currentDate = LocalDate.now();
+            int day = currentDate.getDayOfMonth();
+            int month = currentDate.getMonthValue();
+            int year = LocalDate.now().getYear();
+            Date now = new Date();
+            long timestamp = now.getTime();
+            Instant instant = Instant.ofEpochMilli(timestamp);
+            LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        } catch (Exception e) {
+                            
+                return "redirect:/home/transfer_money";
+        }
         // Clear session
         httpSession.removeAttribute("soTaiKhoan");
         httpSession.removeAttribute("soDuTaiKhoan");
         httpSession.removeAttribute("trangThaiTaiKhoan");
         httpSession.removeAttribute("ngayMoTaiKhoan");
-
+        httpSession.removeAttribute("soTaiKhoan1");
+        httpSession.removeAttribute("soDuTaiKhoan1");
+        httpSession.removeAttribute("trangThaiTaiKhoan1");
+        httpSession.removeAttribute("ngayMoTaiKhoan1");
+        httpSession.removeAttribute("tenKhachHang1");
+        httpSession.removeAttribute("tenKhachHang2");
         // Set success message
         model.addAttribute("messageSuccessTransferMoney", "Chuyển tiền thành công!");
 

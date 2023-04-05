@@ -59,7 +59,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="soCanCuoc" class="form-label">Số căn cước công dân</label>
-                                <input name="canCuoc"  id="canCuoc" type="text" class="form-control" id="canCuoc"  readonly="true">
+                                <input name="canCuoc" id="canCuoc" type="text" class="form-control" id="canCuoc"  readonly="true">
                             </div>
                             <div class="mb-3">
                                 <label for="soTienMuonNap" class="form-label">Số tiền muốn nạp</label>
