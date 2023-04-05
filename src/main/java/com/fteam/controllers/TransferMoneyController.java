@@ -64,6 +64,12 @@ public class TransferMoneyController {
                 String hql = "FROM TaiKhoanNganHang WHERE SoTaiKhoanNganHang=:keyword";
                 Query query = session.createQuery(hql);
                 query.setParameter("keyword", keyword);
+                TaiKhoanNganHang taiKhoanNganHang11 = (TaiKhoanNganHang) query.uniqueResult();
+                if (taiKhoanNganHang11 == null) {
+                    // Tài khoản không tồn tại
+                    messageTransferMoneyAcc1 = "Tài khoản không tồn tại!";
+                    return "redirect:/home/transfer_money";
+                }
                 List<TaiKhoanNganHang> account = query.list();
 
                 boolean isAccountEmpty = account.isEmpty();
@@ -74,6 +80,7 @@ public class TransferMoneyController {
                     httpSession.setAttribute("soDuTaiKhoan", accountBank.getSoDuTaiKhoan());
                     httpSession.setAttribute("trangThaiTaiKhoan", accountBank.getTrangThaiTaiKhoan());
                     httpSession.setAttribute("ngayMoTaiKhoan", accountBank.getNgayMoTaiKhoan());
+
                     String checkpass = "SELECT kh FROM KhachHang kh JOIN TaiKhoanNganHang tknh ON kh.idKhachHang=tknh.khachHang WHERE tknh.soTaiKhoanNganHang = :stk";
                     Query checkp = session.createQuery(checkpass);
                     checkp.setParameter("stk", httpSession.getAttribute("soTaiKhoan"));
@@ -92,8 +99,13 @@ public class TransferMoneyController {
                 String hql1 = "FROM TaiKhoanNganHang WHERE SoTaiKhoanNganHang=:keyword1";
                 Query query1 = session.createQuery(hql1);
                 query1.setParameter("keyword1", keyword1);
+                TaiKhoanNganHang taiKhoanNganHang10 = (TaiKhoanNganHang) query1.uniqueResult();
+                if (taiKhoanNganHang10 == null) {
+                    // Tài khoản không tồn tại
+                    messageTransferMoneyAcc2 = "Tài khoản không tồn tại!";
+                    return "redirect:/home/transfer_money";
+                }
                 List<TaiKhoanNganHang> account1 = query1.list();
-
                 boolean isAccount1Empty = account1.isEmpty();
                 if (!isAccount1Empty) {
                     TaiKhoanNganHang accountBank1 = account1.get(0);
@@ -102,7 +114,6 @@ public class TransferMoneyController {
                     httpSession.setAttribute("soDuTaiKhoan1", accountBank1.getSoDuTaiKhoan());
                     httpSession.setAttribute("trangThaiTaiKhoan1", accountBank1.getTrangThaiTaiKhoan());
                     httpSession.setAttribute("ngayMoTaiKhoan1", accountBank1.getNgayMoTaiKhoan());
-
                     String checkpass = "SELECT kh FROM KhachHang kh JOIN TaiKhoanNganHang tknh ON kh.idKhachHang=tknh.khachHang WHERE tknh.soTaiKhoanNganHang = :stk1";
                     Query checkp = session.createQuery(checkpass);
                     checkp.setParameter("stk1", httpSession.getAttribute("soTaiKhoan1"));
@@ -147,9 +158,9 @@ public class TransferMoneyController {
             messageTransferMoney = "Hai tài khoản trùng nhau!";
             return "redirect:/home/transfer_money";
         }
-
         long soTaiKhoanNganHangGuiLong = Long.parseLong(soTaiKhoanNganHangGui);
         long soTaiKhoanNganHangNhanLong = Long.parseLong(soTaiKhoanNganHangNhan);
+
         String tenNguoiNhan = request.getParameter("tenNguoiNhan");
         String phiGiaoDich = request.getParameter("phiGiaoDich");
         double phiGiaoDichDouble = Double.parseDouble(phiGiaoDich);
@@ -160,6 +171,7 @@ public class TransferMoneyController {
         if (soTienGiaoDichStr != null && !soTienGiaoDichStr.equals("")) {
             soTienGiaoDich = Integer.parseInt(soTienGiaoDichStr);
         }
+
         String checkpass = "SELECT kh FROM KhachHang kh JOIN TaiKhoanNganHang tknh ON kh.idKhachHang=tknh.khachHang WHERE tknh.soTaiKhoanNganHang = :stk";
         Query checkp = session.createQuery(checkpass);
         checkp.setParameter("stk", soTaiKhoanNganHangGuiLong);
