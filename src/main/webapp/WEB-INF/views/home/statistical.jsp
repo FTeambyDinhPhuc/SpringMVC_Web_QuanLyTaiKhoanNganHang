@@ -72,23 +72,33 @@
             </tr>
         </thead>
         <tbody >
-            <tr>               
-                <td>${sessionScope.ngay}</td>
-                <td><fmt:formatNumber value="${sessionScope.naptien}" pattern="###,### VNĐ" /></td>
-                <td><fmt:formatNumber value="${sessionScope.ruttien}" pattern="###,### VNĐ" /></td>
-                <td>${sessionScope.phigiaodich}</td>
-                <td>${sessionScope.soluonggiaodich}</td>
-            </tr>
+            <c:forEach var="nap" items="${rut}">
+                <tr>               
+                    <td>${sessionScope.ngay}</td>
+                    <td>
+                        <c:if test="${bank.getGiaoDich() eq 1}">
+                            <fmt:formatNumber value="${nap.getSoTienGiaoDich()}" pattern="###,### VNĐ" />
+                        </c:if>
+                    </td>
+                    <td>
+                        <c:if test="${bank.getGiaoDich() eq 2}">
+                            <fmt:formatNumber value="${nap.getSoTienGiaoDich()}" pattern="###,### VNĐ" />
+                        </c:if>
+                    </td>
+                    <td>${nap.phigiaodich}</td>
+                    <td>${sessionScope.soluonggiaodich}</td>
+                </tr>
+            </c:forEach>
         </tbody>
     </table>
 </div>
 <script>
-  function validateDate() {
-    const inputDate = document.getElementById('ngayHienThi').value;
-    if (!inputDate) {
-      event.preventDefault();
-      alert("Vui lòng điền đầy đủ ngày, tháng, năm để lọc!");
+    function validateDate() {
+        const inputDate = document.getElementById('ngayHienThi').value;
+        if (!inputDate) {
+            event.preventDefault();
+            alert("Vui lòng điền đầy đủ ngày, tháng, năm để lọc!");
             return false;
+        }
     }
-  }
 </script>
