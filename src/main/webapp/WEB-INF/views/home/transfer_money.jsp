@@ -15,8 +15,7 @@
                     <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount"  placeholder="Nhập vào số tài khoản chuyển"></input>
                     <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
                 </form>
-                <p class="warning-text">${messageTransferMoney}</p>
-                <p class="success-text">${messageSuccessTransferMoney}</p>
+                <p class="warning-text">${messageTransferMoneyAcc1}</p>
 
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>${sessionScope.soTaiKhoan}</p></div></li>
@@ -35,7 +34,7 @@
                     <input type="text" class="form-control my-4 mr-4" required="required" name="searchBankAccount1"  placeholder="Nhập vào số tài khoản nhận"></input>
                     <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
                 </form>
-
+                <p class="warning-text">${messageTransferMoneyAcc2}</p>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>${sessionScope.soTaiKhoan1}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p><fmt:formatNumber value="${sessionScope.soDuTaiKhoan1}" pattern="###,### VNĐ"/></p></div></li>

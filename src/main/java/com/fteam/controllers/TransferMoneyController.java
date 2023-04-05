@@ -37,6 +37,8 @@ public class TransferMoneyController {
 
     private String messageTransferMoney = null;
     private String messageSuccessTransferMoney = null;
+    private String messageTransferMoneyAcc1 = null;
+    private String messageTransferMoneyAcc2 = null;
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -45,12 +47,17 @@ public class TransferMoneyController {
         model.addAttribute("pageTitle", "Chuyển khoản");
         String keyword = request.getParameter("searchBankAccount");
         String keyword1 = request.getParameter("searchBankAccount1");
-        if (messageTransferMoney != null || messageSuccessTransferMoney != null) {
+        if (messageTransferMoney != null || messageSuccessTransferMoney != null || messageTransferMoneyAcc1 != null || messageTransferMoneyAcc2 != null) {
             model.addAttribute("messageTransferMoney", messageTransferMoney);
             model.addAttribute("messageSuccessTransferMoney", messageSuccessTransferMoney);
+            model.addAttribute("messageTransferMoneyAcc1", messageTransferMoneyAcc1);
+            model.addAttribute("messageTransferMoneyAcc2", messageTransferMoneyAcc2);
             messageTransferMoney = null;
             messageSuccessTransferMoney = null;
+            messageTransferMoneyAcc1 = null;
+            messageTransferMoneyAcc2 = null;
         }
+     
 
         if (keyword != null && !keyword.isEmpty()) {
             try ( Session session = sessionFactory.openSession()) {
