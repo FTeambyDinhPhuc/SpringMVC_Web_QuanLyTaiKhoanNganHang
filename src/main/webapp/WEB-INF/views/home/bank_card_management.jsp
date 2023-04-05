@@ -30,17 +30,19 @@
                     <div class="card text-white bg-secondary mb-3">
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <p class="m-0">${the.getSoThe()}</p>
+
                             <div>    
                                 <c:choose>
                                     <c:when test="${the.getTrangThaiThe() eq 1}">
-                                        <a href="#extendBankCardModal" data-toggle="modal" class="mybuton-icon-extend px-3"><i class="fa-regular fa-calendar-plus " data-toggle="tooltip" title="Gia hạn thẻ"></i></a>                                       
-                                        <a href="#lockBankCardModal" data-toggle="modal" class="mybuton-icon-lock px-3"><i class="fa-solid fa-lock " data-toggle="tooltip" title="Khóa thẻ"></i></a>
-
+                                        <a onclick="extendkbank(this)" href="#extendBankCardModal" data-toggle="modal" class="mybuton-icon-extend px-3"><i class="fa-regular fa-calendar-plus " data-toggle="tooltip" title="Gia hạn thẻ"></i></a>                                       
+                                        <a onclick="lockbank(this)" href="#lockBankCardModal" data-toggle="modal" class="mybuton-icon-lock px-3"><i class="fa-solid fa-lock " data-toggle="tooltip" title="Khóa thẻ"></i></a>
+                                        <input type="hidden" value="${the.getSoThe()}" id="sthe">
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="#extendBankCardModal" data-toggle="modal" class="mybuton-icon-extend px-3"><i class="fa-regular fa-calendar-plus " data-toggle="tooltip" title="Gia hạn thẻ"></i></a>
-                                        <a href="#unlockBankCardModal" data-toggle="modal" class="mybuton-icon-unlock px-3"><i class="fa-solid fa-lock-open " data-toggle="tooltip" title="Mở khóa thẻ"></i></a>
-                                        </c:otherwise>
+                                        <a onclick="extendkbank(this)" href="#extendBankCardModal" data-toggle="modal" class="mybuton-icon-extend px-3"><i class="fa-regular fa-calendar-plus " data-toggle="tooltip" title="Gia hạn thẻ"></i></a>
+                                        <a onclick="unlockbank(this)" href="#unlockBankCardModal" data-toggle="modal" class="mybuton-icon-unlock px-3"><i class="fa-solid fa-lock-open " data-toggle="tooltip" title="Mở khóa thẻ"></i></a>
+                                        <input type="hidden" value="${the.getSoThe()}" id="sthe">
+                                    </c:otherwise>
                                 </c:choose>
                             </div>
                         </div>
@@ -90,7 +92,7 @@
     <div id="extendBankCardModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
+                <form action="bank_card_management/extend" method="post">
                     <div class="modal-header">
                         <h4 class="modal-title">Gia hạn thẻ ngân hàng</h4>
 
@@ -101,6 +103,7 @@
                     <div class="modal-footer">
                         <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
                         <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
+                        <input type="hidden" name="laysothegiahan" id="laysothegiahan">
                     </div>
                 </form>
             </div>
@@ -109,7 +112,7 @@
     <div id="unlockBankCardModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
+                <form action="bank_card_management/unlockbank" method="post">
                     <div class="modal-header">
                         <h4 class="modal-title">Mở khóa thẻ ngân hàng</h4>
 
@@ -120,6 +123,7 @@
                     <div class="modal-footer">
                         <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
                         <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
+                        <input type="hidden" name="laysothe" id="laysothe">
                     </div>
                 </form>
             </div>
@@ -128,7 +132,7 @@
     <div id="lockBankCardModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
+                <form action="bank_card_management/lockbank" method="post">
                     <div class="modal-header">
                         <h4 class="modal-title">Khóa thẻ ngân hàng</h4>
 
@@ -139,10 +143,25 @@
                     <div class="modal-footer">
                         <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
                         <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
+                        <input type="hidden" name="laysothelock" id="laysothelock">
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function extendkbank(element) {
+        var laysothegiahan = element.parentNode.querySelector('#sthe').value;
+        document.querySelector('#laysothegiahan').value = laysothegiahan;
+    }
+    function unlockbank(element) {
+        var idunlock = element.parentNode.querySelector('#sthe').value;
+        document.querySelector('#laysothe').value = idunlock;
+    }
+    function lockbank(element) {
+        var idlock = element.parentNode.querySelector('#sthe').value;
+        document.querySelector('#laysothelock').value = idlock;
+    }
+</script>
 
