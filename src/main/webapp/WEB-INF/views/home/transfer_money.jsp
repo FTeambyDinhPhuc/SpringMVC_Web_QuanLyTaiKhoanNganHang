@@ -19,6 +19,7 @@
 
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>${sessionScope.soTaiKhoan}</p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Tên khách hàng: </p><p>${sessionScope.tenKhachHang1}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p><fmt:formatNumber value="${sessionScope.soDuTaiKhoan}" pattern="###,### VNĐ"/></p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>${sessionScope.trangThaiTaiKhoan==0 ? "Khóa" : "Đang hoạt động"}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p><fmt:formatDate value="${sessionScope.ngayMoTaiKhoan}" pattern="dd/MM/yyyy"/></p></div></li>
@@ -37,6 +38,7 @@
                 <p class="warning-text">${messageTransferMoneyAcc2}</p>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>${sessionScope.soTaiKhoan1}</p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Tên khách hàng: </p><p>${sessionScope.tenKhachHang2}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p><fmt:formatNumber value="${sessionScope.soDuTaiKhoan1}" pattern="###,### VNĐ"/></p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>${sessionScope.trangThaiTaiKhoan1==0 ? "Khóa" : "Đang hoạt động"}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p><fmt:formatDate value="${sessionScope.ngayMoTaiKhoan1}" pattern="dd/MM/yyyy"/></p></div></li>
@@ -50,7 +52,7 @@
     <p class="warning-text mt-4">${messageTransferMoney}</p>
     <p class="success-text mt-4">${messageSuccessTransferMoney}</p>
     <div class="table-outline">
-        <form>
+        <form action="ttcn" modelAttribute="ck">
             <div class="mb-3">
                 <label for="cccd" class="form-label">Nhập số căn cước công dân</label>
                 <input type="tel" class="form-control" id="cccd" name="cccd" placeholder="001082946357">
@@ -64,7 +66,7 @@
                 <input type="text" class="form-control" id="noiDungChuyenkhoan" name="noiDungChuyenKhoan" placeholder="nội dung chuyển khoản">
             </div>
             <div class="d-flex justify-content-end">
-                <input type="submit" class="mybuton-outline mr-4" data-dismiss="modal" value="Hủy"></input>
+                <input href='/home/transfer_money/cancel';" type="submit" id="btnHuy" name="btnHuy"  class="mybuton-outline mr-4" data-dismiss="modal" value="Hủy"></input>
                 <a onclick="chuyenkhoan(this)"  href="#transferMoneyModal" data-toggle="modal" class="mybuton-primary py-3 px-4">Chuyển tiền</a>
             </div>
         </form>
@@ -93,7 +95,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="soTaiKhoanNganHangNhan" class="form-label">Số tài khoản người nhận</label>
-                                <input type="tel" class="form-control" id="soTaiKhoanNganHangNhan" placeholder="001082946357" value="${sessionScope.soTaiKhoan1}" readonly="true">
+                                <input type="tel" class="form-control" name="soTaiKhoanNganHangNhan" id="soTaiKhoanNganHangNhan" placeholder="001082946357" value="${sessionScope.soTaiKhoan1}" readonly="true">
                             </div>
                             <div class="mb-3">
                                 <label for="tenNguoiNhan" class="form-label">Tên người nhận</label>
@@ -109,7 +111,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="phiGiaoDich" class="form-label">Phí giao dịch</label>
-                                <input type="number" class="form-control" id="phiGiaoDich" name="phiGiaoDich" placeholder="2.000đ" readonly="true">
+                                <input type="number" class="form-control" id="phiGiaoDich" name="phiGiaoDich" value="${sessionScope.phiGiaoDich}" readonly="true">
                             </div>
 
                         </div>
@@ -128,8 +130,34 @@
         var cccd = document.getElementById('cccd').value;
         var tienGiaoDich = document.getElementById('tienGiaoDich').value;
         var noiDungGiaoDich = document.getElementById('noiDungChuyenkhoan').value;
+
+        // Kiểm tra các giá trị đầu vào
+        if (cccd.trim() == '' || tienGiaoDich.trim() == '' || noiDungGiaoDich.trim() == '') {
+            alert('Vui lòng nhập đầy đủ thông tin chuyển khoản');
+            return window.location.reload();
+        }
+        var phiGiaoDich = 0;
+        tienGiaoDich = parseFloat(tienGiaoDich); // chuyển đổi sang kiểu số
+        if (tienGiaoDich < 10000000) {
+            phiGiaoDich = 10500;
+        } else if (tienGiaoDich >= 10000000 && tienGiaoDich < 50000000) {
+            phiGiaoDich = 14000 + tienGiaoDich * 0.0028;
+        } else if (tienGiaoDich < 100000000 && tienGiaoDich >= 50000000) {
+            phiGiaoDich = 28000 + tienGiaoDich * 0.0028;
+        } else if (tienGiaoDich < 500000000 && tienGiaoDich >= 100000000) {
+            phiGiaoDich = 36000 + tienGiaoDich * 0.0028;
+        } else if (tienGiaoDich === 500000000) {
+            phiGiaoDich = 140000 + tienGiaoDich * 0.0028;
+        } else {
+            alert('Số tiền chuyển 1 lần không vượt quá 500.000.000');
+            return window.location.reload();
+        }
+
+
         document.getElementById('canCuoc').value = cccd;
         document.getElementById('noiDungChuyenKhoan').value = noiDungGiaoDich;
         document.getElementById('soTienGiaoDich').value = tienGiaoDich;
+        document.getElementById('phiGiaoDich').value = phiGiaoDich;
     }
+
 </script>
