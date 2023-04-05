@@ -165,7 +165,7 @@ public class TransactionMoneyController {
         String sotaikhoan = request.getParameter("soTaiKhoanNganHangrut");
         String cancuoc = request.getParameter("Cancuoc");
         int tienrut = parseInt(request.getParameter("soTienMuonRut"));
-        long phi = (long) Double.parseDouble(request.getParameter("PhiGiaoDich"));
+        int phi = parseInt(request.getParameter("PhiGiaoDich"));
         int sdtk = parseInt(request.getParameter("sotienhientairut"));
         String idnhanvien = request.getParameter("idnhanvienrut");
         try {
@@ -226,7 +226,7 @@ public class TransactionMoneyController {
                     .setParameter("PhiGiaoDich", phi);
             query.executeUpdate();
             tx.commit();
-            messageSuccessTransactionMoney = "Nạp tiền thành công!";
+            messageSuccessTransactionMoney = "Rut tiền thành công!";
             return "redirect:/home/transaction_money";
         } catch (Exception e) {
             if (tx != null) {
