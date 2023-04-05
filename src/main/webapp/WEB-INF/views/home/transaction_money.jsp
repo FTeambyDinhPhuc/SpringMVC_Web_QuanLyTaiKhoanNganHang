@@ -37,7 +37,7 @@
                 </div>
                 <div class="d-flex justify-content-end">
                     <a onclick="naptien(this)" href="#depositModal" data-toggle="modal" class="mybuton-primary py-3 px-4">Nạp tiền</a>
-                    <a href="#withdrawalModal" data-toggle="modal" class="mybuton-primary py-3 px-4">Rút tiền</a>                   
+                    <a onclick="ruttien(this)" href="#withdrawalModal" data-toggle="modal" class="mybuton-primary py-3 px-4">Rút tiền</a>                   
                 </div>
             </div>
         </div>
@@ -76,7 +76,6 @@
                         <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
                         <input type="hidden" id="idnhanvien" name="idnhanvien" value="${sessionScope.idNhanVien}" id="idnhanvien">
                         <input type="hidden" id="sotienhientai" name="sotienhientai" value="${acbank.getSoDuTaiKhoan()}" id="sotienhientai">
-                        <input type="hidden" id="cancuockiemtra" name="cancuockiemtra" value="${acbank.getSoDuTaiKhoan()}" id="cancuockiemtra">
                     </div>
                 </form>
             </div>
@@ -86,7 +85,7 @@
     <div id="withdrawalModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form >
+                <form  action="depositModal/rut" modelAttribute="ruttien" method="post">
                     <div class="modal-header">
                         <h4 class="modal-title">Rút tiền từ tài khoản</h4>
 
@@ -95,19 +94,19 @@
                         <div class="form-group">
                             <div class="mb-3">
                                 <label for="soTaiKhoanNganHang" class="form-label">Số tài khoản ngân hàng</label>
-                                <input type="tel" class="form-control" id="soTaiKhoanNganHangrut" placeholder="001082946357" readonly="true">
+                                <input type="tel" class="form-control" value="${acbank.getSoTaiKhoanNganHang()}" id="soTaiKhoanNganHangrut" readonly="true">
                             </div>
                             <div class="mb-3">
                                 <label for="soCanCuoc" class="form-label">Số căn cước công dân</label>
-                                <input type="tel" class="form-control" id="Cancuoc" placeholder="001082946357" readonly="true">
+                                <input type="tel" class="form-control" name="Cancuoc" id="Cancuoc" readonly="true">
                             </div>
                             <div class="mb-3">
                                 <label for="soTienMuonRut" class="form-label">Số tiền muốn rút</label>
-                                <input type="number" class="form-control" id="soTienMuonRut" placeholder="10.000đ" readonly="true">
+                                <input type="number" class="form-control" name="soTienMuonRut" id="soTienMuonRut" placeholder="10.000đ" readonly="true">
                             </div>
                             <div class="mb-3">
                                 <label for="phiGiaoDich" class="form-label">Phí giao dịch</label>
-                                <input type="number" class="form-control" id="phiGiaoDich" placeholder="2.000đ" readonly="true">
+                                <input type="number" class="form-control" name="PhiGiaoDich" id="PhiGiaoDich"readonly="true">
                             </div>
 
                         </div>
@@ -115,6 +114,8 @@
                     <div class="modal-footer">
                         <input type="button" class="mybuton-outline" data-dismiss="modal" value="Hủy"></input>
                         <input type="submit" class="mybuton-primary" value="Xác nhận"></input>
+                        <input type="hidden" id="sotienhientairut" name="sotienhientairut" value="${acbank.getSoDuTaiKhoan()}" id="sotienhientai">
+                        <input type="hidden" id="idnhanvienrut" name="idnhanvienrut" value="${sessionScope.idNhanVien}" id="idnhanvien">
                     </div>
                 </form>
             </div>
@@ -127,7 +128,31 @@
         var tienGiaoDich = document.getElementById('tienGiaoDich').value;
         document.getElementById('canCuoc').value = cccd;
         document.getElementById('soTienMuonNap').value = tienGiaoDich;
-        console.log(cccd);
+    }
+    function ruttien(element) {
+        var cccd = document.getElementById('cccd').value;
+        var tienGiaoDich = document.getElementById('tienGiaoDich').value;
+        document.getElementById('Cancuoc').value = cccd;
+        document.getElementById('soTienMuonRut').value = tienGiaoDich;
+        
+        var phiGiaoDich = 0;
+        tienGiaoDich = parseFloat(tienGiaoDich); // chuyển đổi sang kiểu số
+        if (tienGiaoDich < 10000000) {
+            phiGiaoDich = 10500;
+        } else if (tienGiaoDich >= 10000000 && tienGiaoDich < 50000000) {
+            phiGiaoDich = 14000 + tienGiaoDich * 0.0028;
+        } else if (tienGiaoDich < 100000000 && tienGiaoDich >= 50000000) {
+            phiGiaoDich = 28000 + tienGiaoDich * 0.0028;
+        } else if (tienGiaoDich < 500000000 && tienGiaoDich >= 100000000) {
+            phiGiaoDich = 36000 + tienGiaoDich * 0.0028;
+        } 
+        else if (tienGiaoDich === 500000000) {
+            phiGiaoDich = 140000 + tienGiaoDich * 0.0028;
+        } else {
+            alert('Số tiền chuyển 1 lần không vượt quá 500.000.000');
+            return window.location.reload();
+        }
+        document.getElementById('PhiGiaoDich').value = phiGiaoDich;
     }
 </script>
 

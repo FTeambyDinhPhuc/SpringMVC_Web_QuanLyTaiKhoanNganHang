@@ -8,6 +8,8 @@ import com.fteam.models.KhachHang;
 import com.fteam.models.TaiKhoanNganHang;
 import com.fteam.models.The;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,17 +39,6 @@ public class BankCardController {
     @Autowired
     private SessionFactory sessionFactory;
 
-//    @RequestMapping(value = "bank_card_management")
-//    public String BankCards(Model model) {
-//        model.addAttribute("pageTitle", "Dịch vụ thẻ");
-//        if (messageBankCard != null || messageSuccessBankCard != null) {
-//            model.addAttribute("messageBankCard", messageBankCard);
-//            model.addAttribute("messageSuccessBankCard", messageSuccessBankCard);
-//            messageBankCard = null;
-//            messageSuccessBankCard = null;
-//        }
-//        return "home/bank_card_management";
-//    }
     @Transactional
     @RequestMapping(value = "bank_card_management", method = RequestMethod.GET)
     public String searchAccount(ModelMap model, HttpSession httpSession, HttpServletRequest request) {
@@ -59,7 +50,7 @@ public class BankCardController {
             messageBankCard = null;
             messageSuccessBankCard = null;
         }
-        try (Session session = sessionFactory.openSession()) {
+        try ( Session session = sessionFactory.openSession()) {
             String hql = "FROM TaiKhoanNganHang WHERE SoTaiKhoanNganHang=:keyword";
             Query query = session.createQuery(hql);
             query.setParameter("keyword", keyword);
@@ -78,7 +69,7 @@ public class BankCardController {
                 messageBankCard = null;
                 return "home/bank_card_management";
             } else {
-                messageBankCard="Không tìm thấy tài khoản!";              
+                messageBankCard = "Không tìm thấy tài khoản!";
                 return "home/bank_card_management";
             }
         } catch (Exception e) {
@@ -88,7 +79,7 @@ public class BankCardController {
             return "home/bank_card_management";
         }
     }
-    
+
     @Transactional
     @RequestMapping(value = "bank_card_management/unlockbank", method = RequestMethod.POST)
     public String unlockcard(@RequestParam("laysothe") int sothe, HttpSession httpSession) {
@@ -113,6 +104,7 @@ public class BankCardController {
         }
         return "redirect:/home/bank_card_management";
     }
+
     @Transactional
     @RequestMapping(value = "bank_card_management/lockbank", method = RequestMethod.POST)
     public String lockcard(@RequestParam("laysothelock") int sothe, HttpSession httpSession) {
@@ -137,16 +129,31 @@ public class BankCardController {
         }
         return "redirect:/home/bank_card_management";
     }
+
     @Transactional
     @RequestMapping(value = "bank_card_management/extend", method = RequestMethod.POST)
-    public String extend(@RequestParam("laysothelock") int sothe, HttpSession httpSession) {
+    public String extend(@RequestParam("laysothegiahan") int sothe, HttpSession httpSession) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            String lockbank = "UPDATE The SET TrangThaiThe=0 WHERE SoThe=:id";
+            String giahan = "FROM The WHERE SoThe=:id";
+            Query queryy = session.createQuery(giahan);
+            queryy.setParameter("id", sothe);
+            List<The> laythe = queryy.list();
+            The The = laythe.get(0);
+            Date ngayhethan = The.getNgayHetHan();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(ngayhethan);
+            calendar.add(Calendar.YEAR, 5);
+            Date ngayhethanmoi = calendar.getTime();
+
+            String lockbank = "UPDATE The SET NgayhetHan=:ngaymoi WHERE SoThe=:id";
             Query query = session.createQuery(lockbank);
             query.setParameter("id", sothe);
+            query.setParameter("ngaymoi", ngayhethanmoi);
+
             query.executeUpdate();
             tx.commit();
             messageSuccessBankCard = "Khóa thành công!";
@@ -159,6 +166,6 @@ public class BankCardController {
         } finally {
             session.close();
         }
-        return "redirect:/home/bank_card_management";
+        return "rhome/bank_card_management";
     }
 }

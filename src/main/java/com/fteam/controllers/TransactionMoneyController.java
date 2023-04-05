@@ -111,7 +111,7 @@ public class TransactionMoneyController {
             String cCccd = khachHang.getCccd();
             if (cCccd == null ? cancuoc != null : !cCccd.equals(cancuoc)) {
                 messageTransactionMoney = "Căn cước công dân không trùng khớp!";
-                return "home/transaction_money";
+                return "redirect:/home/transaction_money";
             }
             String editQuery = "UPDATE TaiKhoanNganHang t SET t.soDuTaiKhoan = :sodu WHERE t.khachHang.id = :id and t.soTaiKhoanNganHang=:stk";
             Query updateNhanVienQuery = session.createQuery(editQuery)
@@ -133,6 +133,89 @@ public class TransactionMoneyController {
                     .setParameter("SoTaiKhoanNganHang", sotaikhoan)
                     .setParameter("ID_NhanVien", idnhanvien)
                     .setParameter("SoTienGiaoDich", tiennap)
+                    .setParameter("NgayGiaoDich", day)
+                    .setParameter("ThangGiaoDich", month)
+                    .setParameter("NamGiaoDich", year)
+                    .setParameter("ThoiGianGiaoDich", localDateTime)
+                    .setParameter("NoiDungGiaoDich", a)
+                    .setParameter("TrangThaiGiaoDich", 1)
+                    .setParameter("TaiKhoanNguoiNhan_Gui", sotaikhoan)
+                    .setParameter("PhiGiaoDich", phi);
+            query.executeUpdate();
+            tx.commit();
+            messageSuccessTransactionMoney = "Nạp tiền thành công!";
+            return "redirect:/home/transaction_money";
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            messageTransactionMoney = "Nạp tiền không thành công!";
+            return "home/transaction_money";
+        } finally {
+            session.close();
+        }
+    }
+
+    @Transactional
+    @RequestMapping(value = "depositModal/rut", method = RequestMethod.POST)
+    public String ruttien(ModelMap model, HttpSession httpSession, HttpServletRequest request) {
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
+        String sotaikhoan = request.getParameter("soTaiKhoanNganHangrut");
+        String cancuoc = request.getParameter("Cancuoc");
+        int tienrut = parseInt(request.getParameter("soTienMuonRut"));
+        long phi = (long) Double.parseDouble(request.getParameter("PhiGiaoDich"));
+        int sdtk = parseInt(request.getParameter("sotienhientairut"));
+        String idnhanvien = request.getParameter("idnhanvienrut");
+        try {
+            tx = session.beginTransaction();
+            if (tienrut > sdtk) {
+                messageTransactionMoney = "So du khong du!";
+                return "redirect:/home/transaction_money";
+            }
+            LocalDate currentDate = LocalDate.now();
+            int day = currentDate.getDayOfMonth();
+            int month = currentDate.getMonthValue();
+            int year = LocalDate.now().getYear();
+            Date now = new Date();
+            long timestamp = now.getTime();
+            Instant instant = Instant.ofEpochMilli(timestamp);
+            LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+            
+            long hieu = sdtk - tienrut;
+            long sotaikhoanLong = Long.parseLong(sotaikhoan);
+            String check = "SELECT kh FROM KhachHang kh JOIN TaiKhoanNganHang tknh ON kh.idKhachHang=tknh.khachHang WHERE tknh.soTaiKhoanNganHang = :stk";
+
+            Query checkcccd = session.createQuery(check);
+            checkcccd.setParameter("stk", sotaikhoanLong);
+            List<KhachHang> khachhangs = checkcccd.list();
+            KhachHang khachHang = khachhangs.get(0);
+            String cCccd = khachHang.getCccd();
+            if (cCccd == null ? cancuoc != null : !cCccd.equals(cancuoc)) {
+                messageTransactionMoney = "Căn cước công dân không trùng khớp!";
+                return "redirect:/home/transaction_money";
+            }
+            String editQuery = "UPDATE TaiKhoanNganHang t SET t.soDuTaiKhoan = :sodu WHERE t.khachHang.id = :id and t.soTaiKhoanNganHang=:stk";
+            Query updateNhanVienQuery = session.createQuery(editQuery)
+                    .setParameter("sodu", hieu)
+                    .setParameter("stk", sotaikhoanLong)
+                    .setParameter("id", khachHang.getIdKhachHang());
+            updateNhanVienQuery.executeUpdate();
+
+            String a = "Nạp tiền vào tài khoản";
+            String insertQuery = "INSERT INTO PhieuGiaoDich(ID_GiaoDich, SoTaiKhoanNganHang, "
+                    + "ID_NhanVien, SoTienGiaoDich, "
+                    + "NgayGiaoDich, ThangGiaoDich, NamGiaoDich, ThoiGianGiaoDich, "
+                    + "NoiDungGiaoDich, TrangThaiGiaoDich,TaiKhoanNguoiNhan_Gui,PhiGiaoDich) "
+                    + "VALUES (:ID_GiaoDich, :SoTaiKhoanNganHang, :ID_NhanVien, :SoTienGiaoDich, :NgayGiaoDich, "
+                    + ":ThangGiaoDich, :NamGiaoDich, :ThoiGianGiaoDich, :NoiDungGiaoDich,"
+                    + " :TrangThaiGiaoDich, :TaiKhoanNguoiNhan_Gui, :PhiGiaoDich)";
+            Query query = session.createSQLQuery(insertQuery)
+                    .setParameter("ID_GiaoDich", 1)
+                    .setParameter("SoTaiKhoanNganHang", sotaikhoan)
+                    .setParameter("ID_NhanVien", idnhanvien)
+                    .setParameter("SoTienGiaoDich", hieu)
                     .setParameter("NgayGiaoDich", day)
                     .setParameter("ThangGiaoDich", month)
                     .setParameter("NamGiaoDich", year)
