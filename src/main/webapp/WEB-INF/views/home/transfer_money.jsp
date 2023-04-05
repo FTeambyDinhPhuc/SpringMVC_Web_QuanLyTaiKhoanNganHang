@@ -19,6 +19,7 @@
 
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>${sessionScope.soTaiKhoan}</p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Tên khách hàng: </p><p>${sessionScope.tenKhachHang1}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p><fmt:formatNumber value="${sessionScope.soDuTaiKhoan}" pattern="###,### VNĐ"/></p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>${sessionScope.trangThaiTaiKhoan==0 ? "Khóa" : "Đang hoạt động"}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p><fmt:formatDate value="${sessionScope.ngayMoTaiKhoan}" pattern="dd/MM/yyyy"/></p></div></li>
@@ -37,6 +38,7 @@
                 <p class="warning-text">${messageTransferMoneyAcc2}</p>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>${sessionScope.soTaiKhoan1}</p></div></li>
+                    <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Tên khách hàng: </p><p>${sessionScope.tenKhachHang2}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p><fmt:formatNumber value="${sessionScope.soDuTaiKhoan1}" pattern="###,### VNĐ"/></p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>${sessionScope.trangThaiTaiKhoan1==0 ? "Khóa" : "Đang hoạt động"}</p></div></li>
                     <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p><fmt:formatDate value="${sessionScope.ngayMoTaiKhoan1}" pattern="dd/MM/yyyy"/></p></div></li>
@@ -144,8 +146,7 @@
             phiGiaoDich = 28000 + tienGiaoDich * 0.0028;
         } else if (tienGiaoDich < 500000000 && tienGiaoDich >= 100000000) {
             phiGiaoDich = 36000 + tienGiaoDich * 0.0028;
-        } 
-        else if (tienGiaoDich === 500000000) {
+        } else if (tienGiaoDich === 500000000) {
             phiGiaoDich = 140000 + tienGiaoDich * 0.0028;
         } else {
             alert('Số tiền chuyển 1 lần không vượt quá 500.000.000');

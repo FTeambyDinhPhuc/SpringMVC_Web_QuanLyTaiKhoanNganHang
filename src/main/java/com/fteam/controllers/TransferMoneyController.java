@@ -58,7 +58,6 @@ public class TransferMoneyController {
             messageTransferMoneyAcc1 = null;
             messageTransferMoneyAcc2 = null;
         }
-     
 
         if (keyword != null && !keyword.isEmpty()) {
             try ( Session session = sessionFactory.openSession()) {
@@ -124,21 +123,31 @@ public class TransferMoneyController {
     public String chuyenkhoan(ModelMap model, HttpSession httpSession, HttpServletRequest request) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
-        if (httpSession.getAttribute("soTaiKhoan") == null || httpSession.getAttribute("soTaiKhoan1") == null) {
-            messageTransferMoney = "Thông tin chuyển khoản trống";
+        if (httpSession.getAttribute("soTaiKhoan") == null) {
+            messageTransferMoneyAcc1 = "Thông tin chuyển khoản trống";
+            return "redirect:/home/transfer_money";
+        } else if (httpSession.getAttribute("soTaiKhoan1") == null) {
+            messageTransferMoneyAcc2 = "Thông tin chuyển khoản trống";
             return "redirect:/home/transfer_money";
         }
         Object trangThaiTaiKhoan1 = httpSession.getAttribute("trangThaiTaiKhoan");
         Object trangThaiTaiKhoan2 = httpSession.getAttribute("trangThaiTaiKhoan1");
-        if (trangThaiTaiKhoan1 == null || trangThaiTaiKhoan2 == null
-                || Integer.parseInt(trangThaiTaiKhoan1.toString()) == 0 || Integer.parseInt(trangThaiTaiKhoan2.toString()) == 0) {
-            messageTransferMoney = "Tài khoản bị khóa không thể giao dịch";
+        if (trangThaiTaiKhoan1 == null || Integer.parseInt(trangThaiTaiKhoan1.toString()) == 0) {
+            messageTransferMoneyAcc1 = "Tài khoản bị khóa không thể giao dịch";
+            return "redirect:/home/transfer_money";
+        } else if (trangThaiTaiKhoan2 == null || Integer.parseInt(trangThaiTaiKhoan2.toString()) == 0) {
+            messageTransferMoneyAcc2 = "Tài khoản bị khóa không thể giao dịch";
             return "redirect:/home/transfer_money";
         }
 
         String tenNguoiGui = request.getParameter("tenNguoiGui");
         String soTaiKhoanNganHangGui = request.getParameter("soTaiKhoanNganHangGui");
         String soTaiKhoanNganHangNhan = request.getParameter("soTaiKhoanNganHangNhan");
+        if (soTaiKhoanNganHangGui.equals(soTaiKhoanNganHangNhan)) {
+            messageTransferMoney = "Hai tài khoản trùng nhau!";
+            return "redirect:/home/transfer_money";
+        }
+
         long soTaiKhoanNganHangGuiLong = Long.parseLong(soTaiKhoanNganHangGui);
         long soTaiKhoanNganHangNhanLong = Long.parseLong(soTaiKhoanNganHangNhan);
         String tenNguoiNhan = request.getParameter("tenNguoiNhan");
