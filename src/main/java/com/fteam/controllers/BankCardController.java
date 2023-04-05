@@ -7,6 +7,7 @@ package com.fteam.controllers;
 import com.fteam.models.KhachHang;
 import com.fteam.models.TaiKhoanNganHang;
 import com.fteam.models.The;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -82,18 +83,19 @@ public class BankCardController {
 
     @Transactional
     @RequestMapping(value = "bank_card_management/unlockbank", method = RequestMethod.POST)
-    public String unlockcard(@RequestParam("laysothe") int sothe, HttpSession httpSession) {
+    public String unlockcard(@RequestParam("laysothe") String sothe, HttpSession httpSession) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
+            long bigNumber = Long.parseLong(sothe);
             tx = session.beginTransaction();
             String unlockcard = "UPDATE The SET TrangThaiThe=1 WHERE SoThe=:id";
             Query query = session.createQuery(unlockcard);
-            query.setParameter("id", sothe);
+            query.setParameter("id", bigNumber);
             query.executeUpdate();
             tx.commit();
             messageSuccessBankCard = "Mở khóa thành công!";
-//            return "redirect:/home/bank_card_management";
+            return "redirect:/home/bank_card_management";
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
@@ -107,18 +109,19 @@ public class BankCardController {
 
     @Transactional
     @RequestMapping(value = "bank_card_management/lockbank", method = RequestMethod.POST)
-    public String lockcard(@RequestParam("laysothelock") int sothe, HttpSession httpSession) {
+    public String lockcard(@RequestParam("laysothelock") String sothe, HttpSession httpSession) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
+            long lock = Long.parseLong(sothe);
             tx = session.beginTransaction();
             String lockbank = "UPDATE The SET TrangThaiThe=0 WHERE SoThe=:id";
             Query query = session.createQuery(lockbank);
-            query.setParameter("id", sothe);
+            query.setParameter("id", lock);
             query.executeUpdate();
             tx.commit();
             messageSuccessBankCard = "Khóa thành công!";
-//            return "redirect:/home/bank_card_management";
+            return "redirect:/home/bank_card_management";
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
@@ -132,14 +135,15 @@ public class BankCardController {
 
     @Transactional
     @RequestMapping(value = "bank_card_management/extend", method = RequestMethod.POST)
-    public String extend(@RequestParam("laysothegiahan") int sothe, HttpSession httpSession) {
+    public String extend(@RequestParam("laysothegiahan") String sothe, HttpSession httpSession) {
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try {
+            long giahanthe = Long.parseLong(sothe);
             tx = session.beginTransaction();
             String giahan = "FROM The WHERE SoThe=:id";
             Query queryy = session.createQuery(giahan);
-            queryy.setParameter("id", sothe);
+            queryy.setParameter("id", giahanthe);
             List<The> laythe = queryy.list();
             The The = laythe.get(0);
             Date ngayhethan = The.getNgayHetHan();
@@ -151,18 +155,18 @@ public class BankCardController {
 
             String lockbank = "UPDATE The SET NgayhetHan=:ngaymoi WHERE SoThe=:id";
             Query query = session.createQuery(lockbank);
-            query.setParameter("id", sothe);
+            query.setParameter("id", giahanthe);
             query.setParameter("ngaymoi", ngayhethanmoi);
 
             query.executeUpdate();
             tx.commit();
-            messageSuccessBankCard = "Khóa thành công!";
-//            return "redirect:/home/bank_card_management";
-        } catch (Exception e) {
+            messageSuccessBankCard = "Gia han thành công!";
+            return "redirect:/home/bank_card_management";
+        } catch (NumberFormatException e) {
             if (tx != null) {
                 tx.rollback();
             }
-            messageBankCard = "Khóa không thành công!";
+            messageBankCard = "Gia han không thành công!";
         } finally {
             session.close();
         }
