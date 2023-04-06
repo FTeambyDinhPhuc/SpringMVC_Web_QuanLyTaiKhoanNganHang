@@ -17,10 +17,12 @@
             <p class="warning-text">${messageBankCard}</p>
             <p class="success-text">${messageSuccessBankCard}</p>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>${accountBank.getSoTaiKhoanNganHang()}</p></div></li>
-                <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p><fmt:formatNumber value="${accountBank.getSoDuTaiKhoan()}" pattern="###,### VNĐ"/></p></div></li>
-                <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>${accountBank.getTrangThaiTaiKhoan()==0 ? "Khóa" : "Đang hoạt động"}</p></div></li>
-                <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p><fmt:formatDate value="${accountBank.getNgayMoTaiKhoan()}" pattern="dd/MM/yyyy"/></p></div></li>
+                <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số tài khoản: </p><p>${sessionScope.soTaiKhoan10}</p></div></li>
+                <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Tên khách hàng: </p><p>${sessionScope.tenKhachHang10}</p></div></li>
+                <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Số dư tài khoản: </p><p><fmt:formatNumber value="${sessionScope.soDuTaiKhoan10}" pattern="###,### VNĐ"/></p></div></li>
+                <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>${sessionScope.trangThaiTaiKhoan10==0 ? "Khóa" : "Đang hoạt động"}</p></div></li>
+                <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p><fmt:formatDate value="${sessionScope.ngayMoTaiKhoan10}" pattern="dd/MM/yyyy"/></p></div></li>
+                <input type="hidden" id="idacbank1" value="${acbank1.getSoTaiKhoanNganHang()}">
             </ul>
             <a href="#createBankCard" data-toggle="modal" class="btn btn-outline-success my-5" style="font-size: 16px">Mở thẻ ngân hàng</a>
         </div>
@@ -65,7 +67,7 @@
     <div id="createBankCard" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
+                <form action="openBankCard" method="POST">
                     <div class="modal-header">
                         <h4 class="modal-title">Mở thẻ ngân hàng</h4>
 
@@ -75,8 +77,8 @@
                             <label>Chọn loại thẻ</label>
                             <select class="form-control"required="required" name="cardtype" >
                                 <!--Lấy từ db-->
-                                <option>Thẻ ghi nợ nội địa</option>
-                                <option>Thẻ ghi nợ quốc tế</option>
+                                <option value="gn">Thẻ ghi nợ (Debit card)</option>
+                                <option value="td">Thẻ tín dụng (Credit card)</option>
                             </select>
                         </div>
                     </div>

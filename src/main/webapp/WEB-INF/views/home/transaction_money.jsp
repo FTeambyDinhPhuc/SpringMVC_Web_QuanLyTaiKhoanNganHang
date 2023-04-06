@@ -26,7 +26,6 @@
                 <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Trạng thái tài khoản: </p><p>${sessionScope.trangThaiTaiKhoan9==0 ? "Khóa" : "Đang hoạt động"}</p></div></li>
                 <li class="list-group-item"><div class="d-flex justify-content-between align-items-center"><p>Ngày mở tài khoản: </p><p><fmt:formatDate value="${sessionScope.ngayMoTaiKhoan9}" pattern="dd/MM/yyyy"/></p></div></li>
                 <input type="hidden" id="idacbank1" value="${acbank1.getSoTaiKhoanNganHang()}">
-
             </ul>
         </div>
         <div class="col-lg-6">

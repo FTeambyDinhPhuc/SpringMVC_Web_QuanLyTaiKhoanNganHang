@@ -18,6 +18,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "LoaiThe")
 public class LoaiThe {
+
+    public static Object fromValue(int loaithe) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_LoaiThe")
