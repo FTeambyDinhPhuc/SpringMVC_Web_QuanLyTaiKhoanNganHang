@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -74,8 +74,7 @@ public class StatisticalController {
         for (TaiKhoanNganHang tk : taiKhoanNganHangs) {
             BigInteger soDu = BigInteger.valueOf(tk.getSoDuTaiKhoan()); // chuyển đổi kiểu dữ liệu Long sang BigInteger
             tongTien = tongTien.add(soDu);
-        }
-
+        }   
         httpSession.setAttribute("tongnhanvien", countNV);
         httpSession.setAttribute("tongkhachhang", countKH);
         httpSession.setAttribute("tongthe", countThe);
@@ -103,16 +102,16 @@ public class StatisticalController {
                 httpSession.setAttribute("ngay", keyword);
                 httpSession.setAttribute("soluonggiaodich", sizerut);
                 messageSuccessStatistical = "Tìm thấy giao dịch!";
-                return "redirect:/home/statistical";
+                return "home/statistical";
             } else {
                 messageStatistical = "Không tìm thấy giao dịch trong thời gian này!";
-                return "redirect:/home/statistical";
+                return "home/statistical";
             }
         } catch (Exception e) {
             // Handle any exceptions that occur
             e.printStackTrace();
 //            model.addAttribute("messageBankCard", "Có lỗi khi tìm kiếm khách hàng!");
-            return "redirect:/home/bank_card_management";
+            return "home/statistical";
         }
 
     }

@@ -81,7 +81,6 @@ public class BankCardController {
                     List<KhachHang> khachhangs = checkp.list();
                     KhachHang khachHang = khachhangs.get(0);
                     httpSession.setAttribute("tenKhachHang10", khachHang.getTenKhachHang());
-
                     String the = "FROM The WHERE SoTaiKhoanNganHang=:keyword";
                     Query queryy = session.createQuery(the);
                     queryy.setParameter("keyword", keyword);

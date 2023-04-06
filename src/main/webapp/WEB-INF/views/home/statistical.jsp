@@ -68,25 +68,25 @@
                 <th scope="col">Tiền nạp</th>
                 <th scope="col">Tiền rút </th>
                 <th scope="col">Phí giao dịch</th>
-                <th scope="col">Số lượng giao dịch</th>
+                <th scope="col">ID giao dịch</th>
             </tr>
         </thead>
         <tbody >
-            <c:forEach var="nap" items="${rut}">
+            <c:forEach var="bank" items="${rut}">
                 <tr>               
                     <td>${sessionScope.ngay}</td>
                     <td>
-                        <c:if test="${bank.getGiaoDich() eq 1}">
-                            <fmt:formatNumber value="${nap.getSoTienGiaoDich()}" pattern="###,### VNĐ" />
+                        <c:if test="${bank.getGiaoDich().getID_GiaoDich() == 1}">
+                            <fmt:formatNumber value="${bank.getSoTienGiaoDich()}" pattern="###,### VNĐ" />
                         </c:if>
                     </td>
                     <td>
-                        <c:if test="${bank.getGiaoDich() eq 2}">
-                            <fmt:formatNumber value="${nap.getSoTienGiaoDich()}" pattern="###,### VNĐ" />
+                        <c:if test="${bank.getGiaoDich().getID_GiaoDich() == 2}">
+                            <fmt:formatNumber value="${bank.getSoTienGiaoDich()}" pattern="###,### VNĐ" />
                         </c:if>
                     </td>
-                    <td>${nap.phigiaodich}</td>
-                    <td>${sessionScope.soluonggiaodich}</td>
+                    <td>${bank.getPhiGiaoDich()}</td>
+                    <td>${bank.getId()}</td>
                 </tr>
             </c:forEach>
         </tbody>
