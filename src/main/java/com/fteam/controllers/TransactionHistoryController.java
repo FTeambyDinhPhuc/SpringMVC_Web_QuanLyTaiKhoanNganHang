@@ -33,6 +33,7 @@ public class TransactionHistoryController {
 
     private String messageTransactionHistory = null;
     private String messageSuccessTransactionHistory = null;
+    private List<PhieuGiaoDich> saoke = null;
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -41,9 +42,11 @@ public class TransactionHistoryController {
     public String TransactionHistory(ModelMap model, HttpSession httpSession, HttpServletRequest request) {
         model.addAttribute("pageTitle", "Thống kê giao dịch khách hàng");
         String keyword = request.getParameter("searchBankAccount");
-        if (messageTransactionHistory != null || messageSuccessTransactionHistory != null) {
+        if (messageTransactionHistory != null || messageSuccessTransactionHistory != null || saoke != null) {
             model.addAttribute("messageTransactionHistory", messageTransactionHistory);
             model.addAttribute("messageSuccessTransactionHistory", messageSuccessTransactionHistory);
+            model.addAttribute("saoke", saoke);
+            saoke = null;
             messageTransactionHistory = null;
             messageSuccessTransactionHistory = null;
         }
@@ -83,7 +86,7 @@ public class TransactionHistoryController {
         Session session = sessionFactory.openSession();
         String loc = request.getParameter("loc");
         if (loc == null) {
-            return "home/transaction_history";
+            return "redirect:/home/transaction_history";
         }
         String[] parts = loc.split("-");
         String nam = parts[0];
@@ -104,8 +107,9 @@ public class TransactionHistoryController {
             queryyy.setParameter("thang", thang);
             queryyy.setParameter("ngay", ngay);
             List<PhieuGiaoDich> rut = queryyy.list();
-            model.addAttribute("saoke", rut);
-            if (!rut.isEmpty()) {
+            saoke = rut;
+      
+            if (!saoke.isEmpty()) {
                 messageSuccessTransactionHistory = "Tìm thấy giao dịch!";
                 return "redirect:/home/transaction_history";
             } else {
@@ -162,5 +166,4 @@ public class TransactionHistoryController {
 //            e.printStackTrace();
 //            return "redirect:/home/transaction_history";
 //        }
-
-    }
+}

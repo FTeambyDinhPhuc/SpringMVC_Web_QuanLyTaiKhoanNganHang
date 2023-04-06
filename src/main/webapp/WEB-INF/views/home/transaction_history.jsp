@@ -64,12 +64,12 @@
             <c:forEach var="saoke" items="${saoke}">
                 <tr>               
                     <td>${saoke.getId()}</td>
-                    <td>Chuyển khoản</td>
-                    <td>Tí</td>
-                    <td>1.000.000đ</td>
-                    <td>10/10/2023</td>
-                    <td>hello your friends</td>
-                    <td>123745934723947</td>
+                    <td>${saoke.getGiaoDich().getTenGiaoDich()}</td>
+                    <td>${saoke.getNhanVien().getTenNhanVien()}</td>
+                    <td>${saoke.getSoTienGiaoDich()}</td>
+                    <td>${saoke.getThoiGianGiaoDich()}</td>
+                    <td>${saoke.getNoiDungGiaoDich()}</td>
+                    <td>${saoke.getTaiKhoanNguoiNhan_Gui().getSoTaiKhoanNganHang()}</td>
                 </tr>
             </c:forEach>
         </tbody>
